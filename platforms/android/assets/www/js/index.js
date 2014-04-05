@@ -7,7 +7,7 @@ function router_to_widget()
 {  
 	if (app.plataformaObjetivo=="sofia")
 	{
-		alert("No implementado");
+		alert("No implementado aun");
 	}
 	else //fiware
 	{	
