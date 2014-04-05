@@ -1,4 +1,0 @@
-SteetLights-Automatization
-==========================
-
-SteetLights Automatization
