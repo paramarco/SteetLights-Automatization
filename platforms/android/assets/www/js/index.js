@@ -10,7 +10,7 @@ function router_to_widget()
 	}
 	else //fiware
 	{	
-		alert("No implementado aun...");
+		alert("No implementado aun...yyyyy");
 	}	
 //  OJO JULIO!!!!!!! 	
 	initialize();		
