@@ -15,8 +15,9 @@ function router_to_widget()
 //  OJO JULIO!!!!!!! 	
 	initialize();		
 	var route = { start : "calle Gran Via , 100, 28013, Madrid" , end : "calle Gran Via , 55, 28013, Madrid" };
-	calcRoute(route);	
-	Lungo.Router.section("display");
+	calcRoute(route);
+	
+	//Lungo.Router.section("display");
 }
 //#######################################################
 
