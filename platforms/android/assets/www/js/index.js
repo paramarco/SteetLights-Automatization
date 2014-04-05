@@ -1,4 +1,3 @@
-
 //TODO  JULIO!!! este es tu punto de arranque, genera tu codigo en otro .js	
 //  esto estaba definido para mapa de direcciones, hay que poner globitos, 
 //  OJO el archivo googlemaps.js esta cambiado has de ponerlo acorde con los globers!!!!!
@@ -11,7 +10,7 @@ function router_to_widget()
 	}
 	else //fiware
 	{	
-		alert("No implementado");
+		alert("No implementado aun");
 	}	
 //  OJO JULIO!!!!!!! 	
 	initialize();		
@@ -54,8 +53,8 @@ function lanzaSimulacion()
 							                    xhr.setRequestHeader("Accept","application/json;");
 							                },
 							                data:   JSON.stringify(postJSON),
-							                async: false, // La petición es síncrona
-											cache: false // No  usar la caché 
+							                async: false, // La peticiï¿½n es sï¿½ncrona
+											cache: false // No  usar la cachï¿½ 
 			});
 		
 	    	contentTypeRequest.done(function(data,textStatus,jqXHR){
@@ -114,8 +113,8 @@ function lanzaSimulacion()
 		                    xhr.setRequestHeader("Accept","application/json;");
 		                },
 		                data:   JSON.stringify(postJSON),
-		                //async: false, // La petición es síncrona
-						//cache: false // No  usar la caché 
+		                //async: false, // La peticiï¿½n es sï¿½ncrona
+						//cache: false // No  usar la cachï¿½ 
 				});
 			
 		    	contentTypeRequest.done(function(result){     		
@@ -233,8 +232,8 @@ for ( j = numero_de_luminarias ; j > 0; j = j - 1000) {
                     xhr.setRequestHeader("Accept","application/json;");
                 },
                 data:   JSON.stringify(postJSON),
-                async: false, // La petición es síncrona
-				cache: false // No  usar la caché 
+                async: false, // La peticiï¿½n es sï¿½ncrona
+				cache: false // No  usar la cachï¿½ 
 		});
 	
     	contentTypeRequest.done(function(result){     		
@@ -371,8 +370,8 @@ var app = {
     	url: 'http://130.206.83.60:1026/NGSI10/updateContext',
     	data: postXML,
 		type: 'POST',
-		async: false, // La petición es síncrona
-		cache: false // No queremos usar la caché del navegador
+		async: false, // La peticiï¿½n es sï¿½ncrona
+		cache: false // No queremos usar la cachï¿½ del navegador
 		});				
 		contentTypeRequest.done(function(result){ 
 			//console.log( "DEBUG :   DONE!!!!" ); 
