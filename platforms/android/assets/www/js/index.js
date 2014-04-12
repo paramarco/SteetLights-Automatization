@@ -1,7 +1,3 @@
-//TODO  JULIO!!! este es tu punto de arranque, genera tu codigo en otro .js	
-//  esto estaba definido para mapa de direcciones, hay que poner globitos, 
-//  OJO el archivo googlemaps.js esta cambiado has de ponerlo acorde con los globers!!!!!
-//#######################################################
 function router_to_widget()
 {  
 	if (app.plataformaObjetivo=="sofia")
@@ -10,24 +6,140 @@ function router_to_widget()
 	}
 	else //fiware
 	{	
-		alert("No implementado aun...como lo visualizo");
+		alert("No implementado aun...");
 	}	
-//  OJO JULIO!!!!!!! 	
-	initialize();		
-	var route = { start : "calle Gran Via , 100, 28013, Madrid" , end : "calle Gran Via , 55, 28013, Madrid" };
-	calcRoute(route);
-	
-	//Lungo.Router.section("display");
-}
-//#######################################################
 
+}
+
+function conectarSIBConToken(token, instance){
+	  joinToken(token, instance, function(mensajeSSAP){
+          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
+			console.log( "DEBUG : 	infoConexion	: Conectado al sib con sessionkey:  " + mensajeSSAP.sessionKey  );          	
+          }else{
+          	console.log( "DEBUG : 	infoConexion	: Error conectando del sib  ");
+          }
+      });
+}
+
+function desconectarSIB() {
+	  leave(function(mensajeSSAP){
+          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
+          	console.log( "DEBUG : 	infoConexion	: Desconectado del sib  " );               
+          }else{
+          	console.log( "DEBUG : 	infoConexion	: Error desconectando del sib " );
+          }
+      });
+}     
+  
+function suscribirSIB(suscripcion, valor, ontologia, refresco) {	  
+	  suscripcion = suscripcion.replace(/:/,valor).replace(/gt/,"{$gt:"+valor+"}").replace(/lt/,"{$lt:"+valor+"}");      
+      
+      var queryMongo = "{"+ontologia+".medida:"+suscripcion+"}";      
+	  var subcriptionNotExists = subscribe(queryMongo, ontologia, refresco);
+      
+      if(!subcriptionNotExists){
+    	  console.log( "DEBUG : 	idInfo	: Ya existe una suscripcion para esa query " );
+      }   
+}
+  
+  //A implementar porque el API la necesita para notificar que la suscripcion se ha hecho adecuadamente
+function subscriptionWellLaunchedResponse(subscriptionId, subscriptionQuery){
+	  idInfo="";
+	  if(subscriptionId!=null){
+		  if(subscriptionQuery.indexOf("luminaria") !== -1){
+			  idInfo="luminaria";
+		  }
+		  console.log( "DEBUG : 	Suscrito con id	" + subscriptionId + " a query: " + subscriptionQuery );
+	  }else {
+		  console.log( "DEBUG : 	Error sucribiendo a ontologia	" );
+	  }
+ }
+  
+
+function desuscribirSIB(suscripcion, valor, ontologia) {    
+	suscripcion = suscripcion.replace(/:/,valor).replace(/gt/,"{$gt:"+valor+"}").replace(/lt/,"{$lt:"+valor+"}");      
+  	var queryMongo = "{"+ontologia+".medida:"+suscripcion+"}";
+	unsubscribe	(	
+					queryMongo, 
+			    	function(mensajeSSAP){
+				          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
+				        	  console.log( "DEBUG : 	Desuscrito de " + queryMongo );              
+				          }else{
+				              console.log( "DEBUG : 	Error dessucribiendo a ontologia	" );
+				          }
+			      	},
+				    function(error){
+				    	  if(error =="ERROR_1"){
+				    		  
+				    		  $(idInfo).text("No existe suscripcion para la query").show();
+				    	  }
+				    	  
+				    }
+				);
+  }
+  
+  
+  
+ 
+
+  //A implentear porque el API la necesita para recibir suscripciones, invocadas por el API js de SOFIA
+  function indicationForSubscription(ssapMessageJson) {
+    var mensajeSSAP = parsearMensajeSSAP(validarSSAP(ssapMessageJson));
+    
+    if (mensajeSSAP != null){
+      try{   
+    	 idSuscripcion=mensajeSSAP.messageId;
+    	 //Pintamos en gráfica
+    	 var timestamp = 0;
+         var identificador="";
+         
+    	 if(subscriptionsOntology[idSuscripcion]=="SensorTemperatura"){
+	    	  temp = mensajeSSAP.body.data[0].SensorTemperatura.medida;
+	          timestamp = mensajeSSAP.body.data[0].SensorTemperatura.timestamp;
+	          latitud = mensajeSSAP.body.data[0].SensorTemperatura.coordenadaGps.latitud;
+	          longitud = mensajeSSAP.body.data[0].SensorTemperatura.coordenadaGps.longitud;
+	          identificador = mensajeSSAP.body.data[0].SensorTemperatura.identificador;
+    	 }else if(subscriptionsOntology[idSuscripcion]=="SensorHumedad"){
+    		 humedad = mensajeSSAP.body.data[0].SensorHumedad.medida;
+             timestamp = mensajeSSAP.body.data[0].SensorHumedad.timestamp;
+             latitud = mensajeSSAP.body.data[0].SensorHumedad.coordenadaGps.latitud;
+             longitud = mensajeSSAP.body.data[0].SensorHumedad.coordenadaGps.longitud;
+             identificador = mensajeSSAP.body.data[0].SensorHumedad.identificador;
+    	 }else if(subscriptionsOntology[idSuscripcion]=="Watorimetro"){
+    		 energia=mensajeSSAP.body.data[0].Watorimetro.medida;
+    	 }
+          
+
+          
+          //Pintar datos    
+          pintarDatosGrafica(temp, humedad);//el 0 es la humedad
+          if (datosTH.length > 1){  // el primer dato es antiguo, no pintamos marcador
+             if (map != null){
+               pintarDatosMapa(identificador, temp, humedad, energia, latitud, longitud);
+             }
+             pintarDatosLista(temp, humedad, energia);//Los 0s son humedad y energia 
+          }
+      }catch(err){  
+          alert ("Error Notificacion:" + err);
+      }
+      
+    }
+      
+  }
+		
 
 
 
 function lanzaSimulacion()
 {
 	if (app.plataformaObjetivo == "sofia")	{
-		alert("No implementado");
+		alert("desarrollando");
+		 
+
+  
+		
+		
+		
 	}
 	else //fiware
 	{	
