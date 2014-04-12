@@ -226,7 +226,7 @@
 		    												app.plataformaObjetivo = "fiware";
 							    						});
 			$("#boton_lanza_simulacion").click(function(){	
-															if (isNaN(document.getElementById('periodo_en_segundos').value)){
+															if (isNaN(document.getElementById('periodo_en_segundos').value ) || document.getElementById('periodo_en_segundos').value == ""){
 																alert("Inserte numero por favor!");
 															}
 															else{
@@ -254,9 +254,8 @@
 		    												app.plataformaObjetivo = "sofia";		     
 		    											});
 		    $("#boton_genera_escenario_sofia").click(function(){	
-    														Lungo.Router.article("loading","loading_now");
-    														app.plataformaObjetivo = "fiware";
-					    									setTimeout(function() {	lanzaSimulacion();}, 2000);
+    														Lungo.Router.article("loading","ciclodeCarga");
+    														app.plataformaObjetivo = "sofia";					    									
 					    								});																																
 		    
 		    $("#botonIrMonitorFiware").click(function(){	

@@ -11,14 +11,18 @@ function router_to_widget()
 
 }
 
-function conectarSIBConToken(token, instance){
-	  joinToken(token, instance, function(mensajeSSAP){
-          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
-			console.log( "DEBUG : 	infoConexion	: Conectado al sib con sessionkey:  " + mensajeSSAP.sessionKey  );          	
-          }else{
-          	console.log( "DEBUG : 	infoConexion	: Error conectando del sib  ");
-          }
-      });
+function conectarSIBConToken(token, instance, funcionaAllamar){
+
+funcionaAllamar(); 
+//	  joinToken(token, instance, function(mensajeSSAP){
+//          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
+//			console.log( "DEBUG : 	infoConexion	: Conectado al sib con sessionkey:  " + mensajeSSAP.sessionKey  );
+//			funcionaAllamar(); 				
+ //         }else{
+ //         	console.log( "DEBUG : 	infoConexion	: Error conectando del sib  ");
+ //         }
+  //    });
+
 }
 
 function desconectarSIB() {
@@ -30,7 +34,9 @@ function desconectarSIB() {
           }
       });
 }     
-  
+//
+//suscribirSIB($("#suscripcion").val(),$("#valor").val(),"SensorTemperatura",$("#refresco").val());  
+//
 function suscribirSIB(suscripcion, valor, ontologia, refresco) {	  
 	  suscripcion = suscripcion.replace(/:/,valor).replace(/gt/,"{$gt:"+valor+"}").replace(/lt/,"{$lt:"+valor+"}");      
       
@@ -70,57 +76,31 @@ function desuscribirSIB(suscripcion, valor, ontologia) {
 			      	},
 				    function(error){
 				    	  if(error =="ERROR_1"){
-				    		  
-				    		  $(idInfo).text("No existe suscripcion para la query").show();
-				    	  }
-				    	  
+				    	  	console.log( "DEBUG : 	No existe suscripcion para la query	" );
+				    	  	}				    	  
 				    }
 				);
-  }
-  
-  
-  
- 
+}
+
 
   //A implentear porque el API la necesita para recibir suscripciones, invocadas por el API js de SOFIA
-  function indicationForSubscription(ssapMessageJson) {
+function indicationForSubscription(ssapMessageJson) {
     var mensajeSSAP = parsearMensajeSSAP(validarSSAP(ssapMessageJson));
+   
+    var energia = 0;
     
     if (mensajeSSAP != null){
       try{   
-    	 idSuscripcion=mensajeSSAP.messageId;
-    	 //Pintamos en gráfica
-    	 var timestamp = 0;
-         var identificador="";
-         
-    	 if(subscriptionsOntology[idSuscripcion]=="SensorTemperatura"){
-	    	  temp = mensajeSSAP.body.data[0].SensorTemperatura.medida;
-	          timestamp = mensajeSSAP.body.data[0].SensorTemperatura.timestamp;
-	          latitud = mensajeSSAP.body.data[0].SensorTemperatura.coordenadaGps.latitud;
-	          longitud = mensajeSSAP.body.data[0].SensorTemperatura.coordenadaGps.longitud;
-	          identificador = mensajeSSAP.body.data[0].SensorTemperatura.identificador;
-    	 }else if(subscriptionsOntology[idSuscripcion]=="SensorHumedad"){
-    		 humedad = mensajeSSAP.body.data[0].SensorHumedad.medida;
-             timestamp = mensajeSSAP.body.data[0].SensorHumedad.timestamp;
-             latitud = mensajeSSAP.body.data[0].SensorHumedad.coordenadaGps.latitud;
-             longitud = mensajeSSAP.body.data[0].SensorHumedad.coordenadaGps.longitud;
-             identificador = mensajeSSAP.body.data[0].SensorHumedad.identificador;
-    	 }else if(subscriptionsOntology[idSuscripcion]=="Watorimetro"){
+    	 idSuscripcion = mensajeSSAP.messageId; 
+    	 
+    	 if(subscriptionsOntology[idSuscripcion]=="Watorimetro"){
     		 energia=mensajeSSAP.body.data[0].Watorimetro.medida;
-    	 }
-          
-
-          
-          //Pintar datos    
-          pintarDatosGrafica(temp, humedad);//el 0 es la humedad
-          if (datosTH.length > 1){  // el primer dato es antiguo, no pintamos marcador
-             if (map != null){
-               pintarDatosMapa(identificador, temp, humedad, energia, latitud, longitud);
-             }
-             pintarDatosLista(temp, humedad, energia);//Los 0s son humedad y energia 
-          }
-      }catch(err){  
-          alert ("Error Notificacion:" + err);
+    	 }           
+          //Pintar datos  
+          //TODO valor recibido de la suscripcion   
+         
+      }catch(err){ 
+			console.log( "DEBUG : 	Excepcion	Error Notificacion	" + err ); 
       }
       
     }
@@ -128,18 +108,19 @@ function desuscribirSIB(suscripcion, valor, ontologia) {
   }
 		
 
+var arrancaGeneraObjetos = function (){
+	alert("alert en arrancaGeneraObjetos");
+};
 
+var arrancaSimulacion = function (){
+	alert("alert en arrancaSimulacion");
+};
 
 function lanzaSimulacion()
 {
 	if (app.plataformaObjetivo == "sofia")	{
-		alert("desarrollando");
-		 
-
-  
-		
-		
-		
+		//conectarSIBConToken(token, instance);	
+		conectarSIBConToken("2342523t23t23323", "luminaria_instaltic", arrancaSimulacion);
 	}
 	else //fiware
 	{	
@@ -248,9 +229,10 @@ function lanzaSimulacion()
 
 function genera_objetos(numero_de_luminarias) {
 	
-if (app.plataformaObjetivo=="sofia")
-{
-	alert("No implementado");
+if (app.plataformaObjetivo=="sofia"){
+	//conectarSIBConToken(token, instance);	
+	console.log( "DEBUG :  entro en lanzaSimulacion con sofia"  );
+	conectarSIBConToken("2342523t23t23323", "luminaria_instaltic", arrancaGeneraObjetos);
 }
 else //fiware
 {
