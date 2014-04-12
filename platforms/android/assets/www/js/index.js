@@ -6,7 +6,7 @@ function router_to_widget()
 {  
 	if (app.plataformaObjetivo=="sofia")
 	{
-		alert("No implementado aun.. vamos otra vez 123");
+		alert("No implementado aun.. ahora si con R01-B1");
 	}
 	else //fiware
 	{	
