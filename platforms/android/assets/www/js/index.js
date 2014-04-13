@@ -126,9 +126,9 @@ function lanzaSimulacion()
 	{	
 		//Detecta el numero maximo de entidades creadas
 		var No_context_element_found = false ;
-		var n = 50 ;
-		var paso = 50;
-		var last_element_found = 0;
+		var n = 1 ;
+		var paso = 1;
+		var last_element_found = 1;
 		var postJSON = {
 					    "entities": [
 								        {
@@ -185,6 +185,8 @@ function lanzaSimulacion()
 			for ( j = last_element_found ; j > 0; j = j - numero_de_objetos_paquete_simulacion) {
 				var postJSON = {"contextElements" : [  ] ,  "updateAction": "UPDATE"};
 				for (var i = j ; i > j - numero_de_objetos_paquete_simulacion ; i--) {
+					console.log( "DEBUG :  compone objeto con id " + i );			
+
 					postJSON["contextElements"].push({
 								                          "type" : "luminaria",
 								                          "isPattern" : "false",
@@ -199,6 +201,7 @@ function lanzaSimulacion()
 								                        }       
 							                        );										
 				}
+				console.log( "DEBUG :  compone objeto con j " + j );
 				var contentTypeRequest = $.ajax({
 		                //url: 'http://130.206.83.60:1026/NGSI10/updateContext',
 		                url: 'http://217.127.199.47:1026/NGSI10/updateContext',
@@ -211,7 +214,7 @@ function lanzaSimulacion()
 				});
 			
 		    	contentTypeRequest.done(function(result){     		
-					console.log( "DEBUG :  termina una iteracion actualizando " + numero_de_objetos_paquete_simulacion + " objetos " + j);			
+					console.log( "DEBUG :  termina una iteracion actualizando " + numero_de_objetos_paquete_simulacion + " objetos " );			
 				});	
 			    contentTypeRequest.fail(function(jqXHR, textStatus, errorString){     
 						console.log( "DEBUG :   Ajax request failed... (" + textStatus + ' - ' + jqXHR.responseText +  errorString + ")." );
@@ -253,7 +256,7 @@ else //fiware
 					                        {
 					                          "type" : "luminaria",
 					                          "isPattern" : "false",
-					                          "id" : "liums",
+					                          "id" : "1",
 					                          "attributes" : [
 					                            {
 					                              "name" : "nivelIntensidad",
@@ -263,12 +266,12 @@ else //fiware
 					                            {
 					                              "name" : "latitud",
 					                              "type" : "DDD",
-					                              "value" : "40.33333"
+					                              "value" : "40.60453200"
 					                            },
 					                            {
 					                              "name" : "longitud",
 					                              "type" : "DDD",
-					                              "value" : "01.22222"
+					                              "value" : "-3.3822552"
 					                            },
 					                            {
 					                              "name" : "FK_idCuadro",
@@ -332,7 +335,7 @@ for ( j = numero_de_luminarias ; j > 0; j = j - numero_de_objetos_paquete) {
 		});
 	
     	contentTypeRequest.done(function(result){     		
-			console.log( "DEBUG :   termina una iteracion de 1000 objetos creando objetos en el rango: " + j );			
+			console.log( "DEBUG :   termina una iteracion de " + numero_de_objetos_paquete + " objetos por paquete en el rango: " + j );			
 		});	
 	    contentTypeRequest.fail(function(jqXHR, textStatus, errorString){     
 				console.log( "DEBUG :   Ajax request failed... (" + textStatus + ' - ' + jqXHR.responseText +  errorString + ")." );
