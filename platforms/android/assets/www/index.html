@@ -23,21 +23,37 @@
         <meta name="format-detection" content="telephone=no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        
+        <!-- Lungo - style Dependencies -->
         <link rel="stylesheet" href="css/lungo.icon.css">
 	    <link rel="stylesheet" href="css/lungo.css">
 	    <link rel="stylesheet" href="css/lungo.theme.css">
 	    <link rel="stylesheet" href="css/lungo.icon.brand.css">
 	    
-	    <link rel="stylesheet" type="text/css" href="css/index.css" />
+	     <!-- Julio Iglesias style - Dependencies -->
+	    <style>
+	        #map-canvas {height: 100%;margin: 0px;padding: 0px}
+	        .bubble{line-height:1.35;overflow:hidden;white-space:nowrap;padding:0px 10px;}
+	      	.controls {font-family: Roboto;margin-top: 16px;margin-left: 4px;border: 1px solid transparent;border-radius: 2px;box-sizing: border-box;-moz-box-sizing: border-box;height: 32px;outline: none;
+		    .active {color: #fff;background-color: #4d90fe;}
+		    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);color: #000;background-color: #fff;padding: 5px 11px 0px 11px;width: 40px;font-family: Roboto;font-size: 15px;font-weight: 300;text-align: center;}
+
+	    </style>
 	    
+	    
+	    <link rel="stylesheet" type="text/css" href="css/index.css" />
+	    <!-- Apache Cordova - Dependencies -->
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
+         <!-- JQuery - Dependencies -->
         <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
         <!-- Lungo - Dependencies -->
 		<script type="text/javascript" src="js/quo.js"></script>
 		<script type="text/javascript" src="js/lungo.js"></script>				
 		<!--Google APIS-->
-	
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+        <script src="http://217.127.199.47:8080/socket.io/socket.io.js"></script>	
 		<!--SOFIA APIS-->
 		 <script type="text/javascript"> var pathToDwrServlet = 'http://scfront.cloudapp.net/sib-web/dwr';</script>
         <script type='text/javascript' src='http://scfront.cloudapp.net/sib-web/dwr/engine.js'></script>
@@ -119,12 +135,16 @@
 		<article id="main_loading" class="active list indented">
 			<ul class="list indented">
 			    <li class="dark">
-			        <strong id="now_file_uploading"> Inserte el numero de luminarias a generar,  <br> inserte un multiplo de 1000  ...</strong>			        
+			        <strong id="now_file_uploading"> Inserte el n&uacute;mero de luminarias a generar,  <br> y el n&uacute;mero de objetos por paquete a enviar  ...</strong>			        
 			    </li>
 			    <div class="form">
 				    <fieldset>
-				        <label>numero de luminarias</label>
+				        <label>n&uacute;mero de luminarias</label>
 				        <input id="numero_de_luminarias" type="text" placeholder="inserta aqui el numero"> 				            
+				    </fieldset>
+				    <fieldset>
+				        <label>objetos por paquete</label>
+				        <input id="numero_de_objetos_paquete" type="text" placeholder="inserta aqui el numero"> 				            
 				    </fieldset>
 				</div>
 			</ul>
@@ -145,12 +165,16 @@
 		<article id="ciclodeCarga" class="list indented">
 			<ul class="list indented">
 			    <li class="dark">
-			        <strong> Inserte el periodo de carga para lanzar,  <br> la simulaci&oacute;n  ...</strong>			        
+			        <strong> Inserte el periodo de carga para lanzar  <br>la simulaci&oacute;n y los objetos por paquete</strong>			        
 			    </li>
 			    <div class="form">
 				    <fieldset>
 				        <label>periodo en segundos</label>
 				        <input id="periodo_en_segundos" type="text" placeholder="inserta aqui el tiempo"> 				            
+				    </fieldset>
+				    <fieldset>
+				        <label>objetos por paquete</label>
+				        <input id="numero_de_objetos_paquete_simulacion" type="text" placeholder="inserta aqui el numero"> 				            
 				    </fieldset>
 				</div>
 			</ul>
@@ -193,24 +217,18 @@
 
 	<!--TODO JULIO Eete es tu seccion-->
 	<section id="display">			
-		<header>	
+	<!--	<header>	
 			<nav>
 				<a href="" id="back_sign_in_widget"   data-icon="left-sign">					 
 		        	<strong style="font-size:25px;">  Street Lights</strong>
-				</a>		            
+				</a>	 style="float:left;width:95%;height:95%"	            
 		    </nav>		    
-		</header>
-		<article id="widget" class="active list indented scroll">			
-		   	<div id="map_canvas" style="float:left;width:95%;height:95%"> </div> 	   	
-		   	
+		</header> -->
+		<article id="widget" class="active list indented scroll">		   	
+		   	        <div id="map-canvas"></div>
 		</article>
 		
-		<article id="caca" >			
-			<li class="dark">					
-				<button id="undo" style="display:block;margin:auto" onclick="undo()">Undo  </button>
-				<div id="directions_panel" style="width:100%"> </div> 
-			</li>			  					        	
-		</article>	
+	
 	</section> 	
 	
 	<script type="text/javascript" charset="utf-8">
@@ -226,7 +244,10 @@
 		    												app.plataformaObjetivo = "fiware";
 							    						});
 			$("#boton_lanza_simulacion").click(function(){	
-															if (isNaN(document.getElementById('periodo_en_segundos').value ) || document.getElementById('periodo_en_segundos').value == ""){
+															if (isNaN(document.getElementById('periodo_en_segundos').value ) || 
+																document.getElementById('periodo_en_segundos').value == ""	|| 
+																isNaN(document.getElementById('numero_de_objetos_paquete_simulacion').value ) || 
+																document.getElementById('numero_de_objetos_paquete_simulacion').value == ""	){
 																alert("Inserte numero por favor!");
 															}
 															else{
@@ -239,13 +260,16 @@
 														});					    						
 							    							
 		    $("#boton_genera_objetos_ahora").click(function(){
-		    												var valorInsertado = document.getElementById('numero_de_luminarias').value;		    
-														    var remainder = valorInsertado % 1000;
-															if (remainder == 0 && valorInsertado != "" && valorInsertado != null && valorInsertado != 0){
+		    												var valorInsertado = document.getElementById('numero_de_luminarias').value;
+		    												var numero_de_objetos_paquete = document.getElementById('numero_de_objetos_paquete').value;		    
+															if ( 	valorInsertado != "" && valorInsertado != null && valorInsertado > 0 &&
+																	numero_de_objetos_paquete != "" && numero_de_objetos_paquete != null && numero_de_objetos_paquete > 0 &&
+																	!isNaN(valorInsertado) && !isNaN(numero_de_objetos_paquete)	){
+																	
 																Lungo.Router.article("loading","loading_now");
-							    								setTimeout(function() {	genera_objetos(valorInsertado);}, 2000);
+							    								setTimeout(function() {	genera_objetos(valorInsertado,numero_de_objetos_paquete);}, 2000);
 															} else {
-																alert("Inserte un multiplo de 1000 por favor!");
+																alert("Inserte un numero favor!");
 															}
 														});													
 		    												
@@ -271,6 +295,172 @@
 		    $("#back_sign_in_widget").click(function()	{	Lungo.Router.section("simulador"); 	});
 		    $("#back_sign_in_loading").click(function()	{	Lungo.Router.section("simulador");	});	
 		    	    	
-	    </script>    
+	    </script>
+        <script>
+               
+            var markers    = new Object(),
+                map           = new google.maps.Map(document.getElementById('map-canvas'),{zoom:10, center: new google.maps.LatLng(40.416816,-3.703174)}),
+                infowindow = new google.maps.InfoWindow({content:""});
+		
+            //var trafficLayer = new google.maps.TrafficLayer();
+	        //trafficLayer.setMap(map);
+
+            var tabla = {};
+            var marks = [];
+
+            function getData(){
+                var contentTypeRequest = $.ajax({
+                   url: 'http://217.127.199.47:8080/NGSI10/contextEntityTypes/luminaria',
+                   type: 'GET',
+                   beforeSend: function(xhr) {
+                       xhr.setRequestHeader("Content-type","application/json; charset=utf-8");
+                       xhr.setRequestHeader("Accept","application/json;");
+                   },
+                   success: processData
+                });			
+                contentTypeRequest.error(loadError);	
+            }
+
+            function processData(data,textStatus,jqXHR){
+
+                var lamps = data.contextResponses;
+
+                for(var i=0,n=lamps.length; i<n; i++) {
+                    //generateBubble(lamps[i].contextElement);
+                    
+                    var data    = lamps[i].contextElement;
+                    var cuadro = data.attributes[3].value;
+                   
+                    if (!(cuadro in tabla)) {
+                        tabla[cuadro] = {};
+                        addControl(cuadro);
+                    }
+
+                    tabla[parseInt(cuadro)][parseInt(data.id)]=data;
+                }
+            }
+
+            function addControl(i){
+                    var div = document.createElement("div");
+                    div.className = "controls";
+                    var text = document.createTextNode(i);
+                    div.appendChild(text);
+                    div.onclick = (function(iTmp) {
+                        return function() {
+                            cargarMarcadores(iTmp);
+                        };
+                    })(i);
+                    map.controls[google.maps.ControlPosition.TOP_LEFT].push(div);
+            }
+
+            function loadError(jqxhr, textStatus, error ){
+
+            }
+		
+            function cargarMarcadores(cuadro) {
+                // limpiar los marcadores que haya
+             
+                for (var i = 0; i < marks.length; i++){
+                    marks[i].setMap(null);
+                }
+
+                marks = [];
+
+                // cargar marcadores nuevos
+                var markerBounds = new google.maps.LatLngBounds();
+                linea = [];
+                var keys = Object.keys(tabla[cuadro]);
+
+                for (var i = 0,n=keys.length; i < n; i++) {
+                    generateBubble(tabla[cuadro][keys[i]]);
+                    linea.push(new google.maps.LatLng(tabla[cuadro][keys[i]].attributes[1].value, tabla[cuadro][keys[i]].attributes[2].value));
+                    markerBounds.extend(new google.maps.LatLng(tabla[cuadro][keys[i]].attributes[1].value, tabla[cuadro][keys[i]].attributes[2].value));
+                }
+                var polyline = new google.maps.Polyline({
+                    path: linea,
+                    //geodesic: true,
+                    strokeColor: '#2d98bb',
+                    strokeOpacity: 0.8,
+                    strokeWeight: 6,
+                    map: map
+                });
+                marks.push(polyline);
+                map.fitBounds(markerBounds);
+
+                // reflejar la selección
+                var controls = document.querySelectorAll(".controls");
+                for (var i = 0; i < controls.length; i++) {
+                    if (controls[i].textContent == cuadro)
+                        controls[i].className = "controls active";
+                    else
+                        controls[i].className = "controls";
+                }
+            }
+	
+            function generateBubble(data){           
+                  //markers[data.id] = data;
+                  var marker = new google.maps.Marker({
+                      position: new google.maps.LatLng(data.attributes[1].value,data.attributes[2].value),
+                      map: map,
+                    //  icon:'parking.png',
+                      zIndex: 0,
+                      title: 'Show information about '+data.id
+                  });
+
+                  marks.push(marker);
+
+                  google.maps.event.addListener(marker, 'click', function() {
+                //        marker.setVisible(false); // maps API hide call
+                        infowindow.setContent(renderContent(data));//markers[data.id]));
+                        infowindow.open(map,marker);
+                  });    	
+            }
+
+            function renderContent(data){
+                //0 nivel luminosidad value
+                //1 latitud value
+                //2 longitud vale
+                //3 cuadro asociado
+                return "<div id='lamp-"+data.id+"' class='bubble'>\
+                                <h3>Lamp ID: "+data.id+"</h3>\
+                                <p><span>Nivel de iluminaci&oacute;n: </span><span class='nTotal'>"+data.attributes[0].value+"</span></p>\
+                                <p><span>Coordenadas: </span><span class='nTotal'>"+data.attributes[1].value+","+data.attributes[2].value+"</span></p>\
+                                <p><span>Cuadro asociado: </span><span>"+data.attributes[3].value+"</span></p>\
+                                <div></div>\
+                            </div>";
+            }
+
+            google.maps.event.addDomListener(window,'load',function(){
+                getData();
+            });
+
+        </script>
+        <script>
+        
+            (function(){
+               var socket = io.connect('http://217.127.199.47:8080');
+              
+               socket.on('update', function (data) {	  	
+
+                  console.log(data);
+                   var updates = data.contextResponses || [];
+
+                   for(var i=0,n=updates.length;i<n;i++){
+                       if(updates[i].statusCode.code === "200"){
+                           var update             = updates[i];
+                           var lampID             = parseInt(update.contextElement.id);
+                           var luminosityLevel = parseInt(update.contextElement.attributes[0].value);
+                           var electricBoxId     = parseInt(update.contextElement.attributes[1].value);
+
+                           tabla[electricBoxId][lampID].attributes[0].value = luminosityLevel;
+                           
+                           if(document.getElementById("lamp-"+lampID)){
+                                infowindow.setContent(renderContent(tabla[electricBoxId][lampID]));	
+                           }
+                       }
+                   }
+               });
+            })();
+        </script>    
     </body>
 </html>

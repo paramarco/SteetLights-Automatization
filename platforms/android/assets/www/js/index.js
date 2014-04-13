@@ -2,11 +2,11 @@ function router_to_widget()
 {  
 	if (app.plataformaObjetivo=="sofia")
 	{
-		alert("No implementado aun.. ahora si con R01-B1 y mas cambios");
+		alert("No implementado aun...");
 	}
 	else //fiware
 	{	
-		alert("No implementado aun...");
+		Lungo.Router.section("display");
 	}	
 
 }
@@ -126,7 +126,8 @@ function lanzaSimulacion()
 	{	
 		//Detecta el numero maximo de entidades creadas
 		var No_context_element_found = false ;
-		var n = 1000 ;
+		var n = 50 ;
+		var paso = 50;
 		var last_element_found = 0;
 		var postJSON = {
 					    "entities": [
@@ -154,13 +155,12 @@ function lanzaSimulacion()
 	    	contentTypeRequest.done(function(data,textStatus,jqXHR){
 								    		if ( data.hasOwnProperty('contextResponses'))	{								    			
 								    			last_element_found = n;
-								    			n = n + 1000;
+								    			n = n + paso;
 								    			postJSON.entities[0].id = n;
 								    		}
 								    		else	{
 								    			No_context_element_found = true;
-								    			console.log( "DEBUG :  ultimo indice encontrado es  "  + last_element_found);			
-
+								    			console.log( "DEBUG :  ultimo indice encontrado es  "  + last_element_found);
 								    		}							    				
 			});	
 		    contentTypeRequest.fail(function(jqXHR, textStatus, errorString){     
@@ -173,17 +173,18 @@ function lanzaSimulacion()
 		var max_luminosidad = 100;
 		var res_luminosidad = 0;
 		var j;	
-		//var postJSON = {"contextElements" : [  ] ,  "updateAction": "UPDATE"};
 			
 		//lanza la simulacion cada X segundos 
 		var periodoCiclo = document.getElementById('periodo_en_segundos').value * 1000;	
+		var numero_de_objetos_paquete_simulacion = document.getElementById('numero_de_objetos_paquete_simulacion').value;	
+		
 		$("#li_boton_lanza_simulacion").hide("slow");
 		$("#li_boton_para_simulacion").show("slow");
 		 
 		app.manejadorCiclo = setInterval(function(){	
-			for ( j = last_element_found ; j > 0; j = j - 1000) {
+			for ( j = last_element_found ; j > 0; j = j - numero_de_objetos_paquete_simulacion) {
 				var postJSON = {"contextElements" : [  ] ,  "updateAction": "UPDATE"};
-				for (var i = j ; i > j - 1000 ; i--) {
+				for (var i = j ; i > j - numero_de_objetos_paquete_simulacion ; i--) {
 					postJSON["contextElements"].push({
 								                          "type" : "luminaria",
 								                          "isPattern" : "false",
@@ -207,12 +208,10 @@ function lanzaSimulacion()
 		                    xhr.setRequestHeader("Accept","application/json;");
 		                },
 		                data:   JSON.stringify(postJSON),
-		                //async: false, // La petici�n es s�ncrona
-						//cache: false // No  usar la cach� 
 				});
 			
 		    	contentTypeRequest.done(function(result){     		
-					console.log( "DEBUG :  termina una iteracion actualizando 1000 objetos ");			
+					console.log( "DEBUG :  termina una iteracion actualizando " + numero_de_objetos_paquete_simulacion + " objetos " + j);			
 				});	
 			    contentTypeRequest.fail(function(jqXHR, textStatus, errorString){     
 						console.log( "DEBUG :   Ajax request failed... (" + textStatus + ' - ' + jqXHR.responseText +  errorString + ")." );
@@ -227,16 +226,17 @@ function lanzaSimulacion()
 	}//else
 }
 
-function genera_objetos(numero_de_luminarias) {
+function genera_objetos(numero_de_luminarias, numero_de_objetos_paquete) {
 	
 if (app.plataformaObjetivo=="sofia"){
 	//conectarSIBConToken(token, instance);	
 	console.log( "DEBUG :  entro en lanzaSimulacion con sofia"  );
-	conectarSIBConToken("2342523t23t23323", "luminaria_instaltic", arrancaGeneraObjetos);
+	//conectarSIBConToken("2342523t23t23323", "luminaria_instaltic", arrancaGeneraObjetos);
+	console.log( "DEBUG :   se lanza la creacion de objetos con sofia." + numero_de_objetos_paquete + numero_de_luminarias);
 }
 else //fiware
 {
-	console.log( "DEBUG :   se lanza la creacion de objetos con Fiware." );	
+	console.log( "DEBUG :   se lanza la creacion de objetos con Fiware." + numero_de_objetos_paquete + numero_de_luminarias);	
 	
 	var min_lat = 320000;
 	var max_lat = 470000;
@@ -282,9 +282,9 @@ else //fiware
 	
 	
 var j;	
-for ( j = numero_de_luminarias ; j > 0; j = j - 1000) {
+for ( j = numero_de_luminarias ; j > 0; j = j - numero_de_objetos_paquete) {
 	
-	for (var i = j ; i > j - 1000 ; i--) {
+	for (var i = j ; i > j - numero_de_objetos_paquete ; i--) {
 				
 		postJSON["contextElements"].push({
 					                          "type" : "luminaria",
