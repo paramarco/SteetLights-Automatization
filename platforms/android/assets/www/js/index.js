@@ -11,17 +11,16 @@ function router_to_widget()
 
 }
 
-function conectarSIBConToken(token, instance, funcionaAllamar){
+function conectarSIBConToken(token, instance){
 
-funcionaAllamar(); 
-//	  joinToken(token, instance, function(mensajeSSAP){
-//          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
-//			console.log( "DEBUG : 	infoConexion	: Conectado al sib con sessionkey:  " + mensajeSSAP.sessionKey  );
-//			funcionaAllamar(); 				
- //         }else{
- //         	console.log( "DEBUG : 	infoConexion	: Error conectando del sib  ");
- //         }
-  //    });
+	  joinToken(token, instance, function(mensajeSSAP){
+          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
+			console.log( "DEBUG : 	infoConexion	: Conectado al sib con sessionkey:  " + mensajeSSAP.sessionKey  );
+			//funcionaAllamar(); 				
+         }else{
+         	console.log( "DEBUG : 	infoConexion	: Error conectando del sib  ");
+        }
+    });
 
 }
 
@@ -119,8 +118,10 @@ var arrancaSimulacion = function (){
 function lanzaSimulacion()
 {
 	if (app.plataformaObjetivo == "sofia")	{
-		//conectarSIBConToken(token, instance);	
-		conectarSIBConToken("2342523t23t23323", "luminaria_instaltic", arrancaSimulacion);
+		console.log( "DEBUG : 	Entra en 	: lanzaSimulacion: con SOFIA "   );
+		setKpName("KP_actualiza_luminaria");
+		//conectarSIBConToken("6084b943dafe4706b5fa2bf2a578a219", "KP_actualiza_luminaria:KP_actualiza_luminaria01");
+		conectarSIBConToken("cbb9364c434543a18dc6efa30dc780eb", "KPvisualizacionHT:KPvisualizacionHT01");
 	}
 	else //fiware
 	{	
@@ -252,36 +253,31 @@ else //fiware
 	var res_luminosidad = 0;
 	
 	
-	var postJSON = {"contextElements" : [                        
-					                        {
-					                          "type" : "luminaria",
-					                          "isPattern" : "false",
-					                          "id" : "1",
-					                          "attributes" : [
-					                            {
-					                              "name" : "nivelIntensidad",
-					                              "type" : "porcentaje",
-					                              "value" : "0"
-					                            },
-					                            {
-					                              "name" : "latitud",
-					                              "type" : "DDD",
-					                              "value" : "40.60453200"
-					                            },
-					                            {
-					                              "name" : "longitud",
-					                              "type" : "DDD",
-					                              "value" : "-3.3822552"
-					                            },
-					                            {
-					                              "name" : "FK_idCuadro",
-					                              "type" : "int",
-					                              "value" : "1"
-					                            }
-					                          ]
-					                        }                        
-					                       ] , 
-					  "updateAction": "APPEND"};					
+	var postJSON =  {"contextElements" : [ 
+											{
+											"type" : "luminaria",
+											"isPattern" : "false",
+											"id" : "1",
+											"attributes" : [
+																{
+																"name" : "nivelIntensidad",
+																"type" : "porcentaje",
+																"value" : "0"
+																},{
+																"name": "position",
+																"type": "location",
+																"value": "40.418889, -3.691944"
+																},{
+																"name" : "FK_idCuadro",
+																"type" : "int",
+																"value" : "1"
+																}
+															]
+											} 
+										] , 
+					"updateAction": "APPEND"
+					};
+					  					
 	
 	
 var j;	
@@ -294,27 +290,22 @@ for ( j = numero_de_luminarias ; j > 0; j = j - numero_de_objetos_paquete) {
 					                          "isPattern" : "false",
 					                          "id" : i,
 					                          "attributes" : [
-					                            {
-					                              "name" : "nivelIntensidad",
-					                              "type" : "porcentaje",
-					                              "value" : Math.floor(Math.random() * (max_luminosidad - min_luminosidad + 1)) + min_luminosidad
-					                            },
-					                            {
-					                              "name" : "latitud",
-					                              "type" : "DDD",
-					                              "value" : "40." + Math.floor(Math.random() * (max_lat - min_lat + 1)) + min_lat
-					                            },
-					                            {
-					                              "name" : "longitud",
-					                              "type" : "DDD",
-					                              "value" : "-3." + Math.floor(Math.random() * (max_lon - min_lon + 1)) + min_lon
-					                            },
-					                            {
-					                              "name" : "FK_idCuadro",
-					                              "type" : "int",
-					                              "value" : "1"
-					                            }
-					                          ]
+					                            				{
+																"name" : "nivelIntensidad",
+																"type" : "porcentaje",
+																"value" : Math.floor(Math.random() * (max_luminosidad - min_luminosidad + 1)) + min_luminosidad
+																},
+																{
+																"name": "position",
+																"type": "location",
+																"value": "40." + Math.floor(Math.random() * (max_lat - min_lat + 1)) + min_lat + ","+ "-3." +  Math.floor(Math.random() * (max_lon - min_lon + 1)) + min_lon
+																},
+																{
+																"name" : "FK_idCuadro",
+																"type" : "int",
+																"value" : "1"
+																}
+					                          				]
 					                        }       
 				                        );										
 	}

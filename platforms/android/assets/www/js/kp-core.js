@@ -1,28 +1,12 @@
-//TODO entender que demonios hace el Direct Web Remoting
-   $(function(){
-       dwr.engine.setActiveReverseAjax(true);
-       dwr.engine.setErrorHandler(errorHandler);
-       dwr.engine.setTimeout(0);
-    });
-
-
 //global variables
 var sessionKey = null;
 var sibServer = pathToDwrServlet + '/';
 var cipherKey;
-var kpName; //TODO entender donde demonios se inicia la varialbe   kpName
+var kpName;
 
 
 var subscriptionsMap = {};
 var subscriptionsOntology = {};
-
-   $(function(){
-       dwr.engine.setActiveReverseAjax(true);
-       dwr.engine.setErrorHandler(errorHandler);
-       dwr.engine.setTimeout(0);
-       initGrafica();
-       cargarAPIGoogleMaps();
-    });
 
 // JOIN Operation
 function join(user, pass, instance, joinResponse) {
