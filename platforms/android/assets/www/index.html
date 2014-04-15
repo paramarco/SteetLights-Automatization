@@ -55,15 +55,15 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
         <script src="http://217.127.199.47:8080/socket.io/socket.io.js"></script>	
 		<!--SOFIA APIS-->
-        <script type='text/javascript' src='http://scfront.cloudapp.net/sib-web/dwr/engine.js'></script>
-        <script type='text/javascript' src='http://scfront.cloudapp.net/sib-web/dwr/util.js'></script>
-        <script type='text/javascript' src='http://scfront.cloudapp.net/sib-web/dwr/interface/GatewayDWR.js'></script>
+        <script type='text/javascript' src='js/engine.js'></script>
+        <script type='text/javascript' src='js/util.js'></script>
+        <script type='text/javascript' src='js/GatewayDWR.js'></script>
         
 		<script type='text/javascript' src="js/kp-core.js">;</script>
 		<script type='text/javascript' src="js/XXTEA.js">;</script>
 		<script type='text/javascript' src="js/base64.js">;</script>
 		<script type='text/javascript' >
-					var pathToDwrServlet = 'http://scfront.cloudapp.net/sib-web/dwr';			
+					var pathToDwrServlet = 'http://scfront.cloudapp.net/sib/dwr';			
 			    	var datosTH = [];
 				   var grafica = null, map = null;
 				   var sibServer = pathToDwrServlet+'/';
@@ -81,8 +81,7 @@
 				       dwr.engine.setActiveReverseAjax(true);
 				       dwr.engine.setErrorHandler(errorHandler);
 				       dwr.engine.setTimeout(0);
-				       initGrafica();
-				       cargarAPIGoogleMaps();
+
 				    });
 				    
 				  function errorHandler(message, ex){   
