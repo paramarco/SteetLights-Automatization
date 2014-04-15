@@ -11,12 +11,12 @@ function router_to_widget()
 
 }
 
-function conectarSIBConToken(token, instance){
+function conectarSIBConToken(token, instance,funcionaAllamar){
 
 	  joinToken(token, instance, function(mensajeSSAP){
           if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
 			console.log( "DEBUG : 	infoConexion	: Conectado al sib con sessionkey:  " + mensajeSSAP.sessionKey  );
-			//funcionaAllamar(); 				
+			funcionaAllamar(); 				
          }else{
          	console.log( "DEBUG : 	infoConexion	: Error conectando del sib  ");
         }
@@ -105,6 +105,9 @@ function indicationForSubscription(ssapMessageJson) {
     }
       
   }
+  
+function repuestaSIBaINSERT (){  
+}
 		
 
 var arrancaGeneraObjetos = function (){
@@ -112,7 +115,21 @@ var arrancaGeneraObjetos = function (){
 };
 
 var arrancaSimulacion = function (){
-	alert("alert en arrancaSimulacion");
+	var timestamp = new Date().getTime(); 
+	var contenido = "uncontenido";
+	var titulo = "untitulo";
+	var queryMongo = "{'SensorAnuncio':{'contenido':'"+contenido+"', 'timestamp':{'$date':'1397595204148'},'titulo':'"+titulo+"'}}"; 
+
+	insert(	queryMongo, 
+			"ontologia_luminaria", 
+			function(mensajeSSAP){
+		          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
+					console.log( "DEBUG : 	insert	: correctamente enciado al sib ");
+		         }else{
+		         	console.log( "DEBUG : 	insert	: Error conectando al sib  ");
+		        }
+		    });
+	console.log( "DEBUG : 	arrancaSimulacion termina	" ); 
 };
 
 function lanzaSimulacion()
@@ -120,8 +137,7 @@ function lanzaSimulacion()
 	if (app.plataformaObjetivo == "sofia")	{
 		console.log( "DEBUG : 	Entra en 	: lanzaSimulacion: con SOFIA "   );
 		setKpName("KP_actualiza_luminaria");
-		//conectarSIBConToken("6084b943dafe4706b5fa2bf2a578a219", "KP_actualiza_luminaria:KP_actualiza_luminaria01");
-		conectarSIBConToken("cbb9364c434543a18dc6efa30dc780eb", "KPvisualizacionHT:KPvisualizacionHT01");
+		conectarSIBConToken("6084b943dafe4706b5fa2bf2a578a219", "KP_actualiza_luminaria:KP_actualiza_luminaria01", arrancaSimulacion );
 	}
 	else //fiware
 	{	
