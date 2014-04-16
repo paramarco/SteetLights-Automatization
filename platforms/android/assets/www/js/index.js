@@ -115,18 +115,40 @@ var arrancaGeneraObjetos = function (){
 };
 
 var arrancaSimulacion = function (){
-	var timestamp = new Date().getTime(); 
+	var timestamp = new Date("16 April 2014 14:48 UTC"); 
 	var contenido = "uncontenido";
 	var titulo = "untitulo";
-	//var queryMongo = "{'SensorAnuncio':{'contenido':'"+contenido+"', 'timestamp':{'$date':'1397595204148'},'titulo':'"+titulo+"'}}"; 
-	var queryMongo = "{'SensorAnuncio':{'contenido':'"+contenido+"','timestamp':{'$date':'"+timestamp.toISOString()+"'},'titulo':'"+titulo+"'}}";
-	insert(	queryMongo, 
-			"ontologia_luminaria", 
+	console.log( "DEBUG : 	estos es lo que se ve : " + timestamp.toISOString());
+	
+	 /*	var queryMongo = {
+						"SensorAnuncio": 	{
+										"contenido"	: "hola",
+										"timestamp": 
+													{	"$date": timestamp.toISOString() } ,
+										"titulo": "asadsadasd"
+										}
+					};
+	 
+	
+	*/
+	var queryMongo = {
+						"luminaria": 	{
+										"nivelIntensidad"	: "hola",
+										"posicion": "contenido",
+										"FK_idCuadro": "asadsadasd"
+										}
+					};
+					
+	console.log( "DEBUG : 	estos es lo que se ve : " + JSON.stringify(queryMongo)  ) ;
+
+					
+	insert(	JSON.stringify(queryMongo), 
+			"instaltic_luminaria_ontologia", 
 			function(mensajeSSAP){
 		          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
-					console.log( "DEBUG : 	insert	: correctamente enciado al sib ");
+					console.log( "DEBUG : 	insert	: correctamente enviado al SIB ");
 		         }else{
-		         	console.log( "DEBUG : 	insert	: Error conectando al sib  ");
+		         	console.log( "DEBUG : 	insert	: Error conectando al SIB  ");
 		        }
 		    });
 	console.log( "DEBUG : 	arrancaSimulacion termina	" ); 
@@ -136,8 +158,8 @@ function lanzaSimulacion()
 {
 	if (app.plataformaObjetivo == "sofia")	{
 		console.log( "DEBUG : 	Entra en 	: lanzaSimulacion: con SOFIA "   );
-		setKpName("KP_actualiza_luminaria");
-		conectarSIBConToken("6084b943dafe4706b5fa2bf2a578a219", "KP_actualiza_luminaria:KP_actualiza_luminaria01", arrancaSimulacion );
+		setKpName("KP_instaltic_luminaria_ontologia");
+		conectarSIBConToken("db7392ab31a0447f8b10d2ab92168b77", "KP_instaltic_luminaria_ontologia:KP_instaltic_luminaria_ontologia01", arrancaSimulacion );
 	}
 	else //fiware
 	{	
