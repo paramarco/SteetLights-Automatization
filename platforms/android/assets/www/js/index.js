@@ -118,8 +118,8 @@ var arrancaSimulacion = function (){
 	var timestamp = new Date().getTime(); 
 	var contenido = "uncontenido";
 	var titulo = "untitulo";
-	var queryMongo = "{'SensorAnuncio':{'contenido':'"+contenido+"', 'timestamp':{'$date':'1397595204148'},'titulo':'"+titulo+"'}}"; 
-
+	//var queryMongo = "{'SensorAnuncio':{'contenido':'"+contenido+"', 'timestamp':{'$date':'1397595204148'},'titulo':'"+titulo+"'}}"; 
+	var queryMongo = "{'SensorAnuncio':{'contenido':'"+contenido+"','timestamp':{'$date':'"+timestamp.toISOString()+"'},'titulo':'"+titulo+"'}}";
 	insert(	queryMongo, 
 			"ontologia_luminaria", 
 			function(mensajeSSAP){
