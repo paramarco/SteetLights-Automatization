@@ -111,46 +111,117 @@ function repuestaSIBaINSERT (){
 		
 
 var arrancaGeneraObjetos = function (){
-	alert("alert en arrancaGeneraObjetos");
-};
-
-var arrancaSimulacion = function (){
-	var timestamp = new Date("16 April 2014 14:48 UTC"); 
-	var contenido = "uncontenido";
-	var titulo = "untitulo";
-	console.log( "DEBUG : 	estos es lo que se ve : " + timestamp.toISOString());
+	var min_lat = 0.320000;
+	var max_lat = 0.470000;
+	var min_lon = 0.530000;
+	var max_lon = 0.860000;
+	var res_lat = 0;
+	var res_lon = 0;
+	var min_luminosidad = 0;
+	var max_luminosidad = 100;
+	var res_luminosidad = 0;
 	
-	 /*	var queryMongo = {
-						"SensorAnuncio": 	{
-										"contenido"	: "hola",
-										"timestamp": 
-													{	"$date": timestamp.toISOString() } ,
-										"titulo": "asadsadasd"
-										}
-					};
-	 
+	console.log( "DEBUG : 	arrancaGeneraObjetos entra	" );
+	for (var j = app.numero_de_luminarias ; j > 0; j = j - app.numero_de_objetos_paquete) {
 	
-	*/
-	var queryMongo = {
-						"luminaria": 	{
-										"nivelIntensidad"	: "hola",
-										"posicion": "contenido",
-										"FK_idCuadro": "asadsadasd"
-										}
-					};
-					
-	console.log( "DEBUG : 	estos es lo que se ve : " + JSON.stringify(queryMongo)  ) ;
+		//for (var i = j ; i > j - app.numero_de_objetos_paquete ; i--) {
+				
+			var queryMongo = {
+						      "luminaria" :{											
+												"id" : j.toString(),
+												"nivelIntensidad"	: Math.floor(Math.random() * (max_luminosidad - min_luminosidad + 1)) + min_luminosidad,
+												"posicion": {	
+															"type":"Point",
+															"coordinates":	[	40.0 +  Math.random() * (max_lat - min_lat ) + min_lat  , 
+																				-3.0 - (Math.random() * (max_lon - min_lon ) + min_lon)
+																			],
+															},
+												"FK_idCuadro": "1"
+											}
+							    };										
+		
 
-					
-	insert(	JSON.stringify(queryMongo), 
-			"instaltic_luminaria_ontologia", 
-			function(mensajeSSAP){
+		//var queryMongo2insert = JSON.stringify(queryMongo).replace(/\[/g, / /).replace(/\]/g, / /);
+		
+		var queryMongo2insert = JSON.stringify(queryMongo);		
+		
+		console.log( "DEBUG : 	estos es lo que se envia a SOFIA : " + queryMongo2insert  ); 
+		
+		insert(	queryMongo2insert , 
+			"SIB_test_luminaria", 
+			function(mensajeSSAP){						
 		          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
-					console.log( "DEBUG : 	insert	: correctamente enviado al SIB ");
+					console.log( "DEBUG : 	insert	: correctamente enviado al SIB un paquete con " + app.numero_de_objetos_paquete);
 		         }else{
-		         	console.log( "DEBUG : 	insert	: Error conectando al SIB  ");
+		         	console.log( "DEBUG : 	insert	: Error conectando al SIB, algo fallo ");
 		        }
 		    });
+					
+	}	    
+		    
+	console.log( "DEBUG : 	arrancaGeneraObjetos termina	" );
+	
+};
+
+//arranca simulacion SOFIA-2
+var arrancaSimulacion = function (){
+	
+	var queryMongo = {
+						"luminaria": 	{
+										"id" : "1",
+										"nivelIntensidad"	: "100",
+										"posicion": "40.418889, -3.691944",
+										"FK_idCuadro": "1"
+										}
+					};
+					
+	//TODO descrubir el numero de objetos metidos en el SIB
+	
+	
+/*	
+	var min_luminosidad = 0;
+	var max_luminosidad = 100;
+	var res_luminosidad = 0;
+	var j;	
+		
+	//lanza la simulacion cada X segundos 
+	var periodoCiclo = document.getElementById('periodo_en_segundos').value * 1000;	
+	var numero_de_objetos_paquete_simulacion = document.getElementById('numero_de_objetos_paquete_simulacion').value;	
+	
+	$("#li_boton_lanza_simulacion").hide("slow");
+	$("#li_boton_para_simulacion").show("slow");
+	 
+	app.manejadorCiclo = setInterval(function(){	
+		for ( j = last_element_found ; j > 0; j = j - numero_de_objetos_paquete_simulacion) {
+			var postJSON = {"contextElements" : [  ] ,  "updateAction": "UPDATE"};
+			for (var i = j ; i > j - numero_de_objetos_paquete_simulacion ; i--) {
+				console.log( "DEBUG :  compone objeto con id " + i );
+				queryMongo.push({
+		                          "luminaria" :{
+												"id" : i,
+												"nivelIntensidad"	: Math.floor(Math.random() * (max_luminosidad - min_luminosidad + 1)) + min_luminosidad,
+												"posicion": "40." + Math.floor(Math.random() * (max_lat - min_lat + 1)) + min_lat + ","+ "-3." +  Math.floor(Math.random() * (max_lon - min_lon + 1)) + min_lon,
+												"FK_idCuadro": "1"
+												}
+								});
+			}
+*/					
+			insert(	JSON.stringify(queryMongo), 
+				"SIB_test_luminaria", 
+				function(mensajeSSAP){
+			          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
+						console.log( "DEBUG : 	insert	: correctamente enviado al SIB un paquete con " + app.numero_de_objetos_paquete);
+			         }else{
+			         	console.log( "DEBUG : 	insert	: Error conectando al SIB, algo fallo ");
+			        }
+			    });				
+/*			}
+		
+	},periodoCiclo);
+				
+		    
+*/		
+	
 	console.log( "DEBUG : 	arrancaSimulacion termina	" ); 
 };
 
@@ -158,8 +229,10 @@ function lanzaSimulacion()
 {
 	if (app.plataformaObjetivo == "sofia")	{
 		console.log( "DEBUG : 	Entra en 	: lanzaSimulacion: con SOFIA "   );
-		setKpName("KP_instaltic_luminaria_ontologia");
-		conectarSIBConToken("db7392ab31a0447f8b10d2ab92168b77", "KP_instaltic_luminaria_ontologia:KP_instaltic_luminaria_ontologia01", arrancaSimulacion );
+		
+		setKpName("KP_test_luminaria");	
+		conectarSIBConToken("6ec55345d04e4d8b9ddc6de6b0f47731", "KP_test_luminaria:KP_test_luminaria01", arrancaSimulacion );
+
 	}
 	else //fiware
 	{	
@@ -271,10 +344,15 @@ function lanzaSimulacion()
 function genera_objetos(numero_de_luminarias, numero_de_objetos_paquete) {
 	
 if (app.plataformaObjetivo=="sofia"){
-	//conectarSIBConToken(token, instance);	
-	console.log( "DEBUG :  entro en lanzaSimulacion con sofia"  );
-	//conectarSIBConToken("2342523t23t23323", "luminaria_instaltic", arrancaGeneraObjetos);
-	console.log( "DEBUG :   se lanza la creacion de objetos con sofia." + numero_de_objetos_paquete + numero_de_luminarias);
+	
+	app.numero_de_luminarias = numero_de_luminarias;
+	app.numero_de_objetos_paquete = numero_de_objetos_paquete ;
+	setKpName("KP_test_luminaria");
+	
+	conectarSIBConToken("3bb7264f5c1743b78dbaa5ba2e33ac35", "KP_test_luminaria:KP_test_luminaria01", arrancaGeneraObjetos );
+	
+	console.log( "DEBUG :   se lanza la creacion de objetos con sofia." + ", objetos por paquete: "  + numero_de_objetos_paquete + ", luminarias: " + numero_de_luminarias);
+	
 }
 else //fiware
 {
@@ -382,7 +460,6 @@ for ( j = numero_de_luminarias ; j > 0; j = j - numero_de_objetos_paquete) {
 	Lungo.Router.section("simulador"); 
 }	
 }
-
 // exit    
 function exitFromApp(buttonIndex) {	if (buttonIndex==2){  navigator.app.exitApp();	}}
 // exit  
