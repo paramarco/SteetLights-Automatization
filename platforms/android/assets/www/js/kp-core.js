@@ -89,7 +89,7 @@ function leaveCipher(leaveResponse) {
 }
 
 function insert(data, ontology, insertResponse) {
-	data=addQuotesToData(data);
+	//data=addQuotesToData(data);
 	data = data.replace(/'/g, '"');
 	var queryInsert = '{"body":{"data":'
 			+ data
