@@ -4,7 +4,7 @@ $( document ).ready(function() {
         infowindow = new google.maps.InfoWindow({content:""});
 
     //var trafficLayer = new google.maps.TrafficLayer();
-    //trafficLayer.setMap(map);
+   
 
     var tabla = {};
     var marks = [];
