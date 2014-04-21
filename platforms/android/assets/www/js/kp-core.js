@@ -252,6 +252,8 @@ function query(query, ontology, queryResponse) {
 			+ '"},"direction":"REQUEST","ontology":"' + ontology
 			+ '","messageType":"QUERY","messageId":null,"sessionKey":"'
 			+ sessionKey + '"}';
+			
+	console.log( "DEBUG : 	query	: esta enviando esto  datos: " + querySib);		
 	sendMessage("QUERY", querySib, false, queryResponse);
 }
 
@@ -268,7 +270,7 @@ function queryWithQueryType(query, ontology, queryType, queryParams, queryRespon
 			+ '","messageType":"QUERY","messageId":null,"sessionKey":"'
 			+ sessionKey + '"}';
 		
-	
+		console.log( "DEBUG : 	queryWithQueryType	: esta enviando esto  datos: " + querySib);
 	}else{
 		var querySib = '{"body":{"query":"' 
 			+ query
@@ -280,6 +282,7 @@ function queryWithQueryType(query, ontology, queryType, queryParams, queryRespon
 			+ sessionKey + '"}';
 	}
 
+	
 	sendMessage("QUERY", querySib, false, queryResponse);
 	
 }
