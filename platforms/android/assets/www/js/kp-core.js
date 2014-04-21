@@ -4,6 +4,33 @@ var sibServer = pathToDwrServlet + '/';
 var cipherKey;
 var kpName;
 
+var pathToDwrServlet = 'http://scfront.cloudapp.net/sib/dwr';			
+	var datosTH = [];
+   var grafica = null, map = null;
+   var sibServer = pathToDwrServlet+'/';
+   var sessionKey = null;
+   
+   var temp =0;
+   var humedad=0;
+   var energia = 0;
+   
+   var latitud = 0;
+   var longitud = 0;
+ 
+
+   $(function(){
+       dwr.engine.setActiveReverseAjax(true);
+       dwr.engine.setErrorHandler(errorHandler);
+       dwr.engine.setTimeout(0);
+
+    });
+    
+  function errorHandler(message, ex){   
+	 dwr.util.setValue("error", "DWR ERROR: " + message + " - " + dwr.util.toDescriptiveString(ex, 2), {escapeHtml:false});
+	 setTimeout(function() { dwr.util.setValue("listaH", ""); }, 5000);
+  }
+
+
 
 var subscriptionsMap = {};
 var subscriptionsOntology = {};
@@ -160,7 +187,9 @@ function update(data, query, ontology, updateResponse) {
 			+ query
 			+ '"},"direction":"REQUEST","messageId":null,"messageType":"UPDATE","ontology":"'
 			+ ontology + '","sessionKey":"' + sessionKey + '"}';
-	
+			
+	console.log( "DEBUG : 	update	: esta enviando esto  datos: " + queryUpdate);		
+
 	sendMessage("UPDATE", queryUpdate, false, updateResponse);
 }
 

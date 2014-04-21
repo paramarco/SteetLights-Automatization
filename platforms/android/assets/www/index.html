@@ -42,14 +42,16 @@
 	    
 	    
 	    <link rel="stylesheet" type="text/css" href="css/index.css" />
+	    
+	    <!-- Lungo - Dependencies -->
+		<script type="text/javascript" src="js/quo.js"></script>
+		<script type="text/javascript" src="js/lungo.js"></script>
+	    <!-- JQuery - Dependencies -->
+        <script type="text/javascript" src="js/jquery-1.9.1.js"></script>	
 	    <!-- Apache Cordova - Dependencies -->
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
-         <!-- JQuery - Dependencies -->
-        <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
-        <!-- Lungo - Dependencies -->
-		<script type="text/javascript" src="js/quo.js"></script>
-		<script type="text/javascript" src="js/lungo.js"></script>				
+			
 		<!--Google APIS-->
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
@@ -59,50 +61,25 @@
         <script type='text/javascript' src='js/util.js'></script>
         <script type='text/javascript' src='js/GatewayDWR.js'></script>
         
-		<script type='text/javascript' src="js/kp-core.js">;</script>
-		<script type='text/javascript' src="js/XXTEA.js">;</script>
-		<script type='text/javascript' src="js/base64.js">;</script>
-		<script type='text/javascript' >
-					var pathToDwrServlet = 'http://scfront.cloudapp.net/sib/dwr';			
-			    	var datosTH = [];
-				   var grafica = null, map = null;
-				   var sibServer = pathToDwrServlet+'/';
-				   var sessionKey = null;
-				   
-				   var temp =0;
-				   var humedad=0;
-				   var energia = 0;
-				   
-				   var latitud = 0;
-				   var longitud = 0;
-				 
-				
-				   $(function(){
-				       dwr.engine.setActiveReverseAjax(true);
-				       dwr.engine.setErrorHandler(errorHandler);
-				       dwr.engine.setTimeout(0);
+		<script type='text/javascript' src="js/kp-core.js"></script>
+		<script type='text/javascript' src="js/XXTEA.js"></script>
+		<script type='text/javascript' src="js/base64.js"></script>
+		
+		<!--Street Lights includes-->
+		<script type='text/javascript' src="js/simulador.js"></script>	
+		<script type='text/javascript' src="js/monitor.js"></script>	
 
-				    });
-				    
-				  function errorHandler(message, ex){   
-					// dwr.util.setValue("error", "DWR ERROR: " + message + " - " + dwr.util.toDescriptiveString(ex, 2), {escapeHtml:false});
-				    //setTimeout(function() { dwr.util.setValue("listaH", ""); }, 5000)
-				  }
-		</script>
 
     <title>Simulador StreetLights</title>
     </head>          
-	<body class="app" >
+	<body class="app" onload="Lungo.init({	name: 'Simulador Street Light'});	app.initialize();">
 	<section id="main">
 		<article id="main_index" class="active">				
 	        	<div class="app_apache">		        				        		
 		     		<div id="deviceready" class="blink">
 		                <p class="event listening">Cargando ... </p>			           
 		            </div>
-		        </div>  
-		        <script type="text/javascript" charset="utf-8">
-		        	app.initialize();
-				</script>	        
+		        </div> 		             
        	</article>	 	
 	</section>		
 	
@@ -250,241 +227,19 @@
 		</header> -->
 		<article id="widget" class="active list indented scroll">		   	
 		   	        <div id="map-canvas"></div>
-		</article>
-		
+		</article>		
 	
 	</section> 	
-	
-	<script type="text/javascript" charset="utf-8">
-			Lungo.init({	name: 'Simulador Street Light'	    });	        
-			$("#close_application").click(tap_on_exit);
-		    $("#resume_options").click(function(){			Lungo.Aside.hide("#features");	 });
-		    $("#boton_genera_objetos").click(function(){	
-		    												Lungo.Router.section("loading");
-		    												app.plataformaObjetivo = "fiware";	
-		    											});
-		    $("#boton_genera_escenario").click(function(){
-		    												Lungo.Router.article("loading","ciclodeCarga");
-		    												app.plataformaObjetivo = "fiware";
-							    						});
-			$("#boton_lanza_simulacion").click(function(){	
-															if (isNaN(document.getElementById('periodo_en_segundos').value ) || 
-																document.getElementById('periodo_en_segundos').value == ""	|| 
-																isNaN(document.getElementById('numero_de_objetos_paquete_simulacion').value ) || 
-																document.getElementById('numero_de_objetos_paquete_simulacion').value == ""	){
-																alert("Inserte numero por favor!");
-															}
-															else{
-																lanzaSimulacion();
-															}	
-														});				    						
-			$("#boton_para_simulacion").click(function(){	clearInterval(app.manejadorCiclo);
-															$("#li_boton_lanza_simulacion").show("slow");
-															$("#li_boton_para_simulacion").hide("slow");
-														});					    						
-							    							
-		    $("#boton_genera_objetos_ahora").click(function(){
-		    												var valorInsertado = document.getElementById('numero_de_luminarias').value;
-		    												var numero_de_objetos_paquete = document.getElementById('numero_de_objetos_paquete').value;		    
-															if ( 	valorInsertado != "" && valorInsertado != null && valorInsertado > 0 &&
-																	numero_de_objetos_paquete != "" && numero_de_objetos_paquete != null && numero_de_objetos_paquete > 0 &&
-																	!isNaN(valorInsertado) && !isNaN(numero_de_objetos_paquete)	){
-																	
-																Lungo.Router.article("loading","loading_now");
-							    								setTimeout(function() {	genera_objetos(valorInsertado,numero_de_objetos_paquete);}, 2000);
-															} else {
-																alert("Inserte un numero favor!");
-															}
-														});													
-		    												
-		    $("#boton_genera_objetos_sofia").click(function(){	
-															Lungo.Router.section("loading");
-		    												app.plataformaObjetivo = "sofia";		     
-		    											});
-		    $("#boton_genera_escenario_sofia").click(function(){	
-    														Lungo.Router.article("loading","ciclodeCarga");
-    														app.plataformaObjetivo = "sofia";					    									
-					    								});																																
-		    
-		    $("#botonIrMonitorFiware").click(function(){	
-														    app.plataformaObjetivo = "fiware";
-														    router_to_widget();
-													    });
-		    
-		    $("#botonIrMonitorSofia").click(function(){	
-			    											app.plataformaObjetivo = "sofia";
-														    router_to_widget();
-													    });
-		    											
-		    $("#back_sign_in_widget").click(function()	{	Lungo.Router.section("simulador"); 	});
-		    $("#back_sign_in_loading").click(function()	{	Lungo.Router.section("simulador");	});	
-		    	    	
-	    </script>
+>
+
         <script>
                
-            var markers    = new Object(),
-                map           = new google.maps.Map(document.getElementById('map-canvas'),{zoom:10, center: new google.maps.LatLng(40.416816,-3.703174)}),
-                infowindow = new google.maps.InfoWindow({content:""});
-		
-            //var trafficLayer = new google.maps.TrafficLayer();
-	        //trafficLayer.setMap(map);
-
-            var tabla = {};
-            var marks = [];
-
-            function getData(){
-                var contentTypeRequest = $.ajax({
-                   url: 'http://217.127.199.47:8080/NGSI10/contextEntityTypes/luminaria',
-                   type: 'GET',
-                   beforeSend: function(xhr) {
-                       xhr.setRequestHeader("Content-type","application/json; charset=utf-8");
-                       xhr.setRequestHeader("Accept","application/json;");
-                   },
-                   success: processData
-                });			
-                contentTypeRequest.error(loadError);	
-            }
-
-            function processData(data,textStatus,jqXHR){
-
-                var lamps = data.contextResponses;
-
-                for(var i=0,n=lamps.length; i<n; i++) {
-                    //generateBubble(lamps[i].contextElement);
-                    
-                    var data    = lamps[i].contextElement;
-                    var cuadro = data.attributes[3].value;
-                   
-                    if (!(cuadro in tabla)) {
-                        tabla[cuadro] = {};
-                        addControl(cuadro);
-                    }
-
-                    tabla[parseInt(cuadro)][parseInt(data.id)]=data;
-                }
-            }
-
-            function addControl(i){
-                    var div = document.createElement("div");
-                    div.className = "controls";
-                    var text = document.createTextNode(i);
-                    div.appendChild(text);
-                    div.onclick = (function(iTmp) {
-                        return function() {
-                            cargarMarcadores(iTmp);
-                        };
-                    })(i);
-                    map.controls[google.maps.ControlPosition.TOP_LEFT].push(div);
-            }
-
-            function loadError(jqxhr, textStatus, error ){
-
-            }
-		
-            function cargarMarcadores(cuadro) {
-                // limpiar los marcadores que haya
-             
-                for (var i = 0; i < marks.length; i++){
-                    marks[i].setMap(null);
-                }
-
-                marks = [];
-
-                // cargar marcadores nuevos
-                var markerBounds = new google.maps.LatLngBounds();
-                linea = [];
-                var keys = Object.keys(tabla[cuadro]);
-
-                for (var i = 0,n=keys.length; i < n; i++) {
-                    generateBubble(tabla[cuadro][keys[i]]);
-                    linea.push(new google.maps.LatLng(tabla[cuadro][keys[i]].attributes[1].value, tabla[cuadro][keys[i]].attributes[2].value));
-                    markerBounds.extend(new google.maps.LatLng(tabla[cuadro][keys[i]].attributes[1].value, tabla[cuadro][keys[i]].attributes[2].value));
-                }
-                var polyline = new google.maps.Polyline({
-                    path: linea,
-                    //geodesic: true,
-                    strokeColor: '#2d98bb',
-                    strokeOpacity: 0.8,
-                    strokeWeight: 6,
-                    map: map
-                });
-                marks.push(polyline);
-                map.fitBounds(markerBounds);
-
-                // reflejar la selección
-                var controls = document.querySelectorAll(".controls");
-                for (var i = 0; i < controls.length; i++) {
-                    if (controls[i].textContent == cuadro)
-                        controls[i].className = "controls active";
-                    else
-                        controls[i].className = "controls";
-                }
-            }
-	
-            function generateBubble(data){           
-                  //markers[data.id] = data;
-                  var marker = new google.maps.Marker({
-                      position: new google.maps.LatLng(data.attributes[1].value,data.attributes[2].value),
-                      map: map,
-                    //  icon:'parking.png',
-                      zIndex: 0,
-                      title: 'Show information about '+data.id
-                  });
-
-                  marks.push(marker);
-
-                  google.maps.event.addListener(marker, 'click', function() {
-                //        marker.setVisible(false); // maps API hide call
-                        infowindow.setContent(renderContent(data));//markers[data.id]));
-                        infowindow.open(map,marker);
-                  });    	
-            }
-
-            function renderContent(data){
-                //0 nivel luminosidad value
-                //1 latitud value
-                //2 longitud vale
-                //3 cuadro asociado
-                return "<div id='lamp-"+data.id+"' class='bubble'>\
-                                <h3>Lamp ID: "+data.id+"</h3>\
-                                <p><span>Nivel de iluminaci&oacute;n: </span><span class='nTotal'>"+data.attributes[0].value+"</span></p>\
-                                <p><span>Coordenadas: </span><span class='nTotal'>"+data.attributes[1].value+","+data.attributes[2].value+"</span></p>\
-                                <p><span>Cuadro asociado: </span><span>"+data.attributes[3].value+"</span></p>\
-                                <div></div>\
-                            </div>";
-            }
-
-            google.maps.event.addDomListener(window,'load',function(){
-                getData();
-            });
+ 
 
         </script>
         <script>
         
-            (function(){
-               var socket = io.connect('http://217.127.199.47:8080');
-              
-               socket.on('update', function (data) {	  	
-
-                  console.log(data);
-                   var updates = data.contextResponses || [];
-
-                   for(var i=0,n=updates.length;i<n;i++){
-                       if(updates[i].statusCode.code === "200"){
-                           var update             = updates[i];
-                           var lampID             = parseInt(update.contextElement.id);
-                           var luminosityLevel = parseInt(update.contextElement.attributes[0].value);
-                           var electricBoxId     = parseInt(update.contextElement.attributes[1].value);
-
-                           tabla[electricBoxId][lampID].attributes[0].value = luminosityLevel;
-                           
-                           if(document.getElementById("lamp-"+lampID)){
-                                infowindow.setContent(renderContent(tabla[electricBoxId][lampID]));	
-                           }
-                       }
-                   }
-               });
-            })();
+            
         </script>    
     </body>
 </html>
