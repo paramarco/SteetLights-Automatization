@@ -1,6 +1,6 @@
 var fiwareDataAdapter = (function () {
  
-        var ip = "217.127.199.47:8080";
+       var ip = "217.127.199.47:8080";
        
        function setIP(newIP){
             ip = newIP;
@@ -85,7 +85,6 @@ var fiwareDataAdapter = (function () {
         }
  
         function _updateLuminosityLamp(id,luminosityLevel) {
-
                 var data  = {
                     "contextElements":[
                           {"type":"luminaria","id":id,"attributes":[{"name":"nivelIntensidad","type":"porcentaje","value": luminosityLevel}]}
@@ -104,10 +103,38 @@ var fiwareDataAdapter = (function () {
                    // .then(processResult);  process result !! 
         }
   
+        function deleteEntity(type,id) {
+                var data  = {
+                      "contextElements": [
+                        {
+                          "type": type,
+                          "isPattern": "false",
+                          "id": id
+                        }
+                      ],
+                      "updateAction": "DELETE"
+                };
+
+                return  $.ajax({
+                   url: 'http://'+ip+'/NGSI10/updateContext',
+                   type: 'POST',
+                   data: JSON.stringify(data),
+                   beforeSend: function(xhr) {
+                       xhr.setRequestHeader("Content-type","application/json; charset=utf-8");
+                       xhr.setRequestHeader("Accept","application/json;");
+                   }});
+                   // .then(processResult);  process result !! 
+        }
+        
+        function deleteAllEntities(type) {
+                // Not Implemented in FI-WARE
+        }
+
         return {
             setIP : setIP,
             loadLamps: loadLamps,
             loadSensors: loadSensors,
+            deleteEntity: deleteEntity,
             updateLuminosityLamp: _updateLuminosityLamp
         };
  
