@@ -22,13 +22,19 @@
 			
 	          <ul id="lista_comandos" class="list indented">
 		           <li class="dark">	
-		               <button id="boton_genera_escenario" class="button" data-title="genera Escenario" data-label="Lanza simulaci&oacute;n"></button>
+		               	<button id="boton_genera_escenario" class="button" data-title="genera Escenario" data-label="Lanza simulaci&oacute;n"></button>
 		                			&nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; 
-		               <button id="boton_genera_objetos" class="button" data-title="genera Objetos" data-label="Genera Objetos"> </button>                   
+		               	<button id="boton_genera_objetos" class="button" data-title="genera Objetos" data-label="Genera Objetos"> </button>
+		               				&nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; 
+		              	<button id="boton_genera_calles" class="button" data-title="genera Calles" data-label="Genera Calles y Sensores"> </button>
+		               				&nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; 
+		              	<button id="Eliminar_Todo" class="button" data-title="genera Calles" data-label="Eliminar Todos los Objetos"> </button>
+                   
 	               </li>	
 	               <li id="botonIrMonitorFiware" class="thumb selectable arrow">	
 	                   <strong>Ir a la pantalla Monitorizaci&oacute;n y Control</strong>		                			                   
 	               </li>
+
 		      </ul> 
 		      <div align="center">
 		          <img src="img/Sofia_120x96.png">
@@ -36,9 +42,13 @@
 			
 	          <ul id="lista_comandos_Sofia" class="list indented">
 		          <li class="dark">	
-		              <button id="boton_genera_escenario_sofia" class="button" data-title="genera Escenario" data-label="Lanza simulaci&oacute;n"></button>
-		                  &nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; 
-		              <button id="boton_genera_objetos_sofia" class="button" data-title="genera Objetos" data-label="Genera Objetos"></button>                   
+						 <button id="boton_genera_escenario_sofia" class="button" data-title="genera Escenario" data-label="Lanza simulaci&oacute;n"></button>
+						      &nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; 
+						 <button id="boton_genera_objetos_sofia" class="button" data-title="genera Objetos" data-label="Genera Objetos"></button>
+							&nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; 
+						<button id="boton_genera_calles_sofia" class="button" data-title="genera Calles" data-label="Genera Calles y Sensores"> </button>
+						&nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; 
+						<button id="Eliminar_Todo_sofia" class="button" data-title="genera Calles" data-label="Eliminar Todos los Objetos"> </button>                  
 	               </li>	
 	               <li id="botonIrMonitorSofia" class="thumb selectable arrow">	
 	               <strong>Ir a la pantalla Monitorizaci&oacute;n y Control</strong>		                			                   
@@ -161,7 +171,7 @@
 		<!--Google APIS-->
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-        <script src="http://217.127.199.47:8080/socket.io/socket.io.js"></script>	
+        <script src="http://217.127.199.47:8090/socket.io/socket.io.js"></script>	
         
 		<!--SOFIA APIS-->
         <script type='text/javascript' src='js/engine.js'></script>

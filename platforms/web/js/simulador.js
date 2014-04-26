@@ -373,14 +373,23 @@ else //fiware
 																"name" : "nivelIntensidad",
 																"type" : "porcentaje",
 																"value" : "0"
-																},{
-																"name": "position",
-																"type": "location",
-																"value": "40.418889, -3.691944"
-																},{
+																},
+																{
+														            "metadatas": [
+														                {
+														                    "name": "location", 
+														                    "type": "string", 
+														                    "value": "WSG84"
+														                }
+														            ], 
+														            "name": "position", 
+														            "type": "coords", 
+														            "value": "40.46889,-3.815238"
+														        },															
+																{
 																"name" : "FK_idCuadro",
 																"type" : "int",
-																"value" : "1"
+																"value" : "11"
 																}
 															]
 											} 
@@ -406,14 +415,21 @@ for ( j = numero_de_luminarias ; j > 0; j = j - numero_de_objetos_paquete) {
 																"value" : Math.floor(Math.random() * (max_luminosidad - min_luminosidad + 1)) + min_luminosidad
 																},
 																{
-																"name": "position",
-																"type": "location",
-																"value": "40." + Math.floor(Math.random() * (max_lat - min_lat + 1)) + min_lat + ","+ "-3." +  Math.floor(Math.random() * (max_lon - min_lon + 1)) + min_lon
-																},
+														            "metadatas": [
+														                {
+														                    "name": "location", 
+														                    "type": "string", 
+														                    "value": "WSG84"
+														                }
+														            ], 
+														            "name": "position", 
+														            "type": "coords", 
+														            "value": "40." + Math.floor(Math.random() * (max_lat - min_lat + 1)) + min_lat + ","+ "-3." +  Math.floor(Math.random() * (max_lon - min_lon + 1)) + min_lon
+														        },
 																{
 																"name" : "FK_idCuadro",
 																"type" : "int",
-																"value" : "1"
+																"value" : "11"
 																}
 					                          				]
 					                        }       
@@ -431,8 +447,8 @@ for ( j = numero_de_luminarias ; j > 0; j = j - numero_de_objetos_paquete) {
                     xhr.setRequestHeader("Accept","application/json;");
                 },
                 data:   JSON.stringify(postJSON),
-                async: false, // La petici�n es s�ncrona
-				cache: false // No  usar la cach� 
+                async: false, // sincrona
+				cache: false // No  usar cache 
 		});
 	
     	contentTypeRequest.done(function(result){     		
@@ -451,6 +467,43 @@ for ( j = numero_de_luminarias ; j > 0; j = j - numero_de_objetos_paquete) {
        
 	console.log( "DEBUG :   termina la creacion de objetos. " );
 	alert("termina la creacion de objetos, se han creado ");
-	Lungo.Router.section("simulador"); 
+	Lungo.Router.section("main_loading"); 
 }	
 }
+
+
+function genera_Calles_FI_WARE() {
+	
+	console.log( "DEBUG : empieza a generar las calles y sus sensores"   );
+	
+	var postJSON = 
+	var contentTypeRequest = $.ajax({
+                //url: 'http://130.206.83.60:1026/NGSI10/updateContext',
+                url: 'http://217.127.199.47:8080/NGSI10/updateContext',
+                //url: 'http://84.79.177.13:1026/NGSI10/updateContext',
+                type: 'POST',
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("Content-type","application/json; charset=utf-8");
+                    xhr.setRequestHeader("Accept","application/json;");
+                },
+                data:   JSON.stringify(postJSON),
+                async: false, // sincrona
+				cache: false // No  usar cache 
+		});
+	
+    	contentTypeRequest.done(function(result){     		
+			console.log( "DEBUG :   termina una iteracion de " + numero_de_objetos_paquete + " objetos por paquete en el rango: " + j );			
+		});	
+	    contentTypeRequest.fail(function(jqXHR, textStatus, errorString){     
+				console.log( "DEBUG :   Ajax request failed... (" + textStatus + ' - ' + jqXHR.responseText +  errorString + ")." );
+		});
+		contentTypeRequest.always(function(jqXHR, textStatus){     
+			postJSON["contextElements"].splice(0, postJSON["contextElements"].length);
+			postJSON["contextElements"].length = 0;	
+		});
+		
+	}	
+	
+	console.log( "DEBUG : termina de generar las calles y sus sensores"   );	
+}
+
