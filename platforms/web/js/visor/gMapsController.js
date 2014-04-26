@@ -1,9 +1,6 @@
 var GMapsController = (function () {
      
-        var  map   = new google.maps.Map(document.getElementById('map-canvas'),{
-                                  zoom  : 10, 
-                                  center : new google.maps.LatLng(40.416816,-3.703174)
-                         });
+        var  map   = undefined;
        
         var infowindow  = new google.maps.InfoWindow({content:""}); 
 
@@ -118,8 +115,16 @@ var GMapsController = (function () {
         function removeCircleArea(circle) {
               circle.setMap(null);    
         }
+    
+        function setCanvas(canvasID){
+            map = new google.maps.Map(document.getElementById(canvasID),{
+                         zoom  : 10, 
+                         center : new google.maps.LatLng(40.416816,-3.703174)
+                });
+        }
 
         return {
+            setCanvas : setCanvas,
             addControl : _addControl,
             putMarker : _putMarker,
             removeMarker :  _removeMarker,

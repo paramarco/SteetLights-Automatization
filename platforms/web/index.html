@@ -8,8 +8,8 @@
 	    <link rel="stylesheet" href="css/lungo.css">
 	    <link rel="stylesheet" href="css/lungo.theme.css">
 	    <link rel="stylesheet" href="css/lungo.icon.brand.css">
-	    <link rel="stylesheet" type="text/css" href="css/index.css" />
-	    
+	    <link rel="stylesheet" href="css/index.css">
+        
     </head>          
 	<body class="app" onload="Lungo.init({	name: 'Simulador Street Light'});">
 		
@@ -90,13 +90,12 @@
 		</article>					
 	</section>
 
-
 	<section id="loading_now" >
 		<header>
 			<nav class="right">	        	
-					<a href="" id="back_sign_in_loading"  data-icon="left-sign">						 
-		            	<strong  style="font-size:25px;">  volver</strong>
-					</a>	        	
+				<a href="" id="back_sign_in_loading"  data-icon="left-sign">						 
+		          	<strong  style="font-size:25px;">  volver</strong>
+				</a>	        	
 	        </nav>
 	    </header>
 		<article id="loading_now" class="active list indented">
@@ -112,9 +111,9 @@
 	<section id="ciclodeCarga">
 		<header>
 			<nav class="right">	        	
-					<a href="" id="back_sign_in_loading"  data-icon="left-sign">						 
-		            	<strong  style="font-size:25px;">  volver</strong>
-					</a>	        	
+				<a href="" id="back_sign_in_loading"  data-icon="left-sign">						 
+		          	<strong  style="font-size:25px;">  volver</strong>
+				</a>	        	
 	        </nav>        
 		</header>
 		<article id="ciclodeCarga" class="active list indented">
@@ -146,7 +145,6 @@
 		</article>					
 	</section>
 	
-	<!--TODO -->
 	<section id="display">			
 	-	<header>	
 			<nav>
@@ -156,35 +154,43 @@
 		    </nav>		    
 		</header> 
 		<article id="widget" class="active list indented scroll">		   	
-		   	  <div id="map-canvas"></div>
+		   	  <div id="map-canvas" style="width: 100%; height: 100%"></div>
 		</article>		
 	</section> 	
         
-        <!-- Lungo - Dependencies -->
-		<script type="text/javascript" src="js/quo.js"></script>
-		<script type="text/javascript" src="js/lungo.js"></script>
-	    <!-- JQuery - Dependencies -->
-        <script type="text/javascript" src="js/jquery-1.9.1.js"></script>	
+    <!-- Lungo - Dependencies -->
+	<script src="js/quo.js"></script>
+	<script src="js/lungo.js"></script>
+	
+    <!-- JQuery - Dependencies -->
+    <script src="js/jquery.min.js"></script>
       
-        <script type="text/javascript" src="js/index.js"></script>
+    <script src="js/index.js"></script>
 			
-		<!--Google APIS-->
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-        <script src="http://217.127.199.47:8090/socket.io/socket.io.js"></script>	
+	<!--Google APIS-->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <script src="http://217.127.199.47:8090/socket.io/socket.io.js"></script>	
         
-		<!--SOFIA APIS-->
-        <script type='text/javascript' src='js/engine.js'></script>
-        <script type='text/javascript' src='js/util.js'></script>
-        <script type='text/javascript' src='js/GatewayDWR.js'></script>
-        
-		<script type='text/javascript' src="js/kp-core.js"></script>
-		<script type='text/javascript' src="js/XXTEA.js"></script>
-		<script type='text/javascript' src="js/base64.js"></script>
+	<!--SOFIA APIS-->
+    <script src='js/engine.js'></script>
+    <script src='js/util.js'></script>
+    <script src='js/GatewayDWR.js'></script>
+    
+	<script src="js/kp-core.js"></script>
+	<script src="js/XXTEA.js"></script>
+	<script src="js/base64.js"></script>
 		
-		<!--Street Lights includes-->
-		<script type='text/javascript' src="js/simulador.js"></script>	
-		<script type='text/javascript' src="js/monitor.js"></script>	
+	<!--Street Lights includes-->
+	<script src="js/simulador.js"></script>	
+        
+    <!-- monitor -->
+	<script src="js/visor/fiwareDataAdapter.js"></script>	
+	<script src="js/visor/fiwareNotifier.js"></script>	
+	<script src="js/visor/gMapsController.js"></script>	
+	<script src="js/visor/infoWindowTemplates.js"></script>	
+	<script src="js/visor/visor.js"></script>	
+        
  
     </body>
 </html>

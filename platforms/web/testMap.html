@@ -10,7 +10,7 @@
         .controls {margin-top: 16px;margin-left: 4px;border: 1px solid transparent;border-radius: 2px;box-sizing: border-box;-moz-box-sizing: border-box;height:30px;outline: none;
           cursor: pointer;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);color: #000;background-color: #fff;padding: 5px 11px 0px 11px;width: 40px;font-family: Roboto;font-size: 15px;font-weight: 300;text-align: center;}
-        .active {color: #fff;background-color: #4d90fe;}
+        .control.active {color: #fff;background-color: #4d90fe;}
     </style>
   </head>
   <body>
@@ -18,8 +18,8 @@
         <div id="map-canvas"></div>
         
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 
+        <script src="js/jquery.min.js"></script>
         <script src="js/visor/gMapsController.js"></script>
         <script src="js/visor/infoWindowTemplates.js"></script>
         <script src="js/visor/fiwareDataAdapter.js"></script>
@@ -130,6 +130,8 @@
                           
                       }
                       //load data
+                      GMapsController.setCanvas("map-canvas");  
+                    
                       $.when(dataAdapter.loadLamps(),dataAdapter.loadSensors()).done(function(lampsData, sensorsData) {
 
                             var cabinetsIDs  = Object.keys(lampsData);
