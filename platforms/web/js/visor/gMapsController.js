@@ -55,17 +55,11 @@ var GMapsController = (function () {
 
  
         function _removeMarker(marker) {
-              marker.setMap(null);    
+            marker.setMap(null);    
         }
 
         function _addListenerToMarker(marker,type,callBack){
-                   google.maps.event.addListener(marker, type, callBack);
-
-                   /* (function(tempData,tempCallBack,tempMarker) {
-                            return function() {
-                                    tempCallBack(tempMarker,tempData);
-                            };
-                    })(markerData,markerOnClickCallBack,marker)); */
+            google.maps.event.addListener(marker, type, callBack);
         }
 
         function _fitBoundsToMarkers(markers) {
