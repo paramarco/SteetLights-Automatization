@@ -4,6 +4,8 @@ var visor = (function () {
     var circleArea = undefined;
     var actualControlID = "";
     var currentMarker = { type:undefined, id:undefined, marker:undefined };
+    var _dataAdapter;
+    var _notifier;
 
     function putLampMarkers(makersData){       
             return function(){
@@ -39,7 +41,7 @@ var visor = (function () {
                                     function(){
                                         infoWindowLampTemplate.addListenerToLuminosityRange(_data.id,function(){
                                             var luminosityLevel = this.value;
-                                            dataAdapter.updateLuminosityLamp(_data.id,this.value).done(function() {
+                                            _dataAdapter.updateLuminosityLamp(_data.id,this.value).done(function() {
                                                 _data.luminosityLevel = luminosityLevel;
                                             });
                                         });
@@ -97,10 +99,12 @@ var visor = (function () {
  
     function run (dataAdapter, notifier){
          //load data
+         _dataAdapter = dataAdapter;
+         _notifier = notifier;
            
         GMapsController.setCanvas("map-canvas");   
         
-        $.when(dataAdapter.loadLamps(),dataAdapter.loadSensors()).done(function(lampsData, sensorsData) {
+        $.when(_dataAdapter.loadLamps(),_dataAdapter.loadSensors()).done(function(lampsData, sensorsData) {
 
                 var cabinetsIDs  = Object.keys(lampsData);
                 for (var i=0, n=cabinetsIDs.length; i < n; i++) {
