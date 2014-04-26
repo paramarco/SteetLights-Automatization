@@ -1,21 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
 /* Portrait layout (default) */
 .app_apache {
     background:url(../img/logo.png) no-repeat center top; /* 170px x 200px */
@@ -71,11 +53,8 @@
 }
 
 
-.flota {
-		float:right;
-	}
-.mueve {	
-}
+.flota {float:right;}
+.mueve {}
 
 .link_fade_effect{		
 		position:relative;
@@ -89,4 +68,9 @@
 		bottom: 65%;
 }
 
+html, body, #map-canvas {height: 100%;margin: 0px;padding: 0px}
+.bubble{overflow:hidden;white-space:nowrap;padding:0px 10px;}
+.controls {margin-top: 16px;margin-left: 4px;border: 1px solid transparent;border-radius: 2px;box-sizing: border-box;-moz-box-sizing: border-box;height:30px;outline: none;cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);color: #000;background-color: #fff;padding: 5px 11px 0px 11px;width: 40px;font-family: Roboto;font-size: 15px;font-weight: 300;text-align: center;}
+.controls.active {color: #fff;background-color: #4d90fe;}
         
