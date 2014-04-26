@@ -10,6 +10,20 @@ $( document ).ready(function() {
             app.plataformaObjetivo = "fiware";
         });
         
+        $("#boton_genera_calles").click(function(){
+            Lungo.Router.section("loading_now");
+            app.plataformaObjetivo = "fiware";
+            setTimeout(function() {	genera_Calles(); }, 3000);
+        });
+        
+        $("#Eliminar_Todo").click(function(){
+            Lungo.Router.section("loading_now");
+            app.plataformaObjetivo = "fiware";
+            setTimeout(function() {	Eliminar_Todo(); }, 3000);
+        });
+        
+        
+        
         $("#boton_lanza_simulacion").click(function(){	
             if (isNaN(document.getElementById('periodo_en_segundos').value ) || 
                 document.getElementById('periodo_en_segundos').value == ""	|| 
