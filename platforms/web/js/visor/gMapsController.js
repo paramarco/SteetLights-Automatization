@@ -99,7 +99,7 @@ var GMapsController = (function () {
                   if(domReadyCallBack!==undefined)
                         google.maps.event.addListenerOnce(infowindow,'domready',domReadyCallBack);
         }
-
+    
         function addCircleArea(center,radius){
             var areaOptions = {
                strokeColor: '#3399CC',
@@ -120,14 +120,14 @@ var GMapsController = (function () {
         }
 
         return {
-            addControl: _addControl,
-            putMarker:_putMarker,
-            removeMarker: _removeMarker,
-            addCircleArea:addCircleArea,
-            removeCircleArea:removeCircleArea,
-            addListenerToMarker:_addListenerToMarker,
-            showMarkerInfoWindow:_showMarkerInfoWindow,
-            fitBoundsToMarkers:_fitBoundsToMarkers
+            addControl : _addControl,
+            putMarker : _putMarker,
+            removeMarker :  _removeMarker,
+            addCircleArea : addCircleArea,
+            removeCircleArea : removeCircleArea,
+            addListenerToMarker : _addListenerToMarker,
+            showMarkerInfoWindow : _showMarkerInfoWindow,
+            fitBoundsToMarkers : _fitBoundsToMarkers
         };
  
     })();

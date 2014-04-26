@@ -5,13 +5,12 @@
     <meta charset="utf-8">
     <title>test Map</title>
     <style>
-            html, body, #map-canvas {height: 100%;margin: 0px;padding: 0px}
+        html, body, #map-canvas {height: 100%;margin: 0px;padding: 0px}
         .bubble{overflow:hidden;white-space:nowrap;padding:0px 10px;}
         .controls {margin-top: 16px;margin-left: 4px;border: 1px solid transparent;border-radius: 2px;box-sizing: border-box;-moz-box-sizing: border-box;height:30px;outline: none;
           cursor: pointer;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);color: #000;background-color: #fff;padding: 5px 11px 0px 11px;width: 40px;font-family: Roboto;font-size: 15px;font-weight: 300;text-align: center;}
-     .active {color: #fff;background-color: #4d90fe;}
-        
+        .active {color: #fff;background-color: #4d90fe;}
     </style>
   </head>
   <body>
@@ -25,54 +24,64 @@
         <script src="js/visor/infoWindowTemplates.js"></script>
         <script src="js/visor/fiwareDataAdapter.js"></script>
 
+        <script src="http://217.127.199.47:8090/socket.io/socket.io.js"></script>
+        <script src="js/visor/fiwareNotifier.js"></script>
+    
         <script>
+                "use strict"
 
-                $( document ).ready(function() {           
-
+                $(document).ready(function() {           
 
                       var dataAdapter = fiwareDataAdapter;
+                      var notifier    = fiwareNotifier;
+                    
                       var markers = [];
                       var circleArea = undefined;
                       var actualControlID = "";
+                      var currentMarker = { type:undefined, id:undefined, marker:undefined };
                       
-
                       function putLampMarkers(makersData){       
                             return function(){
 
-                                    for (var i=0, n=markers.length; i < n; i++) {
-                                          GMapsController.removeMarker(markers[i]);
-                                    }
+                                for (var i=0, n=markers.length; i < n; i++) {
+                                    GMapsController.removeMarker(markers[i]);
+                                }
                               
-                                    markers=[];
-                                    if(circleArea!=undefined)
-                                        GMapsController.removeCircleArea(circleArea);
+                                markers=[];
+                                if(circleArea!=undefined)
+                                    GMapsController.removeCircleArea(circleArea);
 
 
-                                    var keys   = Object.keys(makersData);
+                                var keys = Object.keys(makersData);
                                     
-                                    for (var i = 0, n=keys.length; i < n; i++) {
+                                for (var i = 0, n=keys.length; i < n; i++) {
                                         
-                                          var data = makersData[keys[i]];
-                                          var marker = GMapsController.putMarker(data,"img/markerIcons/poweroutage.png");
+                                    var data   = makersData[keys[i]];
+                                    var marker = GMapsController.putMarker(data,"img/markerIcons/poweroutage.png");
                                           
-                                          markers.push(marker);
+                                    markers.push(marker);
 
-                                           GMapsController.addListenerToMarker(marker,'click',(function(_marker,_data){
-                                                  return function(){
-                                                         GMapsController.showMarkerInfoWindow(
-                                                                _marker,
-                                                                infoWindowLampTemplate.fillTemplate(_data),
-                                                                function(){
-                                                                        infoWindowLampTemplate.addListenerToLuminosityRange(_data.id,function(){
-                                                                                var luminosityLevel = this.value;
-                                                                                dataAdapter.updateLuminosityLamp(_data.id,this.value).done(function() {
-                                                                                      _data.luminosityLevel = luminosityLevel;
-                                                                                });
-                                                                        });
-                                                                }
-                                                           );
-                                                  }
-                                            })(marker,data));
+                                    GMapsController.addListenerToMarker(marker,'click',(function(_marker,_data){
+                                          return function(){
+                                              
+                                                currentMarker.type   = "lamp";
+                                                currentMarker.id     = _data.id;
+                                                currentMarker.marker = _marker;
+                                              
+                                                GMapsController.showMarkerInfoWindow(
+                                                    _marker,
+                                                    infoWindowLampTemplate.fillTemplate(_data),
+                                                    function(){
+                                                        infoWindowLampTemplate.addListenerToLuminosityRange(_data.id,function(){
+                                                            var luminosityLevel = this.value;
+                                                            dataAdapter.updateLuminosityLamp(_data.id,this.value).done(function() {
+                                                                _data.luminosityLevel = luminosityLevel;
+                                                            });
+                                                        });
+                                                    }
+                                                );
+                                            }
+                                        })(marker,data));
                                   }
                                   var bounds = GMapsController.fitBoundsToMarkers(markers);
                                   circleArea = GMapsController.addCircleArea(bounds.center,bounds.radius);
@@ -81,44 +90,71 @@
 
                       function putSensorsMarkers(type,makersData){       
 
-                                    var keys   = Object.keys(makersData);
-                                    var icon;
+                            var keys   = Object.keys(makersData);
+                            var icon;
 
-                                    if(type === "temperatura" || type === "humedad")   icon = "img/markerIcons/water.png";
-                                    else if(type === "consumo")  icon = "img/markerIcons/powerlinepole.png";                 
+                            if(type === "temperatura" || type === "humedad")   icon = "img/markerIcons/water.png";
+                            else if(type === "consumo")  icon = "img/markerIcons/powerlinepole.png";                 
 
-                                    for (var i = 0, n=keys.length; i < n; i++) {
+                            for (var i = 0, n=keys.length; i < n; i++) {
                                         
-                                          var data = makersData[keys[i]];
-                                          var marker = GMapsController.putMarker(data,icon);
+                                  var data = makersData[keys[i]];
+                                  var marker = GMapsController.putMarker(data,icon);
          
-                                           GMapsController.addListenerToMarker(marker,'click',(function(_marker,_data){
-                                                  return function(){
-                                                         GMapsController.showMarkerInfoWindow(
-                                                                _marker,
-                                                                infoWindowSensorTemplate.fillTemplate(_data));
-                                                  }
-                                            })(marker,data));
-                                  }
+                                  GMapsController.addListenerToMarker(marker,'click',(function(_marker,_data){
+                                        
+                                        currentMarker.type   = type;
+                                        currentMarker.id     = _data.id;
+                                        currentMarker.marker = _marker;
+                                      
+                                        return function(){
+                                            GMapsController.showMarkerInfoWindow(
+                                                _marker,
+                                                infoWindowSensorTemplate.fillTemplate(_data));
+                                            }
+                                  })(marker,data));
+                            }
                       }
 
-                          //load data
-                        $.when(dataAdapter.loadLamps(),dataAdapter.loadSensors()).done(function(lampsData, sensorsData) {
+                      function updateLampData(lampsData, data){
+                          
+                          var lamp = lampsData[data.electricalCabinetID][data.id];
+                          lamp.luminosityLevel = data.luminosityLevel;
+                          
+                          if(currentMarker.type === "lamp" && currentMarker.id === data.id){
+                                GMapsController.showMarkerInfoWindow(
+                                        currentMarker.marker,
+                                        infoWindowLampTemplate.fillTemplate(lamp)
+                                );
+                          }
+                          
+                      }
+                      //load data
+                      $.when(dataAdapter.loadLamps(),dataAdapter.loadSensors()).done(function(lampsData, sensorsData) {
 
-                                       var cabinetsIDs  = Object.keys(lampsData);
-                                       for (var i=0, n=cabinetsIDs.length; i < n; i++) {
-                                                var lamps = lampsData[cabinetsIDs[i]];
-                                                var controlID  = cabinetsIDs[i];
-                                                GMapsController.addControl(controlID,putLampMarkers(lamps));
-                                      }
+                            var cabinetsIDs  = Object.keys(lampsData);
+                            for (var i=0, n=cabinetsIDs.length; i < n; i++) {
+                                var lamps = lampsData[cabinetsIDs[i]];
+                                var controlID  = cabinetsIDs[i];
+                                GMapsController.addControl(controlID,putLampMarkers(lamps));
+                            }
 
-                                       var sensorsTypes = Object.keys(sensorsData);            
-                                       for (var i=0, n=sensorsTypes.length; i < n; i++) {                                                
-                                                var type = sensorsTypes[i];
-                                                var sensors = sensorsData[type];    
-                                                putSensorsMarkers(type,sensors);
-                                      }
-                          });
+                            var sensorsTypes = Object.keys(sensorsData);            
+                            for (var i=0, n=sensorsTypes.length; i < n; i++) {                                                
+                                var type = sensorsTypes[i];
+                                var sensors = sensorsData[type];    
+                                putSensorsMarkers(type,sensors);
+                            }
+                          
+                            notifier.onUpdate(function(updates){
+                                for(var i=0,n=updates.length;i<n;i++){
+                                    var updatedData = updates[i];
+                                    if(updatedData.type==="lamp"){
+                                        updateLampData(lampsData,updatedData.data);
+                                    }
+                                }
+                            });
+                      });
                 });
         </script>
   </body>
