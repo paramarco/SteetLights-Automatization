@@ -21,14 +21,10 @@ function desconectarSIB() {
       });
 }     
 //
-//suscribirSIB($("#suscripcion").val(),$("#valor").val(),"SensorTemperatura",$("#refresco").val());  
 //
-function suscribirSIB(suscripcion, valor, ontologia, refresco) {	  
-	  suscripcion = suscripcion.replace(/:/,valor).replace(/gt/,"{$gt:"+valor+"}").replace(/lt/,"{$lt:"+valor+"}");      
-      
-      var queryMongo = "{"+ontologia+".medida:"+suscripcion+"}";      
-	  var subcriptionNotExists = subscribe(queryMongo, ontologia, refresco);
-      
+function suscribirSIB(suscription, ontology, queryType, refreshPeriod) {	  
+    
+	  var subcriptionNotExists = subscribeWithQueryType(suscription, ontology, queryType, refreshPeriod) ;    
       if(!subcriptionNotExists){
     	  console.log( "DEBUG : 	idInfo	: Ya existe una suscripcion para esa query " );
       }   
@@ -36,14 +32,11 @@ function suscribirSIB(suscripcion, valor, ontologia, refresco) {
   
   //A implementar porque el API la necesita para notificar que la suscripcion se ha hecho adecuadamente
 function subscriptionWellLaunchedResponse(subscriptionId, subscriptionQuery){
-	  idInfo="";
+
 	  if(subscriptionId!=null){
-		  if(subscriptionQuery.indexOf("luminaria") !== -1){
-			  idInfo="luminaria";
-		  }
 		  console.log( "DEBUG : 	Suscrito con id	" + subscriptionId + " a query: " + subscriptionQuery );
 	  }else {
-		  console.log( "DEBUG : 	Error sucribiendo a ontologia	" );
+		  console.log( "DEBUG : 	Error suscribiendo a ontologia.... XXX	" );
 	  }
  }
   
@@ -71,19 +64,13 @@ function desuscribirSIB(suscripcion, valor, ontologia) {
 
   //A implentear porque el API la necesita para recibir suscripciones, invocadas por el API js de SOFIA
 function indicationForSubscription(ssapMessageJson) {
-    var mensajeSSAP = parsearMensajeSSAP(validarSSAP(ssapMessageJson));
-   
-    var energia = 0;
+    var mensajeSSAP = parsearMensajeSSAP(validarSSAP(ssapMessageJson));   
     
     if (mensajeSSAP != null){
-      try{   
-    	 idSuscripcion = mensajeSSAP.messageId; 
-    	 
-    	 if(subscriptionsOntology[idSuscripcion]=="Watorimetro"){
-    		 energia=mensajeSSAP.body.data[0].Watorimetro.medida;
-    	 }           
-          //Pintar datos  
-          //TODO valor recibido de la suscripcion   
+      try{ 
+      	console.log( "DEBUG : 	indicationForSubscription arrives	" + JSON.stringify(mensajeSSAP) );   
+    	 	
+          //TODO Julio Iglesias .... valor recibido de la suscripcion   
          
       }catch(err){ 
 			console.log( "DEBUG : 	Excepcion	Error Notificacion	" + err ); 
@@ -93,8 +80,6 @@ function indicationForSubscription(ssapMessageJson) {
       
   }
   
-function repuestaSIBaINSERT (){  
-}
 		
 
 var arrancaGeneraObjetos = function (){
@@ -108,7 +93,10 @@ var arrancaGeneraObjetos = function (){
 	var max_luminosidad = 100;
 	var res_luminosidad = 0;
 	
+	app.numero_de_objetos_paquete = 1;
+	
 	console.log( "DEBUG : 	arrancaGeneraObjetos entra	" );
+	
 	for (var j = app.numero_de_luminarias ; j > 0; j = j - app.numero_de_objetos_paquete) {
 	
 		//for (var i = j ; i > j - app.numero_de_objetos_paquete ; i--) {
@@ -123,7 +111,7 @@ var arrancaGeneraObjetos = function (){
 																				-3.0 - (Math.random() * (max_lon - min_lon ) + min_lon)
 																			],
 															},
-												"FK_idCuadro": "1"
+												"FK_idCuadro": "11"
 											}
 							    };										
 		
@@ -147,24 +135,28 @@ var arrancaGeneraObjetos = function (){
 	}	    
 		    
 	console.log( "DEBUG : 	arrancaGeneraObjetos termina	" );
-	
+	alert("termina la creacion de objetos con SOFIA-2 ");
+	Lungo.Router.section("main_loading"); 
 };
 
 //arranca simulacion SOFIA-2
-//TODO descrubir el numero de objetos metidos en el SIB
 var arrancaSimulacion = function (){
+	//se suscribe a eventos de todas los objetos de la ontologia
 	
-	// var queryMongo = "{db.SIB_test_luminaria.count()}";
-	// query( queryMongo, 
-				// "SIB_test_luminaria", 										
-				// function(mensajeSSAP){
-			          // if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){			          	
-						// console.log( "DEBUG : 	query	: correctamente devuelto del SIB un paquete con datos: " + JSON.stringify(mensajeSSAP));
-			         // }else{
-			         	// console.log( "DEBUG : 	query	: Error conectando al SIB, algo fallo ");
-			         	// console.log( "DEBUG : 	query	:  devuelto del SIB un paquete con datos: " + JSON.stringify(mensajeSSAP));
-			        // }
-			    // });	
+	//var querySuscription = "{select * from SIB_test_luminaria where luminaria.id = '1'}"; //  llega indicationForSubscription pero con "data" : null
+	//var querySuscription = "{select luminaria.nivelIntensidad from SIB_test_luminaria where luminaria.id = '1'}"; //  da error al suscribirse
+	//var querySuscription = "{select * from SIB_test_luminaria }"; //  llega indicationForSubscription pero con "data" : null 
+	var querySuscription = "{select nivelIntensidad from SIB_test_luminaria where luminaria.id = '1'}"; //  llega indicationForSubscription pero con "data" : null  
+	
+	suscribirSIB(querySuscription, "SIB_test_luminaria", "SQLLIKE", 10000);
+	
+	var min_luminosidad = 0;
+	var max_luminosidad = 100;
+	var queryUpdate = "{update SIB_test_luminaria set luminaria.nivelIntensidad = 100 where luminaria.id = '1'}";
+	var dataUpdate = "{}";
+	var periodoCiclo = document.getElementById('periodo_en_segundos').value * 1000;	
+								 
+	
 	var last_element_found = 0;		    
 	var queryMongo = '{select count(*) from SIB_test_luminaria}'; 
 	queryWithQueryType( queryMongo, 
@@ -175,38 +167,42 @@ var arrancaSimulacion = function (){
 					          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){	
 					          	last_element_found = mensajeSSAP.body.data;		          	
 								console.log( "DEBUG : 	query	: el numero de objetos metidos es: " + last_element_found );
+								
+								// lanza la simulacion cada X segundos 
+								app.manejadorCiclo = setInterval(function(){
+								
+									for (var i = last_element_found ; i >= 0; i--) {
+									 
+									 	var res_luminosidad = Math.floor(Math.random() * (max_luminosidad - min_luminosidad + 1)) + min_luminosidad; 
+										var queryUpdate2insert  = queryUpdate.replace("'1'","'"+ i +"'");
+										queryUpdate2insert = queryUpdate2insert.replace("= 100","="+ res_luminosidad );
+										 
+										updateWithQueryType(dataUpdate, queryUpdate2insert, "SIB_test_luminaria", "SQLLIKE",							
+												 function(mensajeSSAP){
+											           if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){			          	
+														 console.log( "DEBUG : 	update	: correctamente devuelto del SIB un paquete con datos: " + JSON.stringify(mensajeSSAP));
+											          }else{
+											         	 console.log( "DEBUG : 	update	: Error devuelto del SIB un paquete con datos: " + JSON.stringify(mensajeSSAP));
+											         }
+											     });		
+									}
+								},periodoCiclo);
+								
 					         }else{
 					         	console.log( "DEBUG : 	query	: Error conectando al SIB, algo fallo ");
 					         	console.log( "DEBUG : 	query	: devuelto del SIB un paquete con datos: " + JSON.stringify(mensajeSSAP));
 					        }
-					    });	
+					    });						    
+					    
 
-	 var min_luminosidad = 0;
-	 var max_luminosidad = 100;
-	 var res_luminosidad = Math.floor(Math.random() * (max_luminosidad - min_luminosidad + 1)) + min_luminosidad;
+		
+		
+		
+		
 
-	 var queryUpdate = '{update SIB_test_luminaria set luminaria.nivelIntensidad = 100 where luminaria.id = "1"}';
-	 var dataUpdate = "";
- 	
-	queryWithQueryType( queryUpdate, "SIB_test_luminaria", "SQLLIKE",	null,							
-				 function(mensajeSSAP){
-			           if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){			          	
-						 console.log( "DEBUG : 	update	: correctamente devuelto del SIB un paquete con datos: " + JSON.stringify(mensajeSSAP));
-			          }else{
-			         	 console.log( "DEBUG : 	update	: Error devuelto del SIB un paquete con datos: " + JSON.stringify(mensajeSSAP));
-			         }
-			     });	
-		
-		
-		
-		
-		
-// lanza la simulacion cada X segundos 
-//	var periodoCiclo = document.getElementById('periodo_en_segundos').value * 1000;	
-//	var numero_de_objetos_paquete_simulacion = document.getElementById('numero_de_objetos_paquete_simulacion').value;	
+	var numero_de_objetos_paquete_simulacion = document.getElementById('numero_de_objetos_paquete_simulacion').value;	
 	
-//	$("#li_boton_lanza_simulacion").hide("slow");
-//	$("#li_boton_para_simulacion").show("slow");
+
 	 
 //	app.manejadorCiclo = setInterval(function(){	
 			
@@ -217,6 +213,38 @@ var arrancaSimulacion = function (){
 	
 	console.log( "DEBUG : 	arrancaSimulacion termina	" ); 
 };
+
+// 
+var eliminarObjetos = function (){
+	
+	//removeWithQueryType(query, ontology, queryType, removeResponse)
+	    
+	//var queryMongo = "{DELETE FROM SIB_test_luminaria WHERE luminaria.id NOT LIKE '1'}";  SSAP devuelve: "error":"java.lang.Exception: Expected 
+	//var queryMongo = "{DELETE FROM SIB_test_luminaria WHERE luminaria.id = '1'}"; // SSAP devuelve OK y borra correctamente
+	//var queryMongo = "{DELETE FROM SIB_test_luminaria }"; // SSAP devuelve: "error":"java.lang.Exception: Expected remove({[expression]})"
+	//var queryMongo = "{DELETE * FROM SIB_test_luminaria }"; // SSAP devuelve "error":"Encountered \"*\" at line 1, column 8.\r\nWas expecting one of:\r\n    \"FROM\" ...\r\n    <LINE_COMMENT> ...\r\n    <S_BIND> ...\r\n
+	//var queryMongo = "{DELETE FROM SIB_test_luminaria WHERE luminaria.id LIKE '%1%' }"; // SSAP devuelve OK pero no los borra
+	//var queryMongo = "{DELETE FROM SIB_test_luminaria WHERE luminaria.id LIKE '1' }"; // SSAP devuelve OK pero no los borra
+	var queryMongo = "{DELETE FROM SIB_test_luminaria WHERE luminaria.nivelIntensidad >= 0 }"; // SSAP devuelve OK
+	
+	removeWithQueryType( queryMongo, 
+						"SIB_test_luminaria", 
+						"SQLLIKE",
+						function(mensajeSSAP){
+					          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){	
+					          	last_element_found = mensajeSSAP.body.data;		          	
+								console.log( "DEBUG : 	query	: borrado correcto " );
+								Lungo.Router.section("mainSimulador"); 
+					         }else{
+					         	console.log( "DEBUG : 	query	: Error conectando al SIB, algo fallo ");
+					         	console.log( "DEBUG : 	query	: devuelto del SIB un paquete con datos: " + JSON.stringify(mensajeSSAP));
+					        }
+					    });						    
+					    	
+	
+	console.log( "DEBUG : 	SOFIA-2 eliminarObjetos termina 	" ); 
+};
+
 
 function lanzaSimulacion()
 {
@@ -515,7 +543,7 @@ function genera_Calles() {
 function Eliminar_Todo(){
 	if (app.plataformaObjetivo=="sofia"){		
 		setKpName("KP_test_luminaria");	
-		conectarSIBConToken("3bb7264f5c1743b78dbaa5ba2e33ac35", "KP_test_luminaria:KP_test_luminaria01", arrancaGeneraObjetos );
+		conectarSIBConToken("3bb7264f5c1743b78dbaa5ba2e33ac35", "KP_test_luminaria:KP_test_luminaria01", eliminarObjetos );
 		
 		console.log( "DEBUG :   Eliminar_Todo con sofia." );		
 	}
