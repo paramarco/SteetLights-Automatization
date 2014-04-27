@@ -193,6 +193,7 @@ function update(data, query, ontology, updateResponse) {
 	sendMessage("UPDATE", queryUpdate, false, updateResponse);
 }
 
+
 // UPDATE Operation
 function updateWithQueryType(data, query, ontology, queryType, updateResponse) {
 	var queryUpdate = '{"body":{"data":"'
@@ -203,8 +204,11 @@ function updateWithQueryType(data, query, ontology, queryType, updateResponse) {
 			+queryType+
 			'"},"direction":"REQUEST","messageId":null,"messageType":"UPDATE","ontology":"'
 			+ ontology + '","sessionKey":"' + sessionKey + '"}';
+			
+	console.log( "DEBUG : 	updateWithQueryType	: esta enviando esto  datos: " + queryUpdate);		
+		
 	sendMessage("UPDATE", queryUpdate, false, updateResponse);
-}
+} 
 
 // UPDATE Operation
 function updateCipher(data, query, ontology, updateResponse) {
@@ -249,6 +253,7 @@ function removeWithQueryType(query, ontology, queryType, removeResponse) {
 			+queryType+
 			'"},"direction":"REQUEST","messageId":null,"messageType":"DELETE","ontology":"'
 			+ ontology + '","sessionKey":"' + sessionKey + '"}';
+	console.log( "DEBUG : 	removeWithQueryType	: esta enviando esto  datos: " + queryRemove);		
 	sendMessage("DELETE", queryRemove, false, removeResponse);
 }
 
@@ -299,7 +304,6 @@ function queryWithQueryType(query, ontology, queryType, queryParams, queryRespon
 			+ '","messageType":"QUERY","messageId":null,"sessionKey":"'
 			+ sessionKey + '"}';
 		
-		console.log( "DEBUG : 	queryWithQueryType	: esta enviando esto  datos: " + querySib);
 	}else{
 		var querySib = '{"body":{"query":"' 
 			+ query
@@ -399,7 +403,8 @@ function subscribeWithQueryType(suscription, ontology, queryType, refresh) {
 	if (suscription in subscriptionsMap) {
 		return false;
 	} else {
-		
+			console.log( "DEBUG : 	subscribeWithQueryType	: esta enviando estos  datos: " + querySubscribe);		
+
 		sendMessage("SUBSCRIBE", querySubscribe, false, function(mensajeSSAP){
 			if(mensajeSSAP.body.ok){
 				subscriptionId=mensajeSSAP.body.data;

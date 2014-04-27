@@ -54,7 +54,7 @@ $( document ).ready(function() {
                     Lungo.Router.section("loading_now");
                     setTimeout(function() {	genera_objetos(valorInsertado,numero_de_objetos_paquete);}, 3000);
             } else {
-                    alert("Inserte un número por favor!");
+                    alert("Inserte un numero por favor!");
             }
         });													
 
@@ -66,7 +66,14 @@ $( document ).ready(function() {
         $("#boton_genera_escenario_sofia").click(function(){	
             Lungo.Router.section("ciclodeCarga");
             app.plataformaObjetivo = "sofia";					    									
-        });																																
+        });
+        
+		$("#Eliminar_Todo_sofia").click(function(){
+            Lungo.Router.section("loading_now");
+            app.plataformaObjetivo = "sofia";
+            setTimeout(function() {	Eliminar_Todo(); }, 3000);
+        });
+        																																
 
         $("#botonIrMonitorFiware").click(function(){	
             app.plataformaObjetivo = "fiware";
