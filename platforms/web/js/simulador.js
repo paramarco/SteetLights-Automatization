@@ -69,9 +69,8 @@ function indicationForSubscription(ssapMessageJson) {
     if (mensajeSSAP != null){
       try{ 
       	console.log( "DEBUG : 	indicationForSubscription arrives	" + JSON.stringify(mensajeSSAP) );   
-    	 	
           //TODO Julio Iglesias .... valor recibido de la suscripcion   
-         
+         sofia2DataAdapter.updateLuminosityLamp(mensajeSSAP.body.data.luminaria.id,mensajeSSAP.body.data.luminaria.nivelIntensidad);
       }catch(err){ 
 			console.log( "DEBUG : 	Excepcion	Error Notificacion	" + err ); 
       }
@@ -146,9 +145,22 @@ var arrancaSimulacion = function (){
 	//var querySuscription = "{select * from SIB_test_luminaria where luminaria.id = '1'}"; //  llega indicationForSubscription pero con "data" : null
 	//var querySuscription = "{select luminaria.nivelIntensidad from SIB_test_luminaria where luminaria.id = '1'}"; //  da error al suscribirse
 	//var querySuscription = "{select * from SIB_test_luminaria }"; //  llega indicationForSubscription pero con "data" : null 
-	var querySuscription = "{select nivelIntensidad from SIB_test_luminaria where luminaria.id = '1'}"; //  llega indicationForSubscription pero con "data" : null  
+	//var querySuscription = "{select nivelIntensidad from SIB_test_luminaria where luminaria.id = '1'}"; //  llega indicationForSubscription pero con "data" : null  
+//var querySuscription = "{select luminaria.nivelIntensidad from SIB_test_luminaria where luminaria.id = '1'}"; //  funciona!!!! :-)
+//	var querySuscription = "{select luminaria.nivelIntensidad from SIB_test_luminaria }"; // no  funciona!!!!
+	var querySuscription = "{select * from SIB_test_luminaria where luminaria.id = '1' }"; // 	
 	
 	suscribirSIB(querySuscription, "SIB_test_luminaria", "SQLLIKE", 10000);
+		querySuscription = "{select * from SIB_test_luminaria where luminaria.id = '2' }"; // 
+	
+	suscribirSIB(querySuscription, "SIB_test_luminaria", "SQLLIKE", 10000);
+		querySuscription = "{select * from SIB_test_luminaria where luminaria.id = '3' }"; // 
+
+	suscribirSIB(querySuscription, "SIB_test_luminaria", "SQLLIKE", 10000);
+		querySuscription = "{select * from SIB_test_luminaria where luminaria.id = '4' }"; // 
+
+	suscribirSIB(querySuscription, "SIB_test_luminaria", "SQLLIKE", 10000);
+	//TODO un bucle que meta una suscripcion por luminaria ZZZZZZZZZzzzzzzzzzzzZZZZZZZZZZZzzzzzzzzzz
 	
 	var min_luminosidad = 0;
 	var max_luminosidad = 100;
