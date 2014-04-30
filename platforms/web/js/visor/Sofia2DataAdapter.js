@@ -9,7 +9,7 @@ var sofia2DataAdapter = (function () {
        function processLampsData(data){
              
               var deferred  = $.Deferred();
-              var results    = [];
+              var results   = [];
               var lamps     = data || [];
 
               //process data
@@ -44,7 +44,7 @@ var sofia2DataAdapter = (function () {
           
            var deferred  = $.Deferred(); 
             
-           joinToken(token,"KP_test_luminaria:KP_test_luminaria01",function(mensajeSSAP){
+           joinToken(token, "KP_test_luminaria:KP_test_luminaria01", function(mensajeSSAP){
                 
                 var query = '{select * from SIB_test_luminaria}'; 
             
@@ -73,15 +73,51 @@ var sofia2DataAdapter = (function () {
         }
  
         function _updateLuminosityLamp(id,luminosityLevel) {
-            //TO-DO      
+            
+            var deferred  = $.Deferred(); 
+            joinToken(token, "KP_test_luminaria:KP_test_luminaria01", function(mensajeSSAP){
+             
+               var query = "update SIB_test_luminaria set luminaria.nivelIntensidad="+luminosityLevel+" where luminaria.id = '"+id+"'"; 
+                
+               updateWithQueryType(null, query, "SIB_test_luminaria", "SQLLIKE", function(mensajeSSAP){
+                    deferred.resolve();
+               }); 
+            });
+            
+           return deferred.promise();
         }
   
         function deleteEntity(type,id) {
-            //TO-DO
+            
+            var deferred  = $.Deferred(); 
+            var SIB       = "SIB_test_"+type;
+            
+            joinToken(token, "KP_test_luminaria:KP_test_luminaria01", function(mensajeSSAP){
+             
+               var query = "delete from "+SIB+" where "+type+".id = '"+id+"'"; 
+                
+               removeWithQueryType(null, query, SIB, "SQLLIKE", function(mensajeSSAP){
+                    deferred.resolve();
+               }); 
+            });
+            
+           return deferred.promise();
         }
         
         function deleteAllEntities(type) {
-            // Not Implemented in FI-WARE
+            var deferred  = $.Deferred(); 
+            var SIB       = "SIB_test_"+type;
+            
+            joinToken(token, "KP_test_luminaria:KP_test_luminaria01", function(mensajeSSAP){
+             
+               var query = "delete * from "+SIB; 
+                
+               removeWithQueryType(null, query, SIB, "SQLLIKE", function(mensajeSSAP){
+                    deferred.resolve();
+               }); 
+            });
+            
+           return deferred.promise();
         }
 
         return {
