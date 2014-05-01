@@ -4,36 +4,11 @@ var sibServer = pathToDwrServlet + '/';
 var cipherKey;
 var kpName;
 
-var pathToDwrServlet = 'http://scfront.cloudapp.net/sib/dwr';			
-	var datosTH = [];
-   var grafica = null, map = null;
-   var sibServer = pathToDwrServlet+'/';
-   var sessionKey = null;
-   
-   var temp =0;
-   var humedad=0;
-   var energia = 0;
-   
-   var latitud = 0;
-   var longitud = 0;
- 
-
-   $(function(){
-       dwr.engine.setActiveReverseAjax(true);
-       dwr.engine.setErrorHandler(errorHandler);
-       dwr.engine.setTimeout(0);
-
-    });
-    
-  function errorHandler(message, ex){   
-	//dwr.util.setValue("error", "DWR ERROR: " + message + " - " + dwr.util.toDescriptiveString(ex, 2), {escapeHtml:false});
-	 //setTimeout(function() { dwr.util.setValue("listaH", ""); }, 5000);
-  }
-
-
 
 var subscriptionsMap = {};
 var subscriptionsOntology = {};
+
+
 
 // JOIN Operation
 function join(user, pass, instance, joinResponse) {
@@ -116,7 +91,7 @@ function leaveCipher(leaveResponse) {
 }
 
 function insert(data, ontology, insertResponse) {
-	//data=addQuotesToData(data);
+	data=addQuotesToData(data);
 	data = data.replace(/'/g, '"');
 	var queryInsert = '{"body":{"data":'
 			+ data
@@ -187,12 +162,9 @@ function update(data, query, ontology, updateResponse) {
 			+ query
 			+ '"},"direction":"REQUEST","messageId":null,"messageType":"UPDATE","ontology":"'
 			+ ontology + '","sessionKey":"' + sessionKey + '"}';
-			
-	console.log( "DEBUG : 	update	: esta enviando esto  datos: " + queryUpdate);		
-
+	
 	sendMessage("UPDATE", queryUpdate, false, updateResponse);
 }
-
 
 // UPDATE Operation
 function updateWithQueryType(data, query, ontology, queryType, updateResponse) {
@@ -204,11 +176,8 @@ function updateWithQueryType(data, query, ontology, queryType, updateResponse) {
 			+queryType+
 			'"},"direction":"REQUEST","messageId":null,"messageType":"UPDATE","ontology":"'
 			+ ontology + '","sessionKey":"' + sessionKey + '"}';
-			
-	console.log( "DEBUG : 	updateWithQueryType	: esta enviando esto  datos: " + queryUpdate);		
-		
 	sendMessage("UPDATE", queryUpdate, false, updateResponse);
-} 
+}
 
 // UPDATE Operation
 function updateCipher(data, query, ontology, updateResponse) {
@@ -253,7 +222,6 @@ function removeWithQueryType(query, ontology, queryType, removeResponse) {
 			+queryType+
 			'"},"direction":"REQUEST","messageId":null,"messageType":"DELETE","ontology":"'
 			+ ontology + '","sessionKey":"' + sessionKey + '"}';
-	console.log( "DEBUG : 	removeWithQueryType	: esta enviando esto  datos: " + queryRemove);		
 	sendMessage("DELETE", queryRemove, false, removeResponse);
 }
 
@@ -286,8 +254,6 @@ function query(query, ontology, queryResponse) {
 			+ '"},"direction":"REQUEST","ontology":"' + ontology
 			+ '","messageType":"QUERY","messageId":null,"sessionKey":"'
 			+ sessionKey + '"}';
-			
-	console.log( "DEBUG : 	query	: esta enviando esto  datos: " + querySib);		
 	sendMessage("QUERY", querySib, false, queryResponse);
 }
 
@@ -304,6 +270,7 @@ function queryWithQueryType(query, ontology, queryType, queryParams, queryRespon
 			+ '","messageType":"QUERY","messageId":null,"sessionKey":"'
 			+ sessionKey + '"}';
 		
+	
 	}else{
 		var querySib = '{"body":{"query":"' 
 			+ query
@@ -315,7 +282,6 @@ function queryWithQueryType(query, ontology, queryType, queryParams, queryRespon
 			+ sessionKey + '"}';
 	}
 
-	
 	sendMessage("QUERY", querySib, false, queryResponse);
 	
 }
@@ -403,8 +369,7 @@ function subscribeWithQueryType(suscription, ontology, queryType, refresh) {
 	if (suscription in subscriptionsMap) {
 		return false;
 	} else {
-			console.log( "DEBUG : 	subscribeWithQueryType	: esta enviando estos  datos: " + querySubscribe);		
-
+		
 		sendMessage("SUBSCRIBE", querySubscribe, false, function(mensajeSSAP){
 			if(mensajeSSAP.body.ok){
 				subscriptionId=mensajeSSAP.body.data;

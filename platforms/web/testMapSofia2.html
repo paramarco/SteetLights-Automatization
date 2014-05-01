@@ -14,12 +14,14 @@
     </style>
   </head>
   <body>
-    
         <div id="map-canvas"></div>
-        
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry"></script>
 
+        <script src="js/jquery.min.js"></script>
       	<!--SOFIA APIS-->
+        <script>
+              var pathToDwrServlet = 'http://scfront.cloudapp.net/sib/dwr';
+              var sibServer = pathToDwrServlet+'/';
+        </script>      
         <script src='js/sofia2/engine.js'></script>
         <script src='js/sofia2/util.js'></script>
         <script src='js/sofia2/GatewayDWR.js'></script>
@@ -27,12 +29,19 @@
         <script src="js/sofia2/kp-core.js"></script>
         <script src="js/sofia2/XXTEA.js"></script>
         <script src="js/sofia2/base64.js"></script>
+        <script>
+            dwr.engine.setActiveReverseAjax(true); 
+            dwr.engine.setErrorHandler(function(message, ex){});
+            dwr.engine.setTimeout(0);
+        </script>
       
-        <script src="js/jquery.min.js"></script>
+        <!-- google maps -->
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry"></script>
+      
+        <!-- visor -->
         <script src="js/visor/gMapsController.js"></script>
         <script src="js/visor/infoWindowTemplates.js"></script>
         <script src="js/visor/Sofia2DataAdapter.js"></script>
-
         <script src="js/visor/sofia2Notifier.js"></script>
 
         <script>
@@ -56,7 +65,7 @@
                                 }
                               
                                 markers=[];
-                                if(circleArea!=undefined)
+                                if(typeof circleArea === 'function')
                                     GMapsController.removeCircleArea(circleArea);
 
 
@@ -143,7 +152,7 @@
                       $.when(dataAdapter.loadLamps(),dataAdapter.loadSensors()).done(function(lampsData, sensorsData) {
 
                             var cabinetsIDs  = Object.keys(lampsData);
-                            for (var i=0, n=cabinetsIDs.length; i < n; i++) {
+                            for (var i=0, n = cabinetsIDs.length; i < n; i++) {
                                 var lamps = lampsData[cabinetsIDs[i]];
                                 var controlID  = cabinetsIDs[i];
                                 GMapsController.addControl(controlID,putLampMarkers(lamps));
@@ -156,7 +165,7 @@
                                 putSensorsMarkers(type,sensors);
                             }
                           
-                            notifier.onUpdate(function(updates){
+                            notifier.subscribe(function(updates){
                                 for(var i=0,n=updates.length;i<n;i++){
                                     var updatedData = updates[i];
                                     if(updatedData.type==="lamp"){

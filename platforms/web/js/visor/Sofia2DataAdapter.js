@@ -58,6 +58,7 @@ var sofia2DataAdapter = (function () {
                             deferred.resolve(data);
                         });
                 });
+                leave();
             });
             
            return deferred.promise();
@@ -81,7 +82,8 @@ var sofia2DataAdapter = (function () {
                 
                updateWithQueryType(null, query, "SIB_test_luminaria", "SQLLIKE", function(mensajeSSAP){
                     deferred.resolve();
-               }); 
+               });     
+               leave(); 
             });
             
            return deferred.promise();
@@ -99,6 +101,7 @@ var sofia2DataAdapter = (function () {
                removeWithQueryType(null, query, SIB, "SQLLIKE", function(mensajeSSAP){
                     deferred.resolve();
                }); 
+               leave(); 
             });
             
            return deferred.promise();
@@ -115,6 +118,7 @@ var sofia2DataAdapter = (function () {
                removeWithQueryType(null, query, SIB, "SQLLIKE", function(mensajeSSAP){
                     deferred.resolve();
                }); 
+               leave(); 
             });
             
            return deferred.promise();

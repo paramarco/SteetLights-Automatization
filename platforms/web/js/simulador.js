@@ -60,26 +60,7 @@ function desuscribirSIB(suscripcion, valor, ontologia) {
 				    }
 				);
 }
-
-
-  //A implentear porque el API la necesita para recibir suscripciones, invocadas por el API js de SOFIA
-function indicationForSubscription(ssapMessageJson) {
-    var mensajeSSAP = parsearMensajeSSAP(validarSSAP(ssapMessageJson));   
-    
-    if (mensajeSSAP != null){
-      try{ 
-      	console.log( "DEBUG : 	indicationForSubscription arrives	" + JSON.stringify(mensajeSSAP) );   
-          //TODO Julio Iglesias .... valor recibido de la suscripcion   
-         sofia2DataAdapter.updateLuminosityLamp(mensajeSSAP.body.data.luminaria.id,mensajeSSAP.body.data.luminaria.nivelIntensidad);
-      }catch(err){ 
-			console.log( "DEBUG : 	Excepcion	Error Notificacion	" + err ); 
-      }
-      
-    }
-      
-  }
-  
-		
+	
 
 var arrancaGeneraObjetos = function (){
 	var min_lat = 0.320000;
@@ -108,7 +89,7 @@ var arrancaGeneraObjetos = function (){
 															"type":"Point",
 															"coordinates":	[	40.0 +  Math.random() * (max_lat - min_lat ) + min_lat  , 
 																				-3.0 - (Math.random() * (max_lon - min_lon ) + min_lon)
-																			],
+																			]
 															},
 												"FK_idCuadro": "11"
 											}
@@ -134,33 +115,14 @@ var arrancaGeneraObjetos = function (){
 	}	    
 		    
 	console.log( "DEBUG : 	arrancaGeneraObjetos termina	" );
-	alert("termina la creacion de objetos con SOFIA-2 ");
 	Lungo.Router.section("main_loading"); 
 };
 
 //arranca simulacion SOFIA-2
 var arrancaSimulacion = function (){
-	//se suscribe a eventos de todas los objetos de la ontologia
-	
-	//var querySuscription = "{select * from SIB_test_luminaria where luminaria.id = '1'}"; //  llega indicationForSubscription pero con "data" : null
-	//var querySuscription = "{select luminaria.nivelIntensidad from SIB_test_luminaria where luminaria.id = '1'}"; //  da error al suscribirse
-	//var querySuscription = "{select * from SIB_test_luminaria }"; //  llega indicationForSubscription pero con "data" : null 
-	//var querySuscription = "{select nivelIntensidad from SIB_test_luminaria where luminaria.id = '1'}"; //  llega indicationForSubscription pero con "data" : null  
-//var querySuscription = "{select luminaria.nivelIntensidad from SIB_test_luminaria where luminaria.id = '1'}"; //  funciona!!!! :-)
-//	var querySuscription = "{select luminaria.nivelIntensidad from SIB_test_luminaria }"; // no  funciona!!!!
-	var querySuscription = "{select * from SIB_test_luminaria where luminaria.id = '1' }"; // 	
-	
-	suscribirSIB(querySuscription, "SIB_test_luminaria", "SQLLIKE", 10000);
-		querySuscription = "{select * from SIB_test_luminaria where luminaria.id = '2' }"; // 
-	
-	suscribirSIB(querySuscription, "SIB_test_luminaria", "SQLLIKE", 10000);
-		querySuscription = "{select * from SIB_test_luminaria where luminaria.id = '3' }"; // 
+//var querySuscription = "{select * from SIB_test_luminaria where luminaria.id = '1' }";	
+//suscribirSIB(querySuscription, "SIB_test_luminaria", "SQLLIKE", 10000);
 
-	suscribirSIB(querySuscription, "SIB_test_luminaria", "SQLLIKE", 10000);
-		querySuscription = "{select * from SIB_test_luminaria where luminaria.id = '4' }"; // 
-
-	suscribirSIB(querySuscription, "SIB_test_luminaria", "SQLLIKE", 10000);
-	//TODO un bucle que meta una suscripcion por luminaria ZZZZZZZZZzzzzzzzzzzzZZZZZZZZZZZzzzzzzzzzz
 	
 	var min_luminosidad = 0;
 	var max_luminosidad = 100;
@@ -205,23 +167,6 @@ var arrancaSimulacion = function (){
 					         	console.log( "DEBUG : 	query	: devuelto del SIB un paquete con datos: " + JSON.stringify(mensajeSSAP));
 					        }
 					    });						    
-					    
-
-		
-		
-		
-		
-
-	var numero_de_objetos_paquete_simulacion = document.getElementById('numero_de_objetos_paquete_simulacion').value;	
-	
-
-	 
-//	app.manejadorCiclo = setInterval(function(){	
-			
-		
-//	},periodoCiclo);
-		    
-		
 	
 	console.log( "DEBUG : 	arrancaSimulacion termina	" ); 
 };
@@ -229,15 +174,7 @@ var arrancaSimulacion = function (){
 // 
 var eliminarObjetos = function (){
 	
-	//removeWithQueryType(query, ontology, queryType, removeResponse)
-	    
-	//var queryMongo = "{DELETE FROM SIB_test_luminaria WHERE luminaria.id NOT LIKE '1'}";  SSAP devuelve: "error":"java.lang.Exception: Expected 
-	//var queryMongo = "{DELETE FROM SIB_test_luminaria WHERE luminaria.id = '1'}"; // SSAP devuelve OK y borra correctamente
-	//var queryMongo = "{DELETE FROM SIB_test_luminaria }"; // SSAP devuelve: "error":"java.lang.Exception: Expected remove({[expression]})"
-	//var queryMongo = "{DELETE * FROM SIB_test_luminaria }"; // SSAP devuelve "error":"Encountered \"*\" at line 1, column 8.\r\nWas expecting one of:\r\n    \"FROM\" ...\r\n    <LINE_COMMENT> ...\r\n    <S_BIND> ...\r\n
-	//var queryMongo = "{DELETE FROM SIB_test_luminaria WHERE luminaria.id LIKE '%1%' }"; // SSAP devuelve OK pero no los borra
-	//var queryMongo = "{DELETE FROM SIB_test_luminaria WHERE luminaria.id LIKE '1' }"; // SSAP devuelve OK pero no los borra
-	var queryMongo = "{DELETE FROM SIB_test_luminaria WHERE luminaria.nivelIntensidad >= 0 }"; // SSAP devuelve OK
+	var queryMongo = "{DELETE FROM SIB_test_luminaria WHERE luminaria.id != 'NaN' }"; // SSAP devuelve OK
 	
 	removeWithQueryType( queryMongo, 
 						"SIB_test_luminaria", 
@@ -245,17 +182,60 @@ var eliminarObjetos = function (){
 						function(mensajeSSAP){
 					          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){	
 					          	last_element_found = mensajeSSAP.body.data;		          	
-								console.log( "DEBUG : 	query	: borrado correcto " );
-								Lungo.Router.section("mainSimulador"); 
+								console.log( "DEBUG : 	eliminarObjetos	: borrado correcto " );
 					         }else{
-					         	console.log( "DEBUG : 	query	: Error conectando al SIB, algo fallo ");
-					         	console.log( "DEBUG : 	query	: devuelto del SIB un paquete con datos: " + JSON.stringify(mensajeSSAP));
+					         	console.log( "DEBUG : 	eliminarObjetos	: Error conectando al SIB, algo fallo ");
+					         	console.log( "DEBUG : 	eliminarObjetos	: devuelto del SIB un paquete con datos: " + JSON.stringify(mensajeSSAP));
 					        }
 					    });						    
 					    	
 	
 	console.log( "DEBUG : 	SOFIA-2 eliminarObjetos termina 	" ); 
 };
+
+var eliminarObjetosCuadro = function (){
+	
+	var queryMongo = "{DELETE FROM SIB_test_cuadro WHERE cuadro.id != 'NaN' }"; // SSAP devuelve 
+	
+	removeWithQueryType( queryMongo, 
+						"SIB_test_cuadro", 
+						"SQLLIKE",
+						function(mensajeSSAP){
+					          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){	
+					          	last_element_found = mensajeSSAP.body.data;		          	
+								console.log( "DEBUG : 	eliminarObjetosCuadro	: borrado correcto " );
+					         }else{
+					         	console.log( "DEBUG : 	eliminarObjetosCuadro	: Error conectando al SIB, algo fallo ");
+					         	console.log( "DEBUG : 	eliminarObjetosCuadro	: devuelto del SIB un paquete con datos: " + JSON.stringify(mensajeSSAP));
+					        }
+					    });						    
+					    	
+	
+	console.log( "DEBUG : 	SOFIA-2 eliminarObjetosCuadro termina 	" ); 
+};
+
+var eliminarObjetosSensor = function (){
+	
+	var queryMongo = "{DELETE FROM SIB_test_sensor WHERE sensor.id != 'NaN' }"; // SSAP devuelve OK
+	
+	removeWithQueryType( queryMongo, 
+						"SIB_test_sensor", 
+						"SQLLIKE",
+						function(mensajeSSAP){
+					          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){	
+					          	last_element_found = mensajeSSAP.body.data;		          	
+								console.log( "DEBUG : 	eliminarObjetosSensor	: borrado correcto " );
+								Lungo.Router.section("mainSimulador"); 
+					         }else{
+					         	console.log( "DEBUG : 	eliminarObjetosSensor	: Error conectando al SIB, algo fallo ");
+					         	console.log( "DEBUG : 	eliminarObjetosSensor	: devuelto del SIB un paquete con datos: " + JSON.stringify(mensajeSSAP));
+					        }
+					    });						    
+					    	
+	
+	console.log( "DEBUG : 	SOFIA-2 eliminarObjetosSensor termina 	" ); 
+};
+
 
 
 function lanzaSimulacion()
@@ -506,11 +486,144 @@ function genera_objetos(numero_de_luminarias, numero_de_objetos_paquete) {
 		}	
 	       
 		console.log( "DEBUG :   termina la creacion de objetos. " );
-		alert("termina la creacion de objetos, se han creado ");
 		Lungo.Router.section("main_loading"); 
 		
 	}//END genera objetos FIWARE	
 }//END genera objetos 
+
+var generaCallesLuminarias = function (){
+	
+	var numeroObjetosEnJSON = postJSONgenera_Calles_FI_WARE["contextElements"].length;
+	
+	for (var j = numeroObjetosEnJSON - 1 ; j >= 0;  j = j - 1) {
+	
+		var objetoFIWARE = postJSONgenera_Calles_FI_WARE["contextElements"][j];		
+					
+		if ( objetoFIWARE.type == "luminaria" ){ 
+	      	         
+	      	var queryMongo = {
+						      "luminaria" :{											
+												"id" : objetoFIWARE.id,
+												"nivelIntensidad"	: objetoFIWARE.attributes[0].value ,
+												"posicion": {	
+															"type":"Point",
+															"coordinates":	[	objetoFIWARE.attributes[1].value.split(",")[0]  , 
+																				objetoFIWARE.attributes[1].value.split(",")[1]
+																			],
+															},
+												"FK_idCuadro": objetoFIWARE.attributes[2].value
+											}
+							    };
+							    
+		    var queryMongo2insert = JSON.stringify(queryMongo);		
+			insert(	queryMongo2insert , 
+					"SIB_test_luminaria", 
+					function(mensajeSSAP){						
+					        if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
+								console.log( "DEBUG : 	generaCallesLuminarias	: correctamente enviado al SIB  " );
+					         }else{
+					         	console.log( "DEBUG : 	generaCallesLuminarias	: Error conectando al SIB, algo fallo ");
+					        }
+			        	}	
+		        	);  
+	      
+	    }//END if				
+	}//END for 	    
+		    
+	console.log( "DEBUG : 	generaCallesLuminarias  termina	" );
+
+};
+
+var generaCallesCuadro = function (){
+	
+	var numeroObjetosEnJSON = postJSONgenera_Calles_FI_WARE["contextElements"].length;
+	
+	for (var j = numeroObjetosEnJSON - 1 ; j >= 0;  j = j - 1) {
+	
+		var objetoFIWARE = postJSONgenera_Calles_FI_WARE["contextElements"][j];		
+					
+		if ( objetoFIWARE.type == "cuadro" ){ 
+     
+	      	var queryMongo = {
+						      "cuadro" :{											
+												"id" : objetoFIWARE.id,
+												"posicion": {	
+															"type":"Point",
+															"coordinates":	[	parseFloat(objetoFIWARE.attributes[0].value.split(",")[0])  , 
+																				parseFloat(objetoFIWARE.attributes[0].value.split(",")[1])
+																			]
+															}
+											}
+							    };
+							    
+		    var queryMongo2insert = JSON.stringify(queryMongo);	 		    
+		    	
+			insert(	queryMongo2insert , 
+					"SIB_test_cuadro", 
+					function(mensajeSSAP){						
+					        if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
+								console.log( "DEBUG : 	generaCallesCuadro	: correctamente enviado al SIB  " );
+					         }else{
+					         	console.log( "DEBUG : 	generaCallesCuadro	: Error conectando al SIB, algo fallo " + JSON.stringify(mensajeSSAP.body) );
+					         	
+					        }
+			        	}	
+		        	);  
+	      
+	    }//END if				
+	}//END for 	    
+		    
+	console.log( "DEBUG : 	generaCallesCuadro  termina	" );
+};
+
+
+var generaCallesSensor = function (){
+	
+	var numeroObjetosEnJSON = postJSONgenera_Calles_FI_WARE["contextElements"].length;
+	
+	for (var j = numeroObjetosEnJSON - 1 ; j >= 0;  j = j - 1) {
+	
+		var objetoFIWARE = postJSONgenera_Calles_FI_WARE["contextElements"][j];		
+					
+		if ( objetoFIWARE.type == "sensor" ){ 
+     
+	      	var queryMongo = {
+						      "sensor" :{											
+												"id" : objetoFIWARE.id,
+												"tipo"	: objetoFIWARE.attributes[0].name ,
+												"unidad": objetoFIWARE.attributes[0].type ,
+												"valor": parseInt(objetoFIWARE.attributes[0].value) ,
+												"versionProtocolo" : objetoFIWARE.attributes[1].value,
+												"posicion": {	
+															"type":"Point",
+															"coordinates":	[	parseFloat(objetoFIWARE.attributes[2].value.split(",")[0])  , 
+																				parseFloat(objetoFIWARE.attributes[2].value.split(",")[1])
+																			]
+															}
+											}
+							    };
+							    
+		    var queryMongo2insert = JSON.stringify(queryMongo);	 		    
+		    	
+			insert(	queryMongo2insert , 
+					"SIB_test_sensor", 
+					function(mensajeSSAP){						
+					        if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
+								console.log( "DEBUG : 	generaCallesSensor	: correctamente enviado al SIB  " );
+					         }else{
+					         	console.log( "DEBUG : 	generaCallesSensor	: Error conectando al SIB, algo fallo " + JSON.stringify(mensajeSSAP.body) );
+					         	
+					        }
+			        	}	
+		        	);  
+	      
+	    }//END if				
+	}//END for 	    
+		    
+	console.log( "DEBUG : 	generaCallesSensor  termina	" );
+	Lungo.Router.section("mainSimulador"); 
+};
+
 
 
 function genera_Calles() {
@@ -518,7 +631,13 @@ function genera_Calles() {
 	if (app.plataformaObjetivo=="sofia"){	
 	
 		setKpName("KP_test_luminaria");	
-		conectarSIBConToken("3bb7264f5c1743b78dbaa5ba2e33ac35", "KP_test_luminaria:KP_test_luminaria01", arrancaGeneraObjetos );
+		conectarSIBConToken("3bb7264f5c1743b78dbaa5ba2e33ac35", "KP_test_luminaria:KP_test_luminaria01", generaCallesLuminarias );
+		
+		setKpName("KP_test_cuadro");	
+		conectarSIBConToken("6cb9fa1dcd404093ac38997eb1f3d620", "KP_test_cuadro:KP_test_cuadro01", generaCallesCuadro );
+		
+		setKpName("KP_test_sensor");	
+		conectarSIBConToken("80fb6498a34e48caa6a1f68ca91dda7a", "KP_test_sensor:KP_test_Sensor02", generaCallesSensor );
 		
 		console.log( "DEBUG :   genera_Calles con sofia." );		
 	}
@@ -556,6 +675,12 @@ function Eliminar_Todo(){
 	if (app.plataformaObjetivo=="sofia"){		
 		setKpName("KP_test_luminaria");	
 		conectarSIBConToken("3bb7264f5c1743b78dbaa5ba2e33ac35", "KP_test_luminaria:KP_test_luminaria01", eliminarObjetos );
+		
+		setKpName("KP_test_cuadro");	
+		conectarSIBConToken("6cb9fa1dcd404093ac38997eb1f3d620", "KP_test_cuadro:KP_test_cuadro01", eliminarObjetosCuadro );
+		
+		setKpName("KP_test_sensor");	
+		conectarSIBConToken("80fb6498a34e48caa6a1f68ca91dda7a", "KP_test_sensor:KP_test_Sensor02", eliminarObjetosSensor );	
 		
 		console.log( "DEBUG :   Eliminar_Todo con sofia." );		
 	}
@@ -616,7 +741,7 @@ function Eliminar_Todo(){
 			
 	}	
 }
-
+//TODO
 var postJSONgenera_Calles_FI_WARE =
 {
 "contextElements" : [
