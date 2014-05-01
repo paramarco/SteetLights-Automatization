@@ -29,7 +29,7 @@ $( document ).ready(function() {
                 document.getElementById('periodo_en_segundos').value == ""	|| 
                 isNaN(document.getElementById('numero_de_objetos_paquete_simulacion').value ) || 
                 document.getElementById('numero_de_objetos_paquete_simulacion').value == ""	){
-                alert("Inserte nÃºmero por favor!");
+                alert("Inserte número por favor!");
             }
             else{
                 $("#li_boton_lanza_simulacion").hide("slow");
@@ -68,6 +68,12 @@ $( document ).ready(function() {
             app.plataformaObjetivo = "sofia";					    									
         });
         
+		$("#boton_genera_calles_sofia").click(function(){
+            Lungo.Router.section("loading_now");
+            app.plataformaObjetivo = "sofia";
+            setTimeout(function() {	genera_Calles(); }, 3000);
+        });
+        
 		$("#Eliminar_Todo_sofia").click(function(){
             Lungo.Router.section("loading_now");
             app.plataformaObjetivo = "sofia";
@@ -85,6 +91,7 @@ $( document ).ready(function() {
         $("#botonIrMonitorSofia").click(function(){	
             app.plataformaObjetivo = "sofia";
             router_to_widget();
+            visor.run(sofia2DataAdapter,sofia2Notifier);
         });
 
         $("#back_sign_in_widget").click(function()	{	Lungo.Router.section("simulador"); 	});
@@ -93,12 +100,7 @@ $( document ).ready(function() {
 
 
 function router_to_widget(){  
-    if (app.plataformaObjetivo=="sofia"){
-        alert("No implementado aun...");
-    }
-    else{//fiware	
         Lungo.Router.section("display");
-    }	
 }
 
 // exit    

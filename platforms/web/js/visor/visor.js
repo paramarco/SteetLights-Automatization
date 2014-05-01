@@ -120,7 +120,7 @@ var visor = (function () {
                     putSensorsMarkers(type,sensors);
                 }
 
-                notifier.onUpdate(function(updates){
+                notifier.subscribe(function(updates){
                     for(var i=0,n=updates.length;i<n;i++){
                         var updatedData = updates[i];
                         if(updatedData.type==="lamp"){
