@@ -1,4 +1,10 @@
 $( document ).ready(function() {
+
+		$("#selectServidorFIware").change(function(){	
+            app.plataformaObjetivo = "fiware";
+            asignarServidorObjetivo();
+            alert("servidor cambiado");	
+        });
             
         $("#boton_genera_objetos").click(function(){	
             Lungo.Router.section("main_loading");
@@ -103,27 +109,40 @@ function router_to_widget(){
         Lungo.Router.section("display");
 }
 
-// exit    
-function exitFromApp(buttonIndex) {	
-    if (buttonIndex==2){ 
-        //navigator.app.exitApp();
-    }
+function asignarServidorObjetivo(){
+	if (app.plataformaObjetivo == "sofia")	{
+		console.log( "DEBUG : 	Entra en 	: lanzaSimulacion: con SOFIA "   );
+		var numeroServidor = parseInt($("#selectServidorFIware").val());
+		///switch
+		
+		//setKpName("KP_test_luminaria");	
+		//conectarSIBConToken("3bb7264f5c1743b78dbaa5ba2e33ac35", "KP_test_luminaria:KP_test_luminaria01", arrancaSimulacion );
+
+	}
+	else //fiware
+	{
+	}
 }
 
-// exit  
-function tap_on_exit(){
-    //navigator.notification.confirm("sales de la app?",  exitFromApp, "salir", "NO , SI" );
-}
 
 var app = {
     // app atributtes    
-    plataformaObjetivo: function() {},
-    manejadorCiclo: function() {},
-
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        setTimeout(function() { 					
-            Lungo.Router.section("mainSimulador");			
-        },3000);          
-    }
+    plataformaObjetivo: undefined,
+    manejadorCiclo: undefined,
+    
+    ipFIware : "217.127.199.47:8080",
+    ipFIwareNotifier :  "217.127.199.47:8090",
+    
+    ipFIwareInstalTIC : "217.127.199.47:8080",
+    ipFIwareNotifierInstalTIC :  "217.127.199.47:8090",
+    
+    ipFIwareFIlab : "217.127.199.47:8080",
+    ipFIwareNotifierFIlab:  "217.127.199.47:8090",
+    
+    ipSOFIA : "",
+    
+    ipSOFIAinCloud : "",
+    ipSOFIAInstalTIC : ""
+    
+    
 };

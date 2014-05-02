@@ -276,9 +276,9 @@ function lanzaSimulacion()
 							                    xhr.setRequestHeader("Accept","application/json;");
 							                },
 							                data:   JSON.stringify(postJSON),
-							                async: false, // La petici�n es s�ncrona
-											cache: false // No  usar la cach� 
-			});
+							                async: false,  
+											cache: false 
+											});
 		
 	    	contentTypeRequest.done(function(data,textStatus,jqXHR){
 								    		if ( data.hasOwnProperty('contextResponses'))	{								    			
@@ -424,7 +424,10 @@ function genera_objetos(numero_de_luminarias, numero_de_objetos_paquete) {
 	for ( j = numero_de_luminarias ; j > 0; j = j - numero_de_objetos_paquete) {
 		
 		for (var i = j ; i > j - numero_de_objetos_paquete ; i--) {
-					
+		
+			res_lat = parseInt(Math.floor(Math.random() * (max_lat - min_lat + 1)) + min_lat);
+			res_lon = parseInt(Math.floor(Math.random() * (max_lon - min_lon + 1)) + min_lon);
+
 			postJSON["contextElements"].push({
 						                          "type" : "luminaria",
 						                          "isPattern" : "false",
@@ -445,7 +448,7 @@ function genera_objetos(numero_de_luminarias, numero_de_objetos_paquete) {
 															            ], 
 															            "name": "position", 
 															            "type": "coords", 
-															            "value": "40." + Math.floor(Math.random() * (max_lat - min_lat + 1)) + min_lat + ","+ "-3." +  Math.floor(Math.random() * (max_lon - min_lon + 1)) + min_lon
+															            "value": "40." + res_lat + ","+ "-3." + res_lon 
 															        },
 																	{
 																	"name" : "FK_idCuadro",
@@ -621,7 +624,7 @@ var generaCallesSensor = function (){
 	}//END for 	    
 		    
 	console.log( "DEBUG : 	generaCallesSensor  termina	" );
-	Lungo.Router.section("mainSimulador"); 
+	
 };
 
 
@@ -639,7 +642,10 @@ function genera_Calles() {
 		setKpName("KP_test_sensor");	
 		conectarSIBConToken("80fb6498a34e48caa6a1f68ca91dda7a", "KP_test_sensor:KP_test_Sensor02", generaCallesSensor );
 		
-		console.log( "DEBUG :   genera_Calles con sofia." );		
+		 setTimeout(function() {	Lungo.Router.section("mainSimulador");
+		 							console.log( "DEBUG :   genera_Calles con sofia." );
+		 						}, 7000);
+				
 	}
 	else //fiware
 	{

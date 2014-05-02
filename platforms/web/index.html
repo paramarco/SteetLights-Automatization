@@ -14,14 +14,27 @@
 	<body class="app" onload="Lungo.init({	name: 'Simulador Street Light'});">
 		
 	<section id="mainSimulador" data-transition="slide" >
-		<header>StreetLights</header>
+		<header>
+			<nav class="centered"> 
+				<strong  style="font-size:25px;">  StreetLights</strong>
+	        </nav> 		            			              	
+		</header>
 		<article id="mainSimulador" class="active" >
-              <div align="center">
+			<br>
+              <div align="center">              
 		          <img src="img/Logo-Fiware_120x95.png">
 		      </div>			
-			
+			<br>
 	          <ul id="lista_comandos" class="list indented">
-		           <li class="dark">	
+		           <li class="dark">
+		           		<label>Servidor en : &nbsp;</label>
+				        <label class="select">
+				            <select id="selectServidorFIware">
+				                <option value="1">&nbsp;  &nbsp; FI-ware Cloud &nbsp;  &nbsp;</option>
+				                <option value="2"> &nbsp;  &nbsp; InstalTIC &nbsp;  &nbsp;</option>
+				            </select>
+				        </label>
+				        &nbsp;&nbsp;	
 		               	<button id="boton_genera_escenario" class="button" data-title="genera Escenario" data-label="Lanza simulaci&oacute;n"></button>
 		                			&nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; 
 		               	<button id="boton_genera_objetos" class="button" data-title="genera Objetos" data-label="Genera Objetos"> </button>
@@ -29,19 +42,30 @@
 		              	<button id="boton_genera_calles" class="button" data-title="genera Calles" data-label="Genera Calles y Sensores"> </button>
 		               				&nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; 
 		              	<button id="Eliminar_Todo" class="button" data-title="genera Calles" data-label="Eliminar Todos los Objetos"> </button>
+
                    
 	               </li>	
 	               <li id="botonIrMonitorFiware" class="thumb selectable arrow">	
 	                   <strong>Ir a la pantalla Monitorizaci&oacute;n y Control</strong>		                			                   
 	               </li>
 
-		      </ul> 
-		      <div align="center">
-		          <img src="img/Sofia_120x96.png">
-		      </div>			
+		      </ul>
+		      <br> 
+		      <div align="center">		      		
+		          <img src="img/Sofia_120x96.png">		          
+		      </div>
+		      <br>			
 			
 	          <ul id="lista_comandos_Sofia" class="list indented">
-		          <li class="dark">	
+		          <li class="dark">
+		          		<label>Servidor en : &nbsp;</label>
+				        <label class="select">
+				            <select id="selectServidorSOFIA">
+				                <option value="1">&nbsp;  &nbsp; SOFIA-2 Cloud &nbsp;  &nbsp;</option>
+				                <option value="2"> &nbsp;  &nbsp; InstalTIC &nbsp;  &nbsp;</option>
+				            </select>
+				        </label>
+				        &nbsp;&nbsp;	
 						 <button id="boton_genera_escenario_sofia" class="button" data-title="genera Escenario" data-label="Lanza simulaci&oacute;n"></button>
 						      &nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; 
 						 <button id="boton_genera_objetos_sofia" class="button" data-title="genera Objetos" data-label="Genera Objetos"></button>
