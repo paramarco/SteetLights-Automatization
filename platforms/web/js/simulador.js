@@ -103,7 +103,7 @@ var arrancaGeneraObjetos = function (){
 		console.log( "DEBUG : 	estos es lo que se envia a SOFIA : " + queryMongo2insert  ); 
 		
 		insert(	queryMongo2insert , 
-			"SIB_test_luminaria", 
+			app.luminaria.ontologia, 
 			function(mensajeSSAP){						
 		          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
 					console.log( "DEBUG : 	insert	: correctamente enviado al SIB un paquete con " + app.numero_de_objetos_paquete);
@@ -120,21 +120,18 @@ var arrancaGeneraObjetos = function (){
 
 //arranca simulacion SOFIA-2
 var arrancaSimulacion = function (){
-//var querySuscription = "{select * from SIB_test_luminaria where luminaria.id = '1' }";	
-//suscribirSIB(querySuscription, "SIB_test_luminaria", "SQLLIKE", 10000);
-
 	
 	var min_luminosidad = 0;
 	var max_luminosidad = 100;
-	var queryUpdate = "{update SIB_test_luminaria set luminaria.nivelIntensidad = 100 where luminaria.id = '1'}";
+	var queryUpdate = "{update " + app.luminaria.ontologia + " set luminaria.nivelIntensidad = 100 where luminaria.id = '1'}";
 	var dataUpdate = "{}";
 	var periodoCiclo = document.getElementById('periodo_en_segundos').value * 1000;	
 								 
 	
 	var last_element_found = 0;		    
-	var queryMongo = '{select count(*) from SIB_test_luminaria}'; 
+	var queryMongo = '{select count(*) from ' + app.luminaria.ontologia + ' }'; 
 	queryWithQueryType( queryMongo, 
-						"SIB_test_luminaria", 
+						app.luminaria.ontologia, 
 						"SQLLIKE",
 						null,						
 						function(mensajeSSAP){
@@ -151,7 +148,7 @@ var arrancaSimulacion = function (){
 										var queryUpdate2insert  = queryUpdate.replace("'1'","'"+ i +"'");
 										queryUpdate2insert = queryUpdate2insert.replace("= 100","="+ res_luminosidad );
 										 
-										updateWithQueryType(dataUpdate, queryUpdate2insert, "SIB_test_luminaria", "SQLLIKE",							
+										updateWithQueryType(dataUpdate, queryUpdate2insert, app.luminaria.ontologia, "SQLLIKE",							
 												 function(mensajeSSAP){
 											           if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){			          	
 														 console.log( "DEBUG : 	update	: correctamente devuelto del SIB un paquete con datos: " + JSON.stringify(mensajeSSAP));
@@ -174,10 +171,10 @@ var arrancaSimulacion = function (){
 // 
 var eliminarObjetos = function (){
 	
-	var queryMongo = "{DELETE FROM SIB_test_luminaria WHERE luminaria.id != 'NaN' }"; // SSAP devuelve OK
+	var queryMongo = "{DELETE FROM " + app.luminaria.ontologia + " WHERE luminaria.id != 'NaN' }"; // SSAP devuelve OK
 	
 	removeWithQueryType( queryMongo, 
-						"SIB_test_luminaria", 
+						app.luminaria.ontologia, 
 						"SQLLIKE",
 						function(mensajeSSAP){
 					          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){	
@@ -195,10 +192,10 @@ var eliminarObjetos = function (){
 
 var eliminarObjetosCuadro = function (){
 	
-	var queryMongo = "{DELETE FROM SIB_test_cuadro WHERE cuadro.id != 'NaN' }"; // SSAP devuelve 
+	var queryMongo = "{DELETE FROM " + app.cuadro.ontologia + " WHERE cuadro.id != 'NaN' }"; // SSAP devuelve 
 	
 	removeWithQueryType( queryMongo, 
-						"SIB_test_cuadro", 
+						app.cuadro.ontologia, 
 						"SQLLIKE",
 						function(mensajeSSAP){
 					          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){	
@@ -216,10 +213,10 @@ var eliminarObjetosCuadro = function (){
 
 var eliminarObjetosSensor = function (){
 	
-	var queryMongo = "{DELETE FROM SIB_test_sensor WHERE sensor.id != 'NaN' }"; // SSAP devuelve OK
+	var queryMongo = "{DELETE FROM " + app.sensor.ontologia + " WHERE sensor.id != 'NaN' }"; // SSAP devuelve OK
 	
 	removeWithQueryType( queryMongo, 
-						"SIB_test_sensor", 
+						app.sensor.ontologia, 
 						"SQLLIKE",
 						function(mensajeSSAP){
 					          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){	
@@ -245,8 +242,9 @@ function lanzaSimulacion()
 	if (app.plataformaObjetivo == "sofia")	{
 		console.log( "DEBUG : 	Entra en 	: lanzaSimulacion: con SOFIA "   );
 		
-		setKpName("KP_test_luminaria");	
-		conectarSIBConToken("3bb7264f5c1743b78dbaa5ba2e33ac35", "KP_test_luminaria:KP_test_luminaria01", arrancaSimulacion );
+		setKpName(app.luminaria.KP);	
+		conectarSIBConToken(app.luminaria.token, app.luminaria.instancia, arrancaSimulacion );
+		
 
 	}
 	else //fiware
@@ -268,8 +266,7 @@ function lanzaSimulacion()
 						};	
 		 while (No_context_element_found == false){ 
 	   		var contentTypeRequest = $.ajax({
-							                //url: 'http://130.206.83.60:1026/NGSI10/queryContext',
-							                url: 'http://217.127.199.47:8080/NGSI10/queryContext', 
+							                url: 'http://' + app.ipFIware + '/NGSI10/queryContext', 
 							                type: 'POST',
 							                beforeSend: function(xhr) {
 							                    xhr.setRequestHeader("Content-type","application/json; charset=utf-8");
@@ -330,8 +327,7 @@ function lanzaSimulacion()
 				}
 				console.log( "DEBUG :  compone objeto con j " + j );
 				var contentTypeRequest = $.ajax({
-		                //url: 'http://130.206.83.60:1026/NGSI10/updateContext',
-		                url: 'http://217.127.199.47:8080/NGSI10/updateContext',
+		                url: 'http://' + app.ipFIware + '/NGSI10/updateContext',
 		                type: 'POST',
 		                beforeSend: function(xhr) {
 		                    xhr.setRequestHeader("Content-type","application/json; charset=utf-8");
@@ -362,9 +358,9 @@ function genera_objetos(numero_de_luminarias, numero_de_objetos_paquete) {
 		
 		app.numero_de_luminarias = numero_de_luminarias;
 		app.numero_de_objetos_paquete = numero_de_objetos_paquete ;
-		setKpName("KP_test_luminaria");
-		
-		conectarSIBConToken("3bb7264f5c1743b78dbaa5ba2e33ac35", "KP_test_luminaria:KP_test_luminaria01", arrancaGeneraObjetos );
+
+		setKpName(app.luminaria.KP);	
+		conectarSIBConToken(app.luminaria.token, app.luminaria.instancia, arrancaGeneraObjetos );
 		
 		console.log( "DEBUG :   se lanza la creacion de objetos con sofia." + ", objetos por paquete: "  + numero_de_objetos_paquete + ", luminarias: " + numero_de_luminarias);
 		
@@ -462,9 +458,7 @@ function genera_objetos(numero_de_luminarias, numero_de_objetos_paquete) {
 			
 		
 		var contentTypeRequest = $.ajax({
-	                //url: 'http://130.206.83.60:1026/NGSI10/updateContext',
-	                url: 'http://217.127.199.47:8080/NGSI10/updateContext',
-	                //url: 'http://84.79.177.13:1026/NGSI10/updateContext',
+	                url: 'http://' + app.ipFIware + '/NGSI10/updateContext',
 	                type: 'POST',
 	                beforeSend: function(xhr) {
 	                    xhr.setRequestHeader("Content-type","application/json; charset=utf-8");
@@ -520,7 +514,7 @@ var generaCallesLuminarias = function (){
 							    
 		    var queryMongo2insert = JSON.stringify(queryMongo);		
 			insert(	queryMongo2insert , 
-					"SIB_test_luminaria", 
+					app.luminaria.ontologia, 
 					function(mensajeSSAP){						
 					        if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
 								console.log( "DEBUG : 	generaCallesLuminarias	: correctamente enviado al SIB  " );
@@ -562,7 +556,7 @@ var generaCallesCuadro = function (){
 		    var queryMongo2insert = JSON.stringify(queryMongo);	 		    
 		    	
 			insert(	queryMongo2insert , 
-					"SIB_test_cuadro", 
+					app.cuadro.ontologia, 
 					function(mensajeSSAP){						
 					        if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
 								console.log( "DEBUG : 	generaCallesCuadro	: correctamente enviado al SIB  " );
@@ -609,7 +603,7 @@ var generaCallesSensor = function (){
 		    var queryMongo2insert = JSON.stringify(queryMongo);	 		    
 		    	
 			insert(	queryMongo2insert , 
-					"SIB_test_sensor", 
+					app.sensor.ontologia, 
 					function(mensajeSSAP){						
 					        if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
 								console.log( "DEBUG : 	generaCallesSensor	: correctamente enviado al SIB  " );
@@ -633,14 +627,15 @@ function genera_Calles() {
 	
 	if (app.plataformaObjetivo=="sofia"){	
 	
-		setKpName("KP_test_luminaria");	
-		conectarSIBConToken("3bb7264f5c1743b78dbaa5ba2e33ac35", "KP_test_luminaria:KP_test_luminaria01", generaCallesLuminarias );
+		setKpName(app.luminaria.KP);	
+		conectarSIBConToken(app.luminaria.token, app.luminaria.instancia, generaCallesLuminarias );
 		
-		setKpName("KP_test_cuadro");	
-		conectarSIBConToken("6cb9fa1dcd404093ac38997eb1f3d620", "KP_test_cuadro:KP_test_cuadro01", generaCallesCuadro );
+		setKpName(app.cuadro.KP);	
+		conectarSIBConToken(app.cuadro.token, app.cuadro.instancia, generaCallesCuadro );
 		
-		setKpName("KP_test_sensor");	
-		conectarSIBConToken("80fb6498a34e48caa6a1f68ca91dda7a", "KP_test_sensor:KP_test_Sensor02", generaCallesSensor );
+		setKpName(app.sensor.KP);	
+		conectarSIBConToken(app.sensor.token, app.sensor.instancia, generaCallesSensor );		
+		
 		
 		 setTimeout(function() {	Lungo.Router.section("mainSimulador");
 		 							console.log( "DEBUG :   genera_Calles con sofia." );
@@ -652,9 +647,7 @@ function genera_Calles() {
 		console.log( "DEBUG : empieza a generar las calles y sus sensores"   );
 		
 		var contentTypeRequest = $.ajax({
-	                //url: 'http://130.206.83.60:1026/NGSI10/updateContext',
-	                url: 'http://217.127.199.47:8080/NGSI10/updateContext',
-	                //url: 'http://84.79.177.13:1026/NGSI10/updateContext',
+	                url: 'http://' + app.ipFIware + '/NGSI10/updateContext',
 	                type: 'POST',
 	                beforeSend: function(xhr) {
 	                    xhr.setRequestHeader("Content-type","application/json; charset=utf-8");
@@ -679,14 +672,14 @@ function genera_Calles() {
 
 function Eliminar_Todo(){
 	if (app.plataformaObjetivo=="sofia"){		
-		setKpName("KP_test_luminaria");	
-		conectarSIBConToken("3bb7264f5c1743b78dbaa5ba2e33ac35", "KP_test_luminaria:KP_test_luminaria01", eliminarObjetos );
+		setKpName(app.luminaria.KP);	
+		conectarSIBConToken(app.luminaria.token, app.luminaria.instancia, eliminarObjetos );
 		
-		setKpName("KP_test_cuadro");	
-		conectarSIBConToken("6cb9fa1dcd404093ac38997eb1f3d620", "KP_test_cuadro:KP_test_cuadro01", eliminarObjetosCuadro );
+		setKpName(app.cuadro.KP);	
+		conectarSIBConToken(app.cuadro.token, app.cuadro.instancia, eliminarObjetosCuadro );
 		
-		setKpName("KP_test_sensor");	
-		conectarSIBConToken("80fb6498a34e48caa6a1f68ca91dda7a", "KP_test_sensor:KP_test_Sensor02", eliminarObjetosSensor );	
+		setKpName(app.sensor.KP);	
+		conectarSIBConToken(app.sensor.token, app.sensor.instancia, eliminarObjetosSensor );	
 		
 		console.log( "DEBUG :   Eliminar_Todo con sofia." );		
 	}
@@ -711,8 +704,7 @@ function Eliminar_Todo(){
 		console.log( "DEBUG :   descubriendo el numero de objetos......espere sentado ;-) " );					
 		 while (No_context_element_found == false){ 
 	   		var contentTypeRequest = $.ajax({
-							                //url: 'http://130.206.83.60:1026/NGSI10/queryContext',
-							                url: 'http://217.127.199.47:8080/NGSI10/queryContext', 
+							                url: 'http://' + app.ipFIware + '/NGSI10/queryContext', 
 							                type: 'POST',
 							                beforeSend: function(xhr) {
 							                    xhr.setRequestHeader("Content-type","application/json; charset=utf-8");

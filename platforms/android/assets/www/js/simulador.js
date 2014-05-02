@@ -135,7 +135,7 @@ var arrancaGeneraObjetos = function (){
 		console.log( "DEBUG : 	estos es lo que se envia a SOFIA : " + queryMongo2insert  ); 
 		
 		insert(	queryMongo2insert , 
-			"SIB_test_luminaria", 
+			app.luminaria.ontologia, 
 			function(mensajeSSAP){						
 		          if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){
 					console.log( "DEBUG : 	insert	: correctamente enviado al SIB un paquete con " + app.numero_de_objetos_paquete);
@@ -154,21 +154,11 @@ var arrancaGeneraObjetos = function (){
 //TODO descrubir el numero de objetos metidos en el SIB
 var arrancaSimulacion = function (){
 	
-	// var queryMongo = "{db.SIB_test_luminaria.count()}";
-	// query( queryMongo, 
-				// "SIB_test_luminaria", 										
-				// function(mensajeSSAP){
-			          // if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){			          	
-						// console.log( "DEBUG : 	query	: correctamente devuelto del SIB un paquete con datos: " + JSON.stringify(mensajeSSAP));
-			         // }else{
-			         	// console.log( "DEBUG : 	query	: Error conectando al SIB, algo fallo ");
-			         	// console.log( "DEBUG : 	query	:  devuelto del SIB un paquete con datos: " + JSON.stringify(mensajeSSAP));
-			        // }
-			    // });	
+	
 	var last_element_found = 0;		    
-	var queryMongo = '{select count(*) from SIB_test_luminaria}'; 
+	var queryMongo = '{select count(*) from ' + app.luminaria.ontologia +'}'; 
 	queryWithQueryType( queryMongo, 
-						"SIB_test_luminaria", 
+						app.luminaria.ontologia, 
 						"SQLLIKE",
 						null,						
 						function(mensajeSSAP){
@@ -185,10 +175,10 @@ var arrancaSimulacion = function (){
 	 var max_luminosidad = 100;
 	 var res_luminosidad = Math.floor(Math.random() * (max_luminosidad - min_luminosidad + 1)) + min_luminosidad;
 
-	 var queryUpdate = '{update SIB_test_luminaria set luminaria.nivelIntensidad = 100 where luminaria.id = "1"}';
+	 var queryUpdate = '{update ' + app.luminaria.ontologia + ' set luminaria.nivelIntensidad = 100 where luminaria.id = "1"}';
 	 var dataUpdate = "";
  	
-	queryWithQueryType( queryUpdate, "SIB_test_luminaria", "SQLLIKE",	null,							
+	queryWithQueryType( queryUpdate, app.luminaria.ontologia, "SQLLIKE",	null,							
 				 function(mensajeSSAP){
 			           if(mensajeSSAP != null && mensajeSSAP.body.data != null && mensajeSSAP.body.ok == true){			          	
 						 console.log( "DEBUG : 	update	: correctamente devuelto del SIB un paquete con datos: " + JSON.stringify(mensajeSSAP));
