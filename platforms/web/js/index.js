@@ -192,7 +192,7 @@ function asignarServidorObjetivo(){
 		fiwareDataAdapter.setIP(app.ipFIware);
                       fiwareNotifier.setIP(app.ipFIwareNotifier);
 			
-		console.log( "DEBUG : RECONFIGURACION DE IPS FIWARE :" +  app.ipFIware + " notificador " + ipFIwareNotifier    );
+		console.log( "DEBUG : RECONFIGURACION DE IPS FIWARE :" +  app.ipFIware + " notificador " + app.ipFIwareNotifier    );
 	}	
 }
 
