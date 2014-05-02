@@ -189,8 +189,8 @@ function asignarServidorObjetivo(){
 		  break;
 		default:
 		}
-		fiwareNotifier.setIP(app.ipFIware);
-		fiwareDataAdapter.setIP(app.ipFIwareNotifier);
+		fiwareNotifier.setIP(app.ipFIwareNotifier);
+		fiwareDataAdapter.setIP(app.ipFIware);
 			
 		console.log( "DEBUG : RECONFIGURACION DE IPS FIWARE :" +  app.ipFIware + " notificador " + ipFIwareNotifier    );
 	}	
