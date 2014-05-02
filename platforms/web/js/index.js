@@ -78,7 +78,7 @@ $( document ).ready(function() {
             app.plataformaObjetivo = "sofia";					    									
         });
         
-		$("#boton_genera_calles_sofia").click(function(){
+        $("#boton_genera_calles_sofia").click(function(){
             Lungo.Router.section("loading_now");
             app.plataformaObjetivo = "sofia";
             setTimeout(function() {	genera_Calles(); }, 3000);
@@ -189,8 +189,8 @@ function asignarServidorObjetivo(){
 		  break;
 		default:
 		}
-		fiwareNotifier.setIP(app.ipFIware);
-		fiwareDataAdapter.setIP(app.ipFIwareNotifier);
+		fiwareDataAdapter.setIP(app.ipFIware);
+                      fiwareNotifier.setIP(app.ipFIwareNotifier);
 			
 		console.log( "DEBUG : RECONFIGURACION DE IPS FIWARE :" +  app.ipFIware + " notificador " + ipFIwareNotifier    );
 	}	

@@ -52,6 +52,7 @@ var fiwareNotifier= (function () {
     }
     
     return {
+        setIP : setIP,
         notifyToListeners : notifyToListeners,
         subscribe : subscribe
     };
