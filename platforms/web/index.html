@@ -1,233 +1,205 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8" />
-        <title>Simulador StreetLights</title>
-        
+        <meta charset="utf-8"/>
+        <title>Simulador StreetLights</title>        
         <link rel="stylesheet" href="css/lungo.icon.css">
 	    <link rel="stylesheet" href="css/lungo.css">
 	    <link rel="stylesheet" href="css/lungo.theme.css">
 	    <link rel="stylesheet" href="css/lungo.icon.brand.css">
 	    <link rel="stylesheet" href="css/index.css">
-        
     </head>          
-	<body class="app" onload="Lungo.init({	name: 'Simulador Street Light'});">
+	<body class="app" onload="Lungo.init({name: 'Simulador Street Light'});">
 		
-	<section id="mainSimulador" data-transition="slide" >
-		<header>
-			<nav class="centered"> 
-				<strong  style="font-size:25px;">  StreetLights</strong>
-	        </nav> 		            			              	
-		</header>
-		<article id="mainSimulador" class="active" >
-			<br>
-              <div align="center">              
-		          <img src="img/Logo-Fiware_120x95.png">
-		      </div>			
-			<br>
-	          <ul id="lista_comandos" class="list indented">
-		           <li class="dark">
-		           		<label>Servidor en : &nbsp;</label>
-				        <label class="select">
-				            <select id="selectServidorFIware">
-				                <option value="1">&nbsp;  &nbsp; InstalTIC &nbsp;  &nbsp;</option>
-				                <option value="2"> &nbsp;  &nbsp; FI-ware Cloud &nbsp;  &nbsp;</option>
-				            </select>
-				        </label>
-				        &nbsp;&nbsp;	
-		               	<button id="boton_genera_escenario" class="button" data-title="genera Escenario" data-label="Lanza simulaci&oacute;n"></button>
-		                			&nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; 
-		               	<button id="boton_genera_objetos" class="button" data-title="genera Objetos" data-label="Genera Objetos"> </button>
-		               				&nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; 
-		              	<button id="boton_genera_calles" class="button" data-title="genera Calles" data-label="Genera Calles y Sensores"> </button>
-		               				&nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; 
-		              	<button id="Eliminar_Todo" class="button" data-title="genera Calles" data-label="Eliminar Todos los Objetos"> </button>
+        <section id="mainSimulador" data-transition="slide" >
+            <header>
+                <h1 style='padding-left:10px;'>StreetLights</h1>        			              	
+            </header>
+            <article class="active" >
+                  <div class='logo'>              
+                      <img src="img/Logo-Fiware_120x95.png">
+                  </div>			
+                  <div id="lista_comandos" class='listaComandos'>
+                      <label>Servidor en :</label>
+                      <label class="select">
+                          <select id="selectServidorFIware">
+                              <option value="1">InstalTIC</option>
+                              <option value="2">FI-ware Cloud</option>
+                          </select>
+                      </label>
+                      <div class='clear'></div>
+                      <div>
+                          <button id="boton_genera_escenario" class="button" data-title="Genera escenario" data-label="Lanzar simulación"></button>
+                          <button id="boton_genera_objetos" class="button" data-title="Genera objetos" data-label="Generar objetos"></button>
+                          <button id="boton_genera_calles" class="button" data-title="Genera calles" data-label="Generar calles y sensores"></button>
+                          <button id="Eliminar_Todo" class="button" data-title="Genera Calles" data-label="Eliminar todos los objetos"></button>
+                      </div>
+                      <div class='clear'></div>
+                      <div id="botonIrMonitorFiware" class="monitorButton">Ir a la pantalla Monitorización y Control</div>
+                  </div>
+                  <div class='logo'>		      		
+                      <img src="img/Sofia_120x96.png">		          
+                  </div>
+                  <div id="lista_comandos_Sofia" class='listaComandos'>
+                      <label>Servidor en :</label>
+                      <label class="select">
+                          <select id="selectServidorSOFIA">
+                              <option value="1">SOFIA-2 Cloud</option>
+                              <option value="2">InstalTIC</option>
+                          </select>
+                      </label>
+                      <div class='clear'></div>
+                      <div>
+                          <button id="boton_genera_escenario_sofia" class="button" data-title="Genera escenario" data-label="Lanzar simulación"></button>
+                          <button id="boton_genera_objetos_sofia" class="button" data-title="Genera objetos" data-label="Generar objetos"></button>
+                          <button id="boton_genera_calles_sofia" class="button" data-title="Genera calles" data-label="Generar calles y sensores"></button>
+                          <button id="Eliminar_Todo_sofia" class="button" data-title="Genera Calles" data-label="Eliminar todos los objetos"></button>
+                      </div>
+                      <div class='clear'></div>
+                      <div id="botonIrMonitorSofia" class="monitorButton">Ir a la pantalla Monitorización y Control</div>
+                  </div>   	  		      			 
+            </article>		
+        </section>
 
-                   
-	               </li>	
-	               <li id="botonIrMonitorFiware" class="thumb selectable arrow">	
-	                   <strong>Ir a la pantalla Monitorizaci&oacute;n y Control</strong>		                			                   
-	               </li>
+        <section id="main_loading" >
+            <header>
+                <nav class="right">
+                      <a href="#" data-view-section="mainSimulador" data-router="section" data-icon="left-sign"></a>
+                </nav>      
+                <h1 class="title centered">Generar objectos</h1>    
+            </header>
+            <article id="main_loading" class="active list indented">
+                <ul class="list indented">
+                    <li class="dark">
+                        <strong id="now_file_uploading"> Inserte el n&uacute;mero de luminarias a generar,  <br> y el n&uacute;mero de objetos por paquete a enviar  ...</strong>			        
+                    </li>
+                    <div class="form">
+                        <fieldset>
+                            <label>n&uacute;mero de luminarias</label>
+                            <input id="numero_de_luminarias" type="text" placeholder="inserta aqui el numero"> 				            
+                        </fieldset>
+                        <fieldset>
+                            <label>objetos por paquete</label>
+                            <input id="numero_de_objetos_paquete" type="text" placeholder="inserta aqui el numero"> 				            
+                        </fieldset>
+                    </div>
+                </ul>
+                <ul class="list indented">
+                    <li class="dark centered">
+                        <button id="boton_genera_objetos_ahora" class="button" data-title="generar" data-label="generar"> </button>  	  			        
+                    </li>
+                </ul>						    
+            </article>					
+        </section>
 
-		      </ul>
-		      <br> 
-		      <div align="center">		      		
-		          <img src="img/Sofia_120x96.png">		          
-		      </div>
-		      <br>			
-			
-	          <ul id="lista_comandos_Sofia" class="list indented">
-		          <li class="dark">
-		          		<label>Servidor en : &nbsp;</label>
-				        <label class="select">
-				            <select id="selectServidorSOFIA">
-				                <option value="1">&nbsp;  &nbsp; SOFIA-2 Cloud &nbsp;  &nbsp;</option>
-				                <option value="2"> &nbsp;  &nbsp; InstalTIC &nbsp;  &nbsp;</option>
-				            </select>
-				        </label>
-				        &nbsp;&nbsp;	
-						 <button id="boton_genera_escenario_sofia" class="button" data-title="genera Escenario" data-label="Lanza simulaci&oacute;n"></button>
-						      &nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; 
-						 <button id="boton_genera_objetos_sofia" class="button" data-title="genera Objetos" data-label="Genera Objetos"></button>
-							&nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; 
-						<button id="boton_genera_calles_sofia" class="button" data-title="genera Calles" data-label="Genera Calles y Sensores"> </button>
-						&nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; 
-						<button id="Eliminar_Todo_sofia" class="button" data-title="genera Calles" data-label="Eliminar Todos los Objetos"> </button>                  
-	               </li>	
-	               <li id="botonIrMonitorSofia" class="thumb selectable arrow">	
-	               <strong>Ir a la pantalla Monitorizaci&oacute;n y Control</strong>		                			                   
-	           </li>
-		      </ul>   	  		      			 
-    	</article>		
-	</section>
-	
-	
-	<section id="main_loading" >
-		<header>
-			<nav class="right">	        	
-					<a href="" id="back_sign_in_loading"  data-icon="left-sign">						 
-		            	<strong  style="font-size:25px;">  volver</strong>
-					</a>	        	
-	        </nav>		        
-		</header>
-		<article id="main_loading" class="active list indented">
-			<ul class="list indented">
-			    <li class="dark">
-			        <strong id="now_file_uploading"> Inserte el n&uacute;mero de luminarias a generar,  <br> y el n&uacute;mero de objetos por paquete a enviar  ...</strong>			        
-			    </li>
-			    <div class="form">
-				    <fieldset>
-				        <label>n&uacute;mero de luminarias</label>
-				        <input id="numero_de_luminarias" type="text" placeholder="inserta aqui el numero"> 				            
-				    </fieldset>
-				    <fieldset>
-				        <label>objetos por paquete</label>
-				        <input id="numero_de_objetos_paquete" type="text" placeholder="inserta aqui el numero"> 				            
-				    </fieldset>
-				</div>
-			</ul>
-			<ul class="list indented">
-			    <li class="dark centered">
-			    	<button id="boton_genera_objetos_ahora" class="button" data-title="generar" data-label="generar"> </button>  	  			        
-			    </li>
-		    </ul>						    
-		</article>					
-	</section>
+        <section id="loading_now" >
+            <header>
+                <nav class="right">
+                      <a href="#" data-view-section="mainSimulador" data-router="section" data-icon="left-sign"></a>
+                </nav>      
+                <h1 class="title centered">Generar calles y sensores</h1>    
+            </header>
+            <article id="loading_now" class="active list indented">
+                <ul class="list indented">
+                    <li class="dark">
+                        <strong id="now_file_uploading"> cargando escenario  ...</strong>
+                    </li>
+                </ul>
+                <div data-loading=""> </div>		    
+            </article>					
+        </section>
 
-	<section id="loading_now" >
-		<header>
-			<nav class="right">	        	
-				<a href="" id="back_sign_in_loading"  data-icon="left-sign">						 
-		          	<strong  style="font-size:25px;">  volver</strong>
-				</a>	        	
-	        </nav>
-	    </header>
-		<article id="loading_now" class="active list indented">
-			<ul class="list indented">
-			    <li class="dark">
-			        <strong id="now_file_uploading"> cargando escenario  ...</strong>
-			    </li>
-			</ul>
-			<div data-loading=""> </div>		    
-		</article>					
-	</section>
+        <section id="ciclodeCarga">
+            <header>
+                <nav class="right">
+                      <a href="#" data-view-section="mainSimulador" data-router="section" data-icon="left-sign"></a>
+                </nav>      
+                <h1 class="title centered">Lanzar simulación</h1>    
+            </header>
+            <article id="ciclodeCarga" class="active list indented">
+                <ul class="list indented">
+                    <li class="dark">
+                        <strong> Inserte el periodo de carga para lanzar  <br>la simulaci&oacute;n y los objetos por paquete</strong>			        
+                    </li>
+                    <div class="form">
+                        <fieldset>
+                            <label>periodo en segundos</label>
+                            <input id="periodo_en_segundos" type="text" placeholder="inserta aqui el tiempo"> 				            
+                        </fieldset>
+                        <fieldset>
+                            <label>objetos por paquete</label>
+                            <input id="numero_de_objetos_paquete_simulacion" type="text" placeholder="inserta aqui el numero"> 				            
+                        </fieldset>
+                    </div>
+                </ul>
+                <ul class="list indented">
+                    <li id="li_boton_lanza_simulacion" class="dark centered">
+                        <button id="boton_lanza_simulacion" class="button" data-title="lanzar" data-label="lanzar"> </button>			    	 	  			        
+                    </li>
+                    <li id="li_boton_para_simulacion" style="display:none;" class="dark centered">
+                        <strong> la simulaci&oacute;n  est&aacute; corriendo...</strong>
+                        <div data-loading=""> </div>
+                        <button id="boton_para_simulacion" class="button" data-title="parar" data-label="parar"> </button>			    	 	  			        
+                    </li>
+                </ul>					    
+            </article>					
+        </section>
 
-	<section id="ciclodeCarga">
-		<header>
-			<nav class="right">	        	
-				<a href="" id="back_sign_in_loading"  data-icon="left-sign">						 
-		          	<strong  style="font-size:25px;">  volver</strong>
-				</a>	        	
-	        </nav>        
-		</header>
-		<article id="ciclodeCarga" class="active list indented">
-			<ul class="list indented">
-			    <li class="dark">
-			        <strong> Inserte el periodo de carga para lanzar  <br>la simulaci&oacute;n y los objetos por paquete</strong>			        
-			    </li>
-			    <div class="form">
-				    <fieldset>
-				        <label>periodo en segundos</label>
-				        <input id="periodo_en_segundos" type="text" placeholder="inserta aqui el tiempo"> 				            
-				    </fieldset>
-				    <fieldset>
-				        <label>objetos por paquete</label>
-				        <input id="numero_de_objetos_paquete_simulacion" type="text" placeholder="inserta aqui el numero"> 				            
-				    </fieldset>
-				</div>
-			</ul>
-			<ul class="list indented">
-			    <li id="li_boton_lanza_simulacion" class="dark centered">
-			    	<button id="boton_lanza_simulacion" class="button" data-title="lanzar" data-label="lanzar"> </button>			    	 	  			        
-			    </li>
-			    <li id="li_boton_para_simulacion" style="display:none;" class="dark centered">
-			    	<strong> la simulaci&oacute;n  est&aacute; corriendo...</strong>
-			    	<div data-loading=""> </div>
-			    	<button id="boton_para_simulacion" class="button" data-title="parar" data-label="parar"> </button>			    	 	  			        
-			    </li>
-		    </ul>					    
-		</article>					
-	</section>
-	
-	<section id="display">			
-		<header>	
-			<nav>
-				<a href="" id="back_sign_in_widget"   data-icon="left-sign">					 
-		        	<strong style="font-size:25px;">Street Lights</strong>
-				</a>	            
-		    </nav>		    
-		</header> 
-		<article id="widget" class="active list indented scroll">		   	
-		   	  <div id="map-canvas" style="width: 100%; height: 100%"></div>
-		</article>		
-	</section> 	
+        <section id="display">			
+            <header>	
+                <nav class="right">
+                      <a href="#" data-view-section="mainSimulador" data-router="section" data-icon="left-sign"></a>
+                </nav>      
+                <h1 class="title centered">Monitorización y control</h1>    	    
+            </header> 
+            <article id="widget" class="active list indented scroll">		   	
+                  <div id="map-canvas" style="width: 100%; height: 100%"></div>
+            </article>		
+        </section> 	
         
-    <!-- Lungo - Dependencies -->
-	<script src="js/quo.js"></script>
-	<script src="js/lungo.js"></script>
-	
-    <!-- JQuery - Dependencies -->
-    <script src="js/jquery.min.js"></script>
-      
-    <script src="js/index.js"></script>
-			
-	<!--Google APIS-->
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry"></script>
-        
-  	<!--SOFIA APIS-->
-    <script>
-          var pathToDwrServlet = 'http://scfront.cloudapp.net/sib/dwr';
-          var sibServer = pathToDwrServlet+'/';
-    </script>      
-    <script src='js/sofia2/engine.js'></script>
-    <script src='js/sofia2/util.js'></script>
-    <script src='js/sofia2/GatewayDWR.js'></script>
+        <!-- Lungo - Dependencies -->
+        <script src="js/quo.js"></script>
+        <script src="js/lungo.js"></script>
 
-    <script src="js/sofia2/kp-core.js"></script>
-    <script src="js/sofia2/XXTEA.js"></script>
-    <script src="js/sofia2/base64.js"></script>
-    <script>
-       // dwr.engine.setActiveReverseAjax(true); 
-        dwr.engine.setErrorHandler(function(message, ex){});
-        dwr.engine.setTimeout(0);
-    </script>
-		
-	<!--Street Lights includes-->
-	<script src="js/simulador.js"></script>	
-        
-    <!-- monitor -->
-    <script src="http://217.127.199.47:8090/socket.io/socket.io.js"></script>	
-	<script src="js/visor/fiwareDataAdapter.js"></script>	
-	<script src="js/visor/fiwareNotifier.js"></script>	
-    <script src="js/visor/Sofia2DataAdapter.js"></script>
-    <script src="js/visor/sofia2Notifier.js"></script>
-	<script src="js/visor/gMapsController.js"></script>	
-	<script src="js/visor/infoWindowTemplates.js"></script>	        
-	<script src="js/visor/visor.js"></script>	
+        <!-- JQuery - Dependencies -->
+        <script src="js/jquery.min.js"></script>
+
+        <script src="js/index.js"></script>
+
+        <!--Google APIS-->
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry"></script>
+
+        <!--SOFIA APIS-->
+        <script>
+              var pathToDwrServlet = 'http://scfront.cloudapp.net/sib/dwr';
+              var sibServer = pathToDwrServlet+'/';
+        </script>      
+        <script src='js/sofia2/engine.js'></script>
+        <script src='js/sofia2/util.js'></script>
+        <script src='js/sofia2/GatewayDWR.js'></script>
+
+        <script src="js/sofia2/kp-core.js"></script>
+        <script src="js/sofia2/XXTEA.js"></script>
+        <script src="js/sofia2/base64.js"></script>
+        <script>
+           // dwr.engine.setActiveReverseAjax(true); 
+            dwr.engine.setErrorHandler(function(message, ex){});
+            dwr.engine.setTimeout(0);
+        </script>
+
+        <!--Street Lights includes-->
+        <script src="js/lamps-Sensors-ElectricalCabinet.js"></script> 
+        <script src="js/simulador.js"></script>	
+
+        <!-- monitor -->
+        <script src="js/socket.io.js"></script>	
+        <script src="js/visor/fiwareDataAdapter.js"></script>	
+        <script src="js/visor/fiwareNotifier.js"></script>	
+        <script src="js/visor/Sofia2DataAdapter.js"></script>
+        <script src="js/visor/sofia2Notifier.js"></script>
+        <script src="js/visor/gMapsController.js"></script>	
+        <script src="js/visor/infoWindowTemplates.js"></script>	        
+        <script src="js/visor/visor.js"></script>	
         
     </body>
 </html>
-
-
-
-	

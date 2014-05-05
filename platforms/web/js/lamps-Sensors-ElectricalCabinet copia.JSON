@@ -40,7 +40,7 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.437009,-3.721892"
+            "value": "40.437109,-3.721892"
         }
     ], 
     "id": "0", 
@@ -96,7 +96,7 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.437009,-3.721892"
+            "value": "40.437209,-3.721892"
         }
     ], 
     "id": "1", 
@@ -124,10 +124,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.437009,-3.721892"
+            "value": "40.437309,-3.721892"
         }
     ], 
     "id": "2", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.437409,-3.721892"
+        }
+    ], 
+    "id": "3", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -292,10 +320,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.438085,-3.72381"
+            "value": "40.438185,-3.72381"
         }
     ], 
-    "id": "3", 
+    "id": "4", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -320,10 +348,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.438085,-3.72381"
+            "value": "40.438285,-3.72381"
         }
     ], 
-    "id": "4", 
+    "id": "5", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.438385,-3.72381"
+        }
+    ], 
+    "id": "6", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -488,10 +544,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.439318,-3.725602"
+            "value": "40.439418,-3.725602"
         }
     ], 
-    "id": "5", 
+    "id": "7", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -516,10 +572,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.439318,-3.725602"
+            "value": "40.439518,-3.725602"
         }
     ], 
-    "id": "6", 
+    "id": "8", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.439618,-3.725602"
+        }
+    ], 
+    "id": "9", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -684,10 +768,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.440739,-3.727877"
+            "value": "40.440839,-3.727877"
         }
     ], 
-    "id": "7", 
+    "id": "10", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -712,10 +796,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.440739,-3.727877"
+            "value": "40.440939,-3.727877"
         }
     ], 
-    "id": "8", 
+    "id": "11", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.441039,-3.727877"
+        }
+    ], 
+    "id": "12", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -870,10 +982,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.441966,-3.729977"
+            "value": "40.442066,-3.729977"
         }
     ], 
-    "id": "9", 
+    "id": "13", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -926,10 +1038,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.441966,-3.729977"
+            "value": "40.442166,-3.729977"
         }
     ], 
-    "id": "10", 
+    "id": "14", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -954,10 +1066,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.441966,-3.729977"
+            "value": "40.442266,-3.729977"
         }
     ], 
-    "id": "11", 
+    "id": "15", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.442366,-3.729977"
+        }
+    ], 
+    "id": "16", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -1122,10 +1262,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.443618,-3.731489"
+            "value": "40.443718,-3.731489"
         }
     ], 
-    "id": "12", 
+    "id": "17", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -1150,10 +1290,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.443618,-3.731489"
+            "value": "40.443818,-3.731489"
         }
     ], 
-    "id": "13", 
+    "id": "18", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.443918,-3.731489"
+        }
+    ], 
+    "id": "19", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -1318,10 +1486,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.445501,-3.733098"
+            "value": "40.445601,-3.733098"
         }
     ], 
-    "id": "14", 
+    "id": "20", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -1346,10 +1514,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.445501,-3.733098"
+            "value": "40.445701,-3.733098"
         }
     ], 
-    "id": "15", 
+    "id": "21", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.445801,-3.733098"
+        }
+    ], 
+    "id": "22", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -1514,10 +1710,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.447062,-3.734459"
+            "value": "40.447162,-3.734459"
         }
     ], 
-    "id": "16", 
+    "id": "23", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -1542,10 +1738,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.447062,-3.734459"
+            "value": "40.447262,-3.734459"
         }
     ], 
-    "id": "17", 
+    "id": "24", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.447362,-3.734459"
+        }
+    ], 
+    "id": "25", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -1700,10 +1924,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.448663,-3.735944"
+            "value": "40.448763,-3.735944"
         }
     ], 
-    "id": "18", 
+    "id": "26", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -1756,10 +1980,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.448663,-3.735944"
+            "value": "40.448863,-3.735944"
         }
     ], 
-    "id": "19", 
+    "id": "27", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -1784,10 +2008,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.448663,-3.735944"
+            "value": "40.448963,-3.735944"
         }
     ], 
-    "id": "20", 
+    "id": "28", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.449063,-3.735944"
+        }
+    ], 
+    "id": "29", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -1952,10 +2204,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.449888,-3.737867"
+            "value": "40.449988,-3.737867"
         }
     ], 
-    "id": "21", 
+    "id": "30", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -1980,10 +2232,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.449888,-3.737867"
+            "value": "40.450088,-3.737867"
         }
     ], 
-    "id": "22", 
+    "id": "31", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.450188,-3.737867"
+        }
+    ], 
+    "id": "32", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -2148,10 +2428,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.451223,-3.740173"
+            "value": "40.451323,-3.740173"
         }
     ], 
-    "id": "23", 
+    "id": "33", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -2176,10 +2456,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.451223,-3.740173"
+            "value": "40.451423,-3.740173"
         }
     ], 
-    "id": "24", 
+    "id": "34", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.451523,-3.740173"
+        }
+    ], 
+    "id": "35", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -2344,10 +2652,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.453093,-3.742763"
+            "value": "40.453193,-3.742763"
         }
     ], 
-    "id": "25", 
+    "id": "36", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -2372,10 +2680,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.453093,-3.742763"
+            "value": "40.453293,-3.742763"
         }
     ], 
-    "id": "26", 
+    "id": "37", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.453393,-3.742763"
+        }
+    ], 
+    "id": "38", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -2530,10 +2866,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.455359,-3.744524"
+            "value": "40.455459,-3.744524"
         }
     ], 
-    "id": "27", 
+    "id": "39", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -2586,10 +2922,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.455359,-3.744524"
+            "value": "40.455559,-3.744524"
         }
     ], 
-    "id": "28", 
+    "id": "40", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -2614,10 +2950,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.455359,-3.744524"
+            "value": "40.455659,-3.744524"
         }
     ], 
-    "id": "29", 
+    "id": "41", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.455759,-3.744524"
+        }
+    ], 
+    "id": "42", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -2782,10 +3146,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.45756,-3.746472"
+            "value": "40.45766,-3.746472"
         }
     ], 
-    "id": "30", 
+    "id": "43", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -2810,10 +3174,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.45756,-3.746472"
+            "value": "40.45776,-3.746472"
         }
     ], 
-    "id": "31", 
+    "id": "44", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.45786,-3.746472"
+        }
+    ], 
+    "id": "45", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -2978,10 +3370,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.459073,-3.748495"
+            "value": "40.459173,-3.748495"
         }
     ], 
-    "id": "32", 
+    "id": "46", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -3006,10 +3398,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.459073,-3.748495"
+            "value": "40.459273,-3.748495"
         }
     ], 
-    "id": "33", 
+    "id": "47", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.459373,-3.748495"
+        }
+    ], 
+    "id": "48", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -3174,10 +3594,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.459951,-3.751023"
+            "value": "40.460051,-3.751023"
         }
     ], 
-    "id": "34", 
+    "id": "49", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -3202,10 +3622,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.459951,-3.751023"
+            "value": "40.460151,-3.751023"
         }
     ], 
-    "id": "35", 
+    "id": "50", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.460251,-3.751023"
+        }
+    ], 
+    "id": "51", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -3360,10 +3808,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.46037,-3.754218"
+            "value": "40.46047,-3.754218"
         }
     ], 
-    "id": "36", 
+    "id": "52", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -3416,10 +3864,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.46037,-3.754218"
+            "value": "40.46057,-3.754218"
         }
     ], 
-    "id": "37", 
+    "id": "53", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -3444,10 +3892,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.46037,-3.754218"
+            "value": "40.46067,-3.754218"
         }
     ], 
-    "id": "38", 
+    "id": "54", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.46077,-3.754218"
+        }
+    ], 
+    "id": "55", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -3612,10 +4088,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.460664,-3.757469"
+            "value": "40.460764,-3.757469"
         }
     ], 
-    "id": "39", 
+    "id": "56", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -3640,10 +4116,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.460664,-3.757469"
+            "value": "40.460864,-3.757469"
         }
     ], 
-    "id": "40", 
+    "id": "57", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.460964,-3.757469"
+        }
+    ], 
+    "id": "58", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -3808,10 +4312,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.461128,-3.760626"
+            "value": "40.461228,-3.760626"
         }
     ], 
-    "id": "41", 
+    "id": "59", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -3836,10 +4340,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.461128,-3.760626"
+            "value": "40.461328,-3.760626"
         }
     ], 
-    "id": "42", 
+    "id": "60", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.461428,-3.760626"
+        }
+    ], 
+    "id": "61", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -4004,10 +4536,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.461523,-3.763823"
+            "value": "40.461623,-3.763823"
         }
     ], 
-    "id": "43", 
+    "id": "62", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -4032,10 +4564,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.461523,-3.763823"
+            "value": "40.461723,-3.763823"
         }
     ], 
-    "id": "44", 
+    "id": "63", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.461823,-3.763823"
+        }
+    ], 
+    "id": "64", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -4190,10 +4750,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.461962,-3.767669"
+            "value": "40.462062,-3.767669"
         }
     ], 
-    "id": "45", 
+    "id": "65", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -4246,10 +4806,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.461962,-3.767669"
+            "value": "40.462162,-3.767669"
         }
     ], 
-    "id": "46", 
+    "id": "66", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -4274,10 +4834,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.461962,-3.767669"
+            "value": "40.462262,-3.767669"
         }
     ], 
-    "id": "47", 
+    "id": "67", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.462362,-3.767669"
+        }
+    ], 
+    "id": "68", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -4442,10 +5030,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.462321,-3.770899"
+            "value": "40.462421,-3.770899"
         }
     ], 
-    "id": "48", 
+    "id": "69", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -4470,10 +5058,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.462321,-3.770899"
+            "value": "40.462521,-3.770899"
         }
     ], 
-    "id": "49", 
+    "id": "70", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.462621,-3.770899"
+        }
+    ], 
+    "id": "71", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -4638,10 +5254,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.462678,-3.774082"
+            "value": "40.462778,-3.774082"
         }
     ], 
-    "id": "50", 
+    "id": "72", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -4666,10 +5282,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.462678,-3.774082"
+            "value": "40.462878,-3.774082"
         }
     ], 
-    "id": "51", 
+    "id": "73", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.462978,-3.774082"
+        }
+    ], 
+    "id": "74", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -4834,10 +5478,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.463061,-3.777372"
+            "value": "40.463161,-3.777372"
         }
     ], 
-    "id": "52", 
+    "id": "75", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -4862,10 +5506,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.463061,-3.777372"
+            "value": "40.463261,-3.777372"
         }
     ], 
-    "id": "53", 
+    "id": "76", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.463361,-3.777372"
+        }
+    ], 
+    "id": "77", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -5020,10 +5692,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.463413,-3.780331"
+            "value": "40.463513,-3.780331"
         }
     ], 
-    "id": "54", 
+    "id": "78", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -5076,10 +5748,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.463413,-3.780331"
+            "value": "40.463613,-3.780331"
         }
     ], 
-    "id": "55", 
+    "id": "79", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -5104,10 +5776,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.463413,-3.780331"
+            "value": "40.463713,-3.780331"
         }
     ], 
-    "id": "56", 
+    "id": "80", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.463813,-3.780331"
+        }
+    ], 
+    "id": "81", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -5272,10 +5972,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.463796,-3.783723"
+            "value": "40.463896,-3.783723"
         }
     ], 
-    "id": "57", 
+    "id": "82", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -5300,10 +6000,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.463796,-3.783723"
+            "value": "40.463996,-3.783723"
         }
     ], 
-    "id": "58", 
+    "id": "83", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.464096,-3.783723"
+        }
+    ], 
+    "id": "84", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -5468,10 +6196,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.464221,-3.787567"
+            "value": "40.464321,-3.787567"
         }
     ], 
-    "id": "59", 
+    "id": "85", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -5496,10 +6224,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.464221,-3.787567"
+            "value": "40.464421,-3.787567"
         }
     ], 
-    "id": "60", 
+    "id": "86", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.464521,-3.787567"
+        }
+    ], 
+    "id": "87", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -5664,10 +6420,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.464601,-3.790766"
+            "value": "40.464701,-3.790766"
         }
     ], 
-    "id": "61", 
+    "id": "88", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -5692,10 +6448,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.464601,-3.790766"
+            "value": "40.464801,-3.790766"
         }
     ], 
-    "id": "62", 
+    "id": "89", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.464901,-3.790766"
+        }
+    ], 
+    "id": "90", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -5850,10 +6634,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.464947,-3.793454"
+            "value": "40.465047,-3.793454"
         }
     ], 
-    "id": "63", 
+    "id": "91", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -5906,10 +6690,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.464947,-3.793454"
+            "value": "40.465147,-3.793454"
         }
     ], 
-    "id": "64", 
+    "id": "92", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -5934,10 +6718,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.464947,-3.793454"
+            "value": "40.465247,-3.793454"
         }
     ], 
-    "id": "65", 
+    "id": "93", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.465347,-3.793454"
+        }
+    ], 
+    "id": "94", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -6102,10 +6914,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.465281,-3.796969"
+            "value": "40.465381,-3.796969"
         }
     ], 
-    "id": "66", 
+    "id": "95", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -6130,10 +6942,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.465281,-3.796969"
+            "value": "40.465481,-3.796969"
         }
     ], 
-    "id": "67", 
+    "id": "96", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.465581,-3.796969"
+        }
+    ], 
+    "id": "97", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -6298,10 +7138,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.465917,-3.802006"
+            "value": "40.466017,-3.802006"
         }
     ], 
-    "id": "68", 
+    "id": "98", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -6326,10 +7166,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.465917,-3.802006"
+            "value": "40.466117,-3.802006"
         }
     ], 
-    "id": "69", 
+    "id": "99", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.466217,-3.802006"
+        }
+    ], 
+    "id": "100", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -6494,10 +7362,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.466237,-3.804939"
+            "value": "40.466337,-3.804939"
         }
     ], 
-    "id": "70", 
+    "id": "101", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -6522,10 +7390,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.466237,-3.804939"
+            "value": "40.466437,-3.804939"
         }
     ], 
-    "id": "71", 
+    "id": "102", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.466537,-3.804939"
+        }
+    ], 
+    "id": "103", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -6680,10 +7576,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.46668,-3.808779"
+            "value": "40.46678,-3.808779"
         }
     ], 
-    "id": "72", 
+    "id": "104", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -6736,10 +7632,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.46668,-3.808779"
+            "value": "40.46688,-3.808779"
         }
     ], 
-    "id": "73", 
+    "id": "105", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -6764,10 +7660,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.46668,-3.808779"
+            "value": "40.46698,-3.808779"
         }
     ], 
-    "id": "74", 
+    "id": "106", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.46708,-3.808779"
+        }
+    ], 
+    "id": "107", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -6932,10 +7856,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.467806,-3.812911"
+            "value": "40.467906,-3.812911"
         }
     ], 
-    "id": "75", 
+    "id": "108", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -6960,10 +7884,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.467806,-3.812911"
+            "value": "40.468006,-3.812911"
         }
     ], 
-    "id": "76", 
+    "id": "109", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.468106,-3.812911"
+        }
+    ], 
+    "id": "110", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -7128,10 +8080,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.469193,-3.815893"
+            "value": "40.469293,-3.815893"
         }
     ], 
-    "id": "77", 
+    "id": "111", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -7156,10 +8108,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.469193,-3.815893"
+            "value": "40.469393,-3.815893"
         }
     ], 
-    "id": "78", 
+    "id": "112", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.469493,-3.815893"
+        }
+    ], 
+    "id": "113", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -7324,10 +8304,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.470558,-3.818853"
+            "value": "40.470658,-3.818853"
         }
     ], 
-    "id": "79", 
+    "id": "114", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -7352,10 +8332,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.470558,-3.818853"
+            "value": "40.470758,-3.818853"
         }
     ], 
-    "id": "80", 
+    "id": "115", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.470858,-3.818853"
+        }
+    ], 
+    "id": "116", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -7510,10 +8518,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.471716,-3.821792"
+            "value": "40.471816,-3.821792"
         }
     ], 
-    "id": "81", 
+    "id": "117", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -7566,10 +8574,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.471716,-3.821792"
+            "value": "40.471916,-3.821792"
         }
     ], 
-    "id": "82", 
+    "id": "118", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -7594,10 +8602,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.471716,-3.821792"
+            "value": "40.472016,-3.821792"
         }
     ], 
-    "id": "83", 
+    "id": "119", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.472116,-3.821792"
+        }
+    ], 
+    "id": "120", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -7762,10 +8798,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.472708,-3.824607"
+            "value": "40.472808,-3.824607"
         }
     ], 
-    "id": "84", 
+    "id": "121", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -7790,10 +8826,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.472708,-3.824607"
+            "value": "40.472908,-3.824607"
         }
     ], 
-    "id": "85", 
+    "id": "122", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.473008,-3.824607"
+        }
+    ], 
+    "id": "123", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -7958,10 +9022,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.473972,-3.828274"
+            "value": "40.474072,-3.828274"
         }
     ], 
-    "id": "86", 
+    "id": "124", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -7986,10 +9050,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.473972,-3.828274"
+            "value": "40.474172,-3.828274"
         }
     ], 
-    "id": "87", 
+    "id": "125", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.474272,-3.828274"
+        }
+    ], 
+    "id": "126", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -8154,10 +9246,10 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.474659,-3.83145"
+            "value": "40.474759,-3.83145"
         }
     ], 
-    "id": "88", 
+    "id": "127", 
     "isPattern": "false", 
     "type": "sensor"
 },{
@@ -8182,10 +9274,38 @@
             ], 
             "name": "position", 
             "type": "coords", 
-            "value": "40.474659,-3.83145"
+            "value": "40.474859,-3.83145"
         }
     ], 
-    "id": "89", 
+    "id": "128", 
+    "isPattern": "false", 
+    "type": "sensor"
+},{
+    "attributes": [
+        {
+            "name": "luz", 
+            "type": "lux", 
+            "value": "0"
+        }, 
+        {
+            "name": "protocol", 
+            "type": "version", 
+            "value": "1.0"
+        }, 
+        {
+            "metadatas": [
+                {
+                    "name": "location", 
+                    "type": "string", 
+                    "value": "WSG84"
+                }
+            ], 
+            "name": "position", 
+            "type": "coords", 
+            "value": "40.474959,-3.83145"
+        }
+    ], 
+    "id": "129", 
     "isPattern": "false", 
     "type": "sensor"
 },{

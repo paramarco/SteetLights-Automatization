@@ -37,11 +37,31 @@ var sofia2Notifier = (function () {
     
     var listeners = [];
     
-    var token = "3bb7264f5c1743b78dbaa5ba2e33ac35";
-    
-    joinToken(token, "KP_test_luminaria:KP_test_luminaria01", function(mensajeSSAP){
-        subscribeWithQueryType("{select * from SIB_test_luminaria}", "SIB_test_luminaria", "SQLLIKE",500) 
+    var lampAccessData = { 
+           ontologia : "SIB_test_luminaria", 
+           KP : "KP_test_luminaria", 
+           instancia : "KP_test_luminaria:KP_test_luminaria01", 
+           token :"3bb7264f5c1743b78dbaa5ba2e33ac35"
+    };    
+
+    joinToken(lampAccessData.token,lampAccessData.instancia, function(mensajeSSAP){
+        subscribeWithQueryType("{select * from "+lampAccessData.ontologia+"}", setLampAccessData.ontologia, "SQLLIKE",500) 
     });
+
+    function setLampAccessData (data){
+           //validate arguments?
+           leave();
+
+           lampAccessData.ontologia = data.ontologia;
+           lampAccessData.KP           = data.KP;
+           lampAccessData.instancia  = data.lampAccessData.instancia; 
+           lampAccessData.token       =  data.token;
+
+            joinToken(lampAccessData.token,lampAccessData.instancia, function(mensajeSSAP){
+                subscribeWithQueryType("{select * from "+lampAccessData.ontologia+"}", setLampAccessData.ontologia, "SQLLIKE",500) 
+            });
+    }
+
     
     function processLampUpdate(data){
         return {

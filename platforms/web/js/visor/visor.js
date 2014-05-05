@@ -60,8 +60,10 @@ var visor = (function () {
             var keys   = Object.keys(makersData);
             var icon;
 
-            if(type === "temperatura" || type === "humedad")   icon = "img/markerIcons/water.png";
+            if(type === "temperatura")    icon = "img/markerIcons/water.png";
+            if(type === "humedad")        icon = "img/markerIcons/waterdrop.png";
             else if(type === "consumo")  icon = "img/markerIcons/powerlinepole.png";                 
+            else if(type === "luz")           icon = "img/markerIcons/sunny.png";       
 
             for (var i = 0, n=keys.length; i < n; i++) {
 
