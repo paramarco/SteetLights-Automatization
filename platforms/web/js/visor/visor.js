@@ -30,29 +30,31 @@ var visor = (function () {
 
                     GMapsController.addListenerToMarker(marker,'click',(function(_marker,_data){
                           return function(){
-
                                 currentMarker.type   = "lamp";
                                 currentMarker.id     = _data.id;
                                 currentMarker.marker = _marker;
-
-                                GMapsController.showMarkerInfoWindow(
-                                    _marker,
-                                    infoWindowLampTemplate.fillTemplate(_data),
-                                    function(){
-                                        infoWindowLampTemplate.addListenerToLuminosityRange(_data.id,function(){
-                                            var luminosityLevel = this.value;
-                                            _dataAdapter.updateLuminosityLamp(_data.id,this.value).done(function() {
-                                                _data.luminosityLevel = luminosityLevel;
-                                            });
-                                        });
-                                    }
-                                );
+                                showMaker(_marker,_data);
                             }
                         })(marker,data));
                   }
                   var bounds = GMapsController.fitBoundsToMarkers(markers);
                   circleArea = GMapsController.addCircleArea(bounds.center,bounds.radius);
           }
+    }
+
+    function showMaker(marker,data){
+        GMapsController.showMarkerInfoWindow(
+                marker,
+                infoWindowLampTemplate.fillTemplate(data),
+                function(){
+                        infoWindowLampTemplate.addListenerToLuminosityRange(data.id,function(){
+                               var luminosityLevel = this.value;
+                               _dataAdapter.updateLuminosityLamp(data.id,this.value).done(function() {
+                                        data.luminosityLevel = luminosityLevel;
+                               });
+                        });
+                }
+        );
     }
 
     function putSensorsMarkers(type,makersData){       
@@ -80,23 +82,17 @@ var visor = (function () {
                             GMapsController.showMarkerInfoWindow(
                                 _marker,
                                 infoWindowSensorTemplate.fillTemplate(_data));
-                            }
+                        }
                   })(marker,data));
             }
       }
 
       function updateLampData(lampsData, data){
+          lampsData[data.electricalCabinetID][data.id].luminosityLevel = data.luminosityLevel;
 
-          var lamp = lampsData[data.electricalCabinetID][data.id];
-          lamp.luminosityLevel = data.luminosityLevel;
-
-          if(currentMarker.type === "lamp" && currentMarker.id === data.id){
-                GMapsController.showMarkerInfoWindow(
-                        currentMarker.marker,
-                        infoWindowLampTemplate.fillTemplate(lamp)
-                );
+          if(currentMarker.type === "lamp" && currentMarker.id === data.id){               
+                showMaker(currentMarker.marker,lampsData[data.electricalCabinetID][data.id]);
           }
-
       }
  
     function run (dataAdapter, notifier){

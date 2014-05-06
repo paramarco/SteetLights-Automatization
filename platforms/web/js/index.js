@@ -4,11 +4,11 @@ $( document ).ready(function() {
                 app.plataformaObjetivo = "fiware";
                 switch(parseInt($("#selectServidorFIware").val())){
                         case 1:
-                            app.ipFIware = app.ipFIwareInstalTIC;
+                            app.ipFIware            = app.ipFIwareInstalTIC;
                             app.ipFIwareNotifier = app.ipFIwareNotifierInstalTIC;
                             break;
                         case 2:
-                             app.ipFIware = app.ipFIwareFIlab;
+                             app.ipFIware            = app.ipFIwareFIlab;
                              app.ipFIwareNotifier = app.ipFIwareNotifierFIlab;
                              break;
                       default: ;
@@ -26,41 +26,41 @@ $( document ).ready(function() {
                 switch(parseInt($("#selectServidorSOFIA").val())){
                         case 1:
                                  pathToDwrServlet = app.ipSOFIAinCloud;
-                                 sibServer = pathToDwrServlet + '/';
+                                 sibServer             = pathToDwrServlet + '/';
                                  
                                  app.luminaria.ontologia = "SIB_test_luminaria";
-                                 app.luminaria.KP = "KP_test_luminaria";
-                                 app.luminaria.instancia = "KP_test_luminaria:KP_test_luminaria01";
-                                 app.luminaria.token = "3bb7264f5c1743b78dbaa5ba2e33ac35";
+                                 app.luminaria.KP           = "KP_test_luminaria";
+                                 app.luminaria.instancia  = "KP_test_luminaria:KP_test_luminaria01";
+                                 app.luminaria.token      = "3bb7264f5c1743b78dbaa5ba2e33ac35";
                                  
                                  app.cuadro.ontologia = "SIB_test_cuadro";
-                                 app.cuadro.KP = "KP_test_cuadro";
-                                 app.cuadro.instancia = "KP_test_cuadro:KP_test_cuadro01";
-                                 app.cuadro.token = "6cb9fa1dcd404093ac38997eb1f3d620";
+                                 app.cuadro.KP           = "KP_test_cuadro";
+                                 app.cuadro.instancia  = "KP_test_cuadro:KP_test_cuadro01";
+                                 app.cuadro.token      = "6cb9fa1dcd404093ac38997eb1f3d620";
                                  
                                  app.sensor.ontologia = "SIB_test_sensor";
-                                 app.sensor.KP = "KP_test_sensor";
-                                 app.sensor.instancia = "KP_test_sensor:KP_test_Sensor02";
-                                 app.sensor.token = "80fb6498a34e48caa6a1f68ca91dda7a";
+                                 app.sensor.KP           = "KP_test_sensor";
+                                 app.sensor.instancia  = "KP_test_sensor:KP_test_Sensor02";
+                                 app.sensor.token      = "80fb6498a34e48caa6a1f68ca91dda7a";
                                  break;
                         case 2:
                                  pathToDwrServlet = app.ipSOFIAInstalTIC; 
-                                 sibServer = pathToDwrServlet + '/';
+                                 sibServer             = pathToDwrServlet + '/';
                                  
                                  app.luminaria.ontologia = "SIB_test_luminaria";
-                                 app.luminaria.KP = "KP_test_luminaria";
-                                 app.luminaria.instancia = "KP_test_luminaria:KP_test_luminaria01";
-                                 app.luminaria.token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+                                 app.luminaria.KP           = "KP_test_luminaria";
+                                 app.luminaria.instancia  = "KP_test_luminaria:KP_test_luminaria01";
+                                 app.luminaria.token      = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
                                  
                                  app.cuadro.ontologia = "SIB_test_cuadro";
-                                 app.cuadro.KP = "KP_test_cuadro";
-                                 app.cuadro.instancia = "KP_test_cuadro:KP_test_cuadro01";
-                                 app.cuadro.token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+                                 app.cuadro.KP           = "KP_test_cuadro";
+                                 app.cuadro.instancia  = "KP_test_cuadro:KP_test_cuadro01";
+                                 app.cuadro.token      = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
                                  
                                  app.sensor.ontologia = "SIB_test_sensor";
-                                 app.sensor.KP = "KP_test_sensor";
-                                 app.sensor.instancia = "KP_test_sensor:KP_test_Sensor02";
-                                 app.sensor.token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+                                 app.sensor.KP           = "KP_test_sensor";
+                                 app.sensor.instancia  = "KP_test_sensor:KP_test_Sensor02";
+                                 app.sensor.token      = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
                                  break;
                         default: ;
                 }
@@ -97,10 +97,8 @@ $( document ).ready(function() {
         $("#Eliminar_Todo").click(function(){
             Lungo.Router.section("loading_now");
             app.plataformaObjetivo = "fiware";
-            setTimeout(function() {	Eliminar_Todo(); }, 3000);
+            setTimeout(function() { Eliminar_Todo(); }, 3000);
         });
-        
-        
         
         $("#boton_lanza_simulacion").click(function(){	
             if (isNaN(document.getElementById('periodo_en_segundos').value ) || 
@@ -112,7 +110,7 @@ $( document ).ready(function() {
             else{
                 $("#li_boton_lanza_simulacion").hide("slow");
                 $("#li_boton_para_simulacion").show("slow");
-                setTimeout(function() {	lanzaSimulacion(); }, 3000);
+                setTimeout(function() { lanzaSimulacion(); }, 3000);
             }	
         });				    						
     
@@ -149,13 +147,13 @@ $( document ).ready(function() {
         $("#boton_genera_calles_sofia").click(function(){
             Lungo.Router.section("loading_now");
             app.plataformaObjetivo = "sofia";
-            setTimeout(function() {	genera_Calles(); }, 3000);
+            setTimeout(function() { genera_Calles(); }, 3000);
         });
         
         $("#Eliminar_Todo_sofia").click(function(){
             Lungo.Router.section("loading_now");
             app.plataformaObjetivo = "sofia";
-            setTimeout(function() {	Eliminar_Todo(); }, 3000);
+            setTimeout(function() { Eliminar_Todo(); }, 3000);
         });
         																																
 
@@ -166,6 +164,7 @@ $( document ).ready(function() {
 
         $("#botonIrMonitorSofia").click(function(){	
             Lungo.Router.section("display");      
+            dwr.engine.setActiveReverseAjax(true);
             visor.run(sofia2DataAdapter,sofia2Notifier);
         });
 });

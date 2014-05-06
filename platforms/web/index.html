@@ -9,8 +9,7 @@
 	    <link rel="stylesheet" href="css/lungo.icon.brand.css">
 	    <link rel="stylesheet" href="css/index.css">
     </head>          
-	<body class="app" onload="Lungo.init({name: 'Simulador Street Light'});">
-		
+	<body class="app" onload="Lungo.init({name: 'Simulador Street Light'});">	
         <section id="mainSimulador" data-transition="slide" >
             <header>
                 <h1 style='padding-left:10px;'>StreetLights</h1>        			              	
@@ -171,8 +170,9 @@
 
         <!--SOFIA APIS-->
         <script>
-              var pathToDwrServlet = 'http://scfront.cloudapp.net/sib/dwr';
-              var sibServer = pathToDwrServlet+'/';
+           //var pathToDwrServlet = 'http://scfront.cloudapp.net/sib/dwr';
+              var pathToDwrServlet = 'http://sofia2.com:8080/sib/dwr';
+              var sibServer             = pathToDwrServlet+'/';
         </script>      
         <script src='js/sofia2/engine.js'></script>
         <script src='js/sofia2/util.js'></script>
@@ -199,7 +199,7 @@
         <script src="js/visor/sofia2Notifier.js"></script>
         <script src="js/visor/gMapsController.js"></script>	
         <script src="js/visor/infoWindowTemplates.js"></script>	        
-        <script src="js/visor/visor.js"></script>	
+        <script src="js/visor/visor.js"></script>
         
     </body>
 </html>

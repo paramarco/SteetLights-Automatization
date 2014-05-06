@@ -11,7 +11,7 @@ function indicationForSubscription(ssapMessageJson) {
              var data = SSAPMessage.body.data;
              
              for(var i=0, n=data.length; i<n; i++){  
-               var updatedData = data[i];
+               var updatedData = data[i][0];
               
                if(typeof updatedData.luminaria !== "undefined"){                
                     updates.push({
@@ -45,7 +45,7 @@ var sofia2Notifier = (function () {
     };    
 
     joinToken(lampAccessData.token,lampAccessData.instancia, function(mensajeSSAP){
-        subscribeWithQueryType("{select * from "+lampAccessData.ontologia+"}", setLampAccessData.ontologia, "SQLLIKE",500) 
+        subscribeWithQueryType("{select * from "+lampAccessData.ontologia+"}", lampAccessData.ontologia, "SQLLIKE",500) 
     });
 
     function setLampAccessData (data){
@@ -58,7 +58,7 @@ var sofia2Notifier = (function () {
            lampAccessData.token       =  data.token;
 
             joinToken(lampAccessData.token,lampAccessData.instancia, function(mensajeSSAP){
-                subscribeWithQueryType("{select * from "+lampAccessData.ontologia+"}", setLampAccessData.ontologia, "SQLLIKE",500) 
+                subscribeWithQueryType("{select * from "+lampAccessData.ontologia+"}", lampAccessData.ontologia, "SQLLIKE",500) 
             });
     }
 
