@@ -32,25 +32,25 @@ var sofia2DataAdapter = (function () {
         }
 
        function processLampsData(data){             
-              var deferred  = $.Deferred();
-              var results    = [];
-              var lamps     = data || [];
+              var deferred = $.Deferred();
+              var results  = [];
+              var lamps    = data || [];
 
               //process data
                 for(var i=0,n=lamps.length; i<n; i++) {                    
                     var lampData  = lamps[i].luminaria;
-                    var cabinetID  = parseInt(lampData.FK_idCuadro);
-                    var lampID      = parseInt(lampData.id);
-                    var position    = lampData.posicion.coordinates;
+                    var cabinetID = parseInt(lampData.FK_idCuadro);
+                    var lampID    = parseInt(lampData.id);
+                    var position  = lampData.posicion.coordinates;
                     
                     if (!(cabinetID in results)) {
                         results[cabinetID] = {};
                     }
 
                     results[cabinetID][lampID] = {
-                        id                        : lampID,
+                        id                  : lampID,
                         luminosityLevel     : lampData.nivelIntensidad,
-                        position                : position[0]+","+position[1],
+                        position            : position[0]+","+position[1],
                         electricalCabinetID : cabinetID
                     };
                 }
@@ -60,7 +60,33 @@ var sofia2DataAdapter = (function () {
         }
        
         function processSensorsData(data){
-              //TO-DO
+              var deferred  = $.Deferred();
+              var results   = [];
+              var sensors   = data || [];
+
+              //process data
+                for(var i=0,n=sensors.length; i<n; i++) {
+                    
+                    var sensorData  = sensors[i].sensor;
+                    var sensorType  = sensorData.tipo;
+                    var sensorID    = parseInt(sensorData.id);
+                    var position    = sensorData.posicion.coordinates;
+                       
+                    if (!(sensorType in results)) {
+                        results[sensorType] = {};
+                    }
+
+                    results[sensorType][sensorID] = {
+                        id       : sensorID,
+                        type     : sensorType,
+                        unit     : sensorData.unidad,
+                        value    : sensorData.valor,
+                        position : position[0]+","+position[1]
+                    };
+                }
+
+              deferred.resolve(results);
+              return deferred.promise();
         }
 
         function loadLamps() {  
@@ -101,15 +127,27 @@ var sofia2DataAdapter = (function () {
         }
     
         function loadSensors() {
-            //TO-DO
            var deferred  = $.Deferred(); 
             
-         
-           deferred.resolve([]);
+           joinToken(sensorAccessData.token,sensorAccessData.instancia, function(mensajeSSAP){   
+                var query = '{select * from '+sensorAccessData.ontologia+' order by sensor.id asc }'; 
+            
+                queryWithQueryType(query, 
+                    lampAccessData.ontologia, 
+                    "SQLLIKE",
+                    null,           
+                    function(mensajeSSAP){
+                        //check mensajeSSAP.ok === true?
+                        processSensorsData(mensajeSSAP.body.data).done(function(data){
+                            deferred.resolve(data);
+                        });
+                });
+                leave();
+            });
+            
            return deferred.promise();
         }
- 
-  
+       
         function deleteLamp(id) {
             var query = "delete from "+lampAccessData.ontologia+" where luminaria.id = '"+id+"'"; 
             return deleteEntity(lampAccessData, query);    
@@ -134,12 +172,12 @@ var sofia2DataAdapter = (function () {
         }
 
         return {
-            setLampAccessData       : setLampAccessData,
-            loadLamps                    : loadLamps,
-            updateLuminosityLamp  : updateLuminosityLamp,
-            deleteAllLamps              : deleteAllLamps,
-            deleteAllLamps              : deleteAllLamps,
-            loadSensors                   : loadSensors
+            setLampAccessData    : setLampAccessData,
+            loadLamps            : loadLamps,
+            updateLuminosityLamp : updateLuminosityLamp,
+            deleteAllLamps       : deleteAllLamps,
+            deleteAllLamps       : deleteAllLamps,
+            loadSensors          : loadSensors
         };
  
     })();
