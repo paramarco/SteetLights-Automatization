@@ -26,9 +26,9 @@ var sofia2DataAdapter = (function () {
         function setLampAccessData (data){
               //validate arguments?
               lampAccessData.ontologia = data.ontologia;
-              lampAccessData.KP           = data.KP;
-              lampAccessData.instancia  = data.lampAccessData.instancia; 
-              lampAccessData.token       =  data.token;
+              lampAccessData.KP        = data.KP;
+              lampAccessData.instancia = data.lampAccessData.instancia; 
+              lampAccessData.token     = data.token;
         }
 
        function processLampsData(data){             
@@ -93,7 +93,8 @@ var sofia2DataAdapter = (function () {
            var deferred  = $.Deferred(); 
             
            joinToken(lampAccessData.token,lampAccessData.instancia, function(mensajeSSAP){   
-                var query = '{select * from '+lampAccessData.ontologia+' order by luminaria.id asc }'; 
+                  
+                var query = '{select * from '+lampAccessData.ontologia+' where luminaria.id > -1 order by luminaria.id asc}'; 
             
                 queryWithQueryType(query, 
                     lampAccessData.ontologia, 
@@ -115,7 +116,7 @@ var sofia2DataAdapter = (function () {
             var deferred  = $.Deferred(); 
 
             joinToken(lampAccessData.token, lampAccessData.instancia, function(mensajeSSAP){             
-               var query = "update "+lampAccessData.ontologia+" set luminaria.nivelIntensidad="+luminosityLevel+" where luminaria.id = '"+id+"'"; 
+               var query = "update "+lampAccessData.ontologia+" set luminaria.nivelIntensidad="+luminosityLevel+" where luminaria.id = "+id; 
 
                updateWithQueryType(null, query, lampAccessData.ontologia, "SQLLIKE", function(mensajeSSAP){
                     deferred.resolve();
@@ -149,7 +150,7 @@ var sofia2DataAdapter = (function () {
         }
        
         function deleteLamp(id) {
-            var query = "delete from "+lampAccessData.ontologia+" where luminaria.id = '"+id+"'"; 
+            var query = "delete from "+lampAccessData.ontologia+" where luminaria.id = "+id; 
             return deleteEntity(lampAccessData, query);    
         }
         

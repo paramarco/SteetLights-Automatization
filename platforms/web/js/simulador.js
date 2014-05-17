@@ -500,7 +500,7 @@ var generaCallesLuminarias = function (){
 	      	         
 	      	var queryMongo = {
 						      "luminaria" :{											
-												"id" : objetoFIWARE.id,
+												"id" : parseInt(objetoFIWARE.id),
 												"nivelIntensidad"	: objetoFIWARE.attributes[0].value ,
 												"posicion": {	
 															"type":"Point",

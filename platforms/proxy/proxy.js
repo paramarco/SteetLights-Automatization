@@ -1,13 +1,14 @@
 //CORS Server
 var express    = require('express'),
-    cors          = require('cors'),
+    cors       = require('cors'),
     corsApp    = express(),
     corsServer = require('http').createServer(corsApp);
 
-var log4js = require('log4js');
-var logger = log4js.getLogger();
+var log4js     = require('log4js'),
+    logger     = log4js.getLogger();
 
 var contextBroker = require('dev-rest-proxy');
+
 
 corsApp.disable('x-powered-by');
 corsApp.use(cors());
@@ -22,27 +23,40 @@ corsServer.listen(8080, function(){
 });
 
 
-
-
 //websocket Server notify
-var webSocketApp     = express(),
-      webSocketServer = require('http').createServer(webSocketApp),
-      io                       = require('socket.io').listen(webSocketServer, {log:false});
+var webSocketApp    = express(),
+    webSocketServer = require('http').createServer(webSocketApp),
+    io              = require('socket.io').listen(webSocketServer, {log:false});
 
 webSocketApp.use(express.json({strict:false}));
 webSocketApp.disable('x-powered-by');
 
-webSocketApp.post('/notify', function (req, res) {
-     res.send('');
-     logger.trace(JSON.stringify(req.body));
-     io.sockets.emit('update',req.body);
+webSocketApp.post('/notifyLampUpdate', function (req, res) {
+    
+    res.send('');
+    
+    logger.trace(JSON.stringify(req.body));
+    
+    var updates  = req.body.contextResponses;
+    
+    for(var i=0, n=updates.length; i<n; i++){
+        var electricBoxID = updates[i].contextElement.attributes[1].value;
+        io.sockets.in('electricBoxUpdate-all').emit("lampUpdate",updates[i]);  
+        io.sockets.in('electricBoxUpdate-'+electricBoxID).emit("lampUpdate",updates[i]);
+    }
+
+    //io.sockets.emit('update',req.body);
 });
 
 io.sockets.on('connection', function (socket) {
-//  socket.emit('news', { hello: 'world' });
-//  socket.on('myEvent', function (data) {
-//         console.log(data);
-//  });
+    socket.on('subscribe',  function(roomID) { 
+        if(typeof roomID === "string")
+           socket.join(roomID); 
+    });
+    socket.on('unsubscribe',function(roomID) { 
+       if(typeof roomID === "string")
+           socket.leave(roomID); 
+    });
 });
 
 webSocketServer.listen(8090, function(){
