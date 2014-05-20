@@ -1,9 +1,10 @@
+"use strict";
 var visor = (function () {
  
-    var markers = [];
-    var circleArea = undefined;
+    var markers         = [];
+    var circleArea      = undefined;
     var actualControlID = "";
-    var currentMarker = { type:undefined, id:undefined, marker:undefined };
+    var currentMarker   = { type:undefined, id:undefined, marker:undefined };
     var _dataAdapter;
     var _notifier;
 
@@ -14,7 +15,7 @@ var visor = (function () {
                     GMapsController.removeMarker(markers[i]);
                 }
 
-                markers=[];
+                markers = [];
                 if(circleArea!=undefined)
                     GMapsController.removeCircleArea(circleArea);
 
@@ -59,43 +60,56 @@ var visor = (function () {
 
     function putSensorsMarkers(type,makersData){       
 
-            var keys   = Object.keys(makersData);
+            var keys = Object.keys(makersData);
             var icon;
 
-            if(type === "temperatura")    icon = "img/markerIcons/water.png";
-            if(type === "humedad")        icon = "img/markerIcons/waterdrop.png";
-            else if(type === "consumo")  icon = "img/markerIcons/powerlinepole.png";                 
-            else if(type === "luz")           icon = "img/markerIcons/sunny.png";       
+            if(type === "temperatura")  icon = "img/markerIcons/water.png";
+            if(type === "humedad")      icon = "img/markerIcons/waterdrop.png";
+            else if(type === "consumo") icon = "img/markerIcons/powerlinepole.png";                 
+            else if(type === "luz")     icon = "img/markerIcons/sunny.png";       
 
             for (var i = 0, n=keys.length; i < n; i++) {
 
-                  var data = makersData[keys[i]];
+                  var data   = makersData[keys[i]];
                   var marker = GMapsController.putMarker(data,icon);
 
-                  GMapsController.addListenerToMarker(marker,'click',(function(_marker,_data){
-
-                        currentMarker.type   = type;
-                        currentMarker.id     = _data.id;
-                        currentMarker.marker = _marker;
-
+                  GMapsController.addListenerToMarker(marker,'click',(function(_marker,_data){      
                         return function(){
+                            
+                            currentMarker.type   = _data.type;
+                            currentMarker.id     = _data.id;
+                            currentMarker.marker = _marker;
+                            
                             GMapsController.showMarkerInfoWindow(
                                 _marker,
                                 infoWindowSensorTemplate.fillTemplate(_data));
                         }
                   })(marker,data));
             }
-      }
+    }
 
-      function updateLampData(lampsData, data){
+    function updateLampData(lampsData, data){
           lampsData[data.electricalCabinetID][data.id].luminosityLevel = data.luminosityLevel;
 
           if(currentMarker.type === "lamp" && currentMarker.id === data.id){               
                 showMaker(currentMarker.marker,lampsData[data.electricalCabinetID][data.id]);
           }
-      }
- 
-    function run (dataAdapter, notifier){
+    }
+    
+    function updateSensorData(sensorsData, data){
+        var sensorData = sensorsData[data.type][data.id];
+        
+        sensorData.value = data.value;
+
+        if(currentMarker.type === sensorData.type && currentMarker.id === sensorData.id){               
+            GMapsController.showMarkerInfoWindow(
+                currentMarker.marker,
+                infoWindowSensorTemplate.fillTemplate(sensorData)
+            );
+        }
+    }
+    
+    function run(dataAdapter, notifier){
          //load data
          _dataAdapter = dataAdapter;
          _notifier = notifier;
@@ -106,14 +120,14 @@ var visor = (function () {
 
                 var cabinetsIDs  = Object.keys(lampsData);
                 for (var i=0, n=cabinetsIDs.length; i < n; i++) {
-                    var lamps = lampsData[cabinetsIDs[i]];
-                    var controlID  = cabinetsIDs[i];
+                    var lamps     = lampsData[cabinetsIDs[i]];
+                    var controlID = cabinetsIDs[i];
                     GMapsController.addControl(controlID,putLampMarkers(lamps));
                 }
 
                 var sensorsTypes = Object.keys(sensorsData);            
                 for (var i=0, n=sensorsTypes.length; i < n; i++) {                                                
-                    var type = sensorsTypes[i];
+                    var type    = sensorsTypes[i];
                     var sensors = sensorsData[type];    
                     putSensorsMarkers(type,sensors);
                 }
@@ -121,8 +135,10 @@ var visor = (function () {
                 notifier.subscribe(function(updates){
                     for(var i=0,n=updates.length;i<n;i++){
                         var updatedData = updates[i];
-                        if(updatedData.type==="lamp"){
+                        if(updatedData.type === "lamp"){
                             updateLampData(lampsData,updatedData.data);
+                        }else if (updatedData.type === "sensor"){
+                            updateSensorData(sensorsData,updatedData.data);  
                         }
                     }
                 });

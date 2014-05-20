@@ -1,26 +1,39 @@
+"use strict";
 var fiwareNotifier= (function () {
- 
-    var ip = "217.127.199.47:8090";
-    var socket = io.connect(ip);
-    
+     
     var listeners = [];
-    socket.on('connect',function(){
-        socket.emit('subscribe','electricBoxUpdate-all');
-    });
-
-    socket.on('lampUpdate', function (data) {            
-        var updates = [];
+    var host      = undefined;
+    var socket    = undefined;
+   
+    function connect(host){
         
-        if(data.statusCode.code === "200"){                
-            updates.push(processLampUpdate(data.contextElement));                  
-        }
-        notifyToListeners(updates);
-    });
+        if(socket != undefined) socket.disconnect(true) 
+
+        socket = io.connect(host, { 'force new connection': true });
+
+        socket.on('connect',function(){
+           
+            socket.emit('subscribe','electricBoxUpdate-all');
+            socket.emit('subscribe','sensorUpdate-all');
+           
+            socket.on('lampUpdate', function (data) {            
+               var updates = [];
+
+               if(data.statusCode.code === "200"){                
+                   updates.push(processLampUpdate(data.contextElement));                  
+                   notifyToListeners(updates);
+               }
+            });
     
-    
-    function setIP(newIP){
-        ip     = newIP;
-        socket = io.connect(ip);
+            socket.on('sensorUpdate', function (data) {            
+               var updates = [];
+
+               if(data.statusCode.code === "200"){                
+                   updates.push(processSensorUpdate(data.contextElement));                  
+                   notifyToListeners(updates);
+               }
+            });
+        });
     }
 
     function processLampUpdate(data){
@@ -34,6 +47,18 @@ var fiwareNotifier= (function () {
         };
     }
 
+    function processSensorUpdate(data){
+        return {
+            type: "sensor",
+            data:{
+                id    : parseInt(data.id),
+                type  : data.attributes[0].name,
+                unit  : data.attributes[0].type,
+                value : data.attributes[0].value
+            }
+        };
+    }
+    
     function notifyToListeners(message){
        for(var i=0,n=listeners.length;i<n;i++){
             listeners[i](message);
@@ -46,9 +71,9 @@ var fiwareNotifier= (function () {
     }
     
     return {
-        setIP : setIP,
+        connect           : connect,
         notifyToListeners : notifyToListeners,
-        subscribe : subscribe
+        subscribe         : subscribe
     };
  
 })();

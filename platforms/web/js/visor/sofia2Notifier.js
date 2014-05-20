@@ -1,13 +1,13 @@
+"use strict";
 //sofia2 shoddy piece of work
 
-//meter un pooling
 function indicationForSubscription(ssapMessageJson) {
     
     var updates = [];
     var SSAPMessage = parsearMensajeSSAP(validarSSAP(ssapMessageJson));   
     
     if (SSAPMessage !== null){
-         if(SSAPMessage.messageType==="INDICATION"){
+         if(SSAPMessage.messageType === "INDICATION"){
              var data = SSAPMessage.body.data;
              
              for(var i=0, n=data.length; i<n; i++){  
@@ -44,12 +44,23 @@ var sofia2Notifier = (function () {
            token     : "3bb7264f5c1743b78dbaa5ba2e33ac35"
     };    
 
+    var sensorAccessData = { 
+          ontologia  : "SIB_test_sensor", 
+          KP         : "KP_test_sensor", 
+          instancia  : "KP_test_sensor:KP_test_Sensor02", 
+          token      : "80fb6498a34e48caa6a1f68ca91dda7a"
+    };
+       
     joinToken(lampAccessData.token,lampAccessData.instancia, function(mensajeSSAP){
-        subscribeWithQueryType("{select * from "+lampAccessData.ontologia+"}", lampAccessData.ontologia, "SQLLIKE",500) 
+        subscribeWithQueryType("{select * from "+lampAccessData.ontologia+"}", lampAccessData.ontologia, "SQLLIKE",500);
     });
 
+    joinToken(sensorAccessData.token,sensorAccessData.instancia, function(mensajeSSAP){
+        subscribeWithQueryType("{select * from "+sensorAccessData.ontologia+"}", sensorAccessData.ontologia, "SQLLIKE",500);
+    });   
+        
     function setLampAccessData (data){
-           //validate arguments?
+
            leave();
 
            lampAccessData.ontologia = data.ontologia;
@@ -58,7 +69,7 @@ var sofia2Notifier = (function () {
            lampAccessData.token     = data.token;
 
             joinToken(lampAccessData.token,lampAccessData.instancia, function(mensajeSSAP){
-                subscribeWithQueryType("{select * from "+lampAccessData.ontologia+"}", lampAccessData.ontologia, "SQLLIKE",500) 
+                subscribeWithQueryType("{select * from "+lampAccessData.ontologia+"}", lampAccessData.ontologia, "SQLLIKE",500);
             });
     }
     
@@ -86,7 +97,7 @@ var sofia2Notifier = (function () {
 
     return {
         notifyToListeners : notifyToListeners,
-        subscribe : subscribe
+        subscribe         : subscribe
     };
  
 })();

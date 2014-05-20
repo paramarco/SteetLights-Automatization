@@ -1,3 +1,4 @@
+"use strict";
 var sofia2DataAdapter = (function () {
  
        var token = "3bb7264f5c1743b78dbaa5ba2e33ac35";
@@ -158,7 +159,12 @@ var sofia2DataAdapter = (function () {
             var query = "delete * from "+lampAccessData.ontologia;
             return deleteEntity(lampAccessData, query);
         }
-    
+       
+        function deleteAllSensors() {
+            var query = "delete * from "+sensorAccessData.ontologia;
+            return deleteEntity(sensorAccessData, query);
+        }
+       
         function deleteEntity(accesData,query){
             var deferred  = $.Deferred(); 
             
@@ -176,8 +182,9 @@ var sofia2DataAdapter = (function () {
             setLampAccessData    : setLampAccessData,
             loadLamps            : loadLamps,
             updateLuminosityLamp : updateLuminosityLamp,
+            deleteLamp           : deleteLamp,
             deleteAllLamps       : deleteAllLamps,
-            deleteAllLamps       : deleteAllLamps,
+            deleteAllSensors     : deleteAllSensors,
             loadSensors          : loadSensors
         };
  

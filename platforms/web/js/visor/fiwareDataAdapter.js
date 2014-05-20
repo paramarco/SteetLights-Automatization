@@ -1,23 +1,24 @@
+"use strict";
 var fiwareDataAdapter = (function () {
  
        var ip = "217.127.199.47:8080";
        
-       function setIP(newIP){
+       function setHost(newIP){
             ip = newIP;
        }
 
        function processLampsData(data){
              
-              var deferred  = $.Deferred();
-              var results    = [];
-              var lamps     = data.contextResponses || [];
+              var deferred = $.Deferred();
+              var results  = [];
+              var lamps    = data.contextResponses || [];
 
               //process data
                 for(var i=0,n=lamps.length; i<n; i++) {
                     
                     var lampData  = lamps[i].contextElement;
-                    var cabinetID  = parseInt(lampData.attributes[2].value);
-                    var lampID      = parseInt(lampData.id);
+                    var cabinetID = parseInt(lampData.attributes[2].value);
+                    var lampID    = parseInt(lampData.id);
 
                     if (!(cabinetID in results)) {
                         results[cabinetID] = {};
@@ -36,26 +37,26 @@ var fiwareDataAdapter = (function () {
         }
        
         function processSensorsData(data){
-              var deferred  = $.Deferred();
-              var results     = [];
-              var sensors    = data.contextResponses || [];
+              var deferred = $.Deferred();
+              var results  = [];
+              var sensors  = data.contextResponses || [];
 
               //process data
                 for(var i=0,n=sensors.length; i<n; i++) {
                     
-                    var sensorData  = sensors[i].contextElement;
-                    var sensorType  = sensorData.attributes[0].name;
-                    var sensorID      = parseInt(sensorData.id);
+                    var sensorData = sensors[i].contextElement;
+                    var sensorType = sensorData.attributes[0].name;
+                    var sensorID   = parseInt(sensorData.id);
                    
                     if (!(sensorType in results)) {
                         results[sensorType] = {};
                     }
 
                     results[sensorType][sensorID] = {
-                        id : sensorID,
-                        type : sensorData.attributes[0].name,
-                        unit : sensorData.attributes[0].type,
-                        value : sensorData.attributes[0].value,
+                        id       : sensorID,
+                        type     : sensorData.attributes[0].name,
+                        unit     : sensorData.attributes[0].type,
+                        value    : sensorData.attributes[0].value,
                         position : sensorData.attributes[2].value
                     };
                 }
@@ -84,7 +85,7 @@ var fiwareDataAdapter = (function () {
                      }}).then(processSensorsData); 
         }
  
-        function _updateLuminosityLamp(id,luminosityLevel) {
+        function updateLuminosityLamp(id,luminosityLevel) {
                 var data  = {
                     "contextElements":[
                           {"type":"luminaria","id":id,"attributes":[{"name":"nivelIntensidad","type":"porcentaje","value": luminosityLevel}]}
@@ -107,12 +108,12 @@ var fiwareDataAdapter = (function () {
                 var data  = {
                       "contextElements": [
                         {
-                          "type": type,
-                          "isPattern": "false",
-                          "id": id
+                          "type"      : type,
+                          "isPattern" : "false",
+                          "id"        : id
                         }
                       ],
-                      "updateAction": "DELETE"
+                      "updateAction" : "DELETE"
                 };
 
                 return  $.ajax({
@@ -131,11 +132,11 @@ var fiwareDataAdapter = (function () {
         }
 
         return {
-            setIP : setIP,
-            loadLamps: loadLamps,
-            loadSensors: loadSensors,
-            deleteEntity: deleteEntity,
-            updateLuminosityLamp: _updateLuminosityLamp
+            setHost              : setHost,
+            loadLamps            : loadLamps,
+            loadSensors          : loadSensors,
+            deleteEntity         : deleteEntity,
+            updateLuminosityLamp : updateLuminosityLamp
         };
  
     })();

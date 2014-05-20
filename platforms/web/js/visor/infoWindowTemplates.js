@@ -1,3 +1,4 @@
+"use strict";
 var infoWindowLampTemplate = (function () {
      
         function fillTemplate(data){
@@ -41,7 +42,6 @@ var infoWindowLampTemplate = (function () {
                             <div class='clear'></div>\
                         </div>";
         }
-
 
         return {
             fillTemplate: fillTemplate

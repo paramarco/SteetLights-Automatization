@@ -48,11 +48,28 @@ webSocketApp.post('/notifyLampUpdate', function (req, res) {
     //io.sockets.emit('update',req.body);
 });
 
+webSocketApp.post('/notifySensorUpdate', function (req, res) {
+    
+    res.send('');
+    
+    logger.trace(JSON.stringify(req.body));
+    
+    var updates  = req.body.contextResponses;
+    
+    for(var i=0, n=updates.length; i<n; i++){
+        var sensorType = updates[i].contextElement.attributes[0].name;
+        io.sockets.in('sensorUpdate-all').emit("sensorUpdate",updates[i]);  
+        io.sockets.in('sensorUpdate-'+sensorType).emit("sensorUpdate",updates[i]);
+    }
+});
+
 io.sockets.on('connection', function (socket) {
+   
     socket.on('subscribe',  function(roomID) { 
         if(typeof roomID === "string")
            socket.join(roomID); 
     });
+   
     socket.on('unsubscribe',function(roomID) { 
        if(typeof roomID === "string")
            socket.leave(roomID); 
