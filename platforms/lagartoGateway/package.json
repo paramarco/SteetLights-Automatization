@@ -1,0 +1,11 @@
+{
+  "name": "-",
+  "description": "-",
+  "version": "0.0.1",
+  "dependencies": {
+    "socket.io-client":"*",  
+    "log4js": "*",
+    "zmq"   : "2.7.0",
+    "requestify" : "*"
+  }
+}

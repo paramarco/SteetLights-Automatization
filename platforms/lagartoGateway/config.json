@@ -1,0 +1,36 @@
+{
+    "platform" : {
+        "id"     : "fiware",
+        "config" : {
+            "data" : {
+                "host"         : "217.127.199.47:8080"
+            },
+            "notifier" : {
+                "host"         : "217.127.199.47:8090",
+                "subscription" : "electricBoxUpdate-1"
+            }
+        }        
+    },"inputs" : {
+        "250.12.0" : {
+            "cloudID" : "1",
+            "family"  : "temperatura"
+        },
+        "250.12.1" : {
+            "cloudID" : "2",
+            "family"  : "humedad"
+        },
+        "250.13.1" : {
+            "cloudID" : "0",
+            "family"  : "consumo"
+        },
+        "250.14.0" : {
+            "cloudID" : "3",
+            "family"  : "luz"
+        }
+    },"outputs" : {
+        "luminaria" : {
+            "id_0" : "1.11.0",
+            "id_1" : "2.11.0"
+        }
+    }
+}

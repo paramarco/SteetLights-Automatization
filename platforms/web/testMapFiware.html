@@ -27,8 +27,9 @@
     
         <script>
                 "use strict"
-                $(document).ready(function() {           
-                      visor.run(fiwareDataAdapter,fiwareNotifier);
+                $(document).ready(function() {        
+                    fiwareNotifier.connect("217.127.199.47:8090");
+                    visor.run(fiwareDataAdapter,fiwareNotifier);
                 });
         </script>
   </body>
