@@ -1,6 +1,6 @@
 var log4js     = require('log4js'),
     logger     = log4js.getLogger(),
-    requestify = require('requestify');
+    http       = require('http');
 
 //config
 var config   = require("./config");
@@ -23,8 +23,10 @@ notifierAdapter.onLampUpdate(function(data){
     var pwmMoteID       = config.outputs.luminaria["id_"+data.id];
 
     if (typeof pwmMoteID  !== "undefined"){
-        requestify.get("http://localhost:8001/values/?id="+pwmMoteID+"&value="+luminosityLevel).then(function(response) {
-            logger.debug("Response from lagarto swap server:\n" +JSON.stringify(response.getBody()));
+       http.get("http://127.0.0.1:8001/values/?id="+pwmMoteID+"&value="+luminosityLevel,function(res) {
+            res.on('data', function(response){
+                logger.debug("Response from lagarto swap server:\n" + response);
+            });          
         });
     }
 });
@@ -33,7 +35,7 @@ notifierAdapter.onLampUpdate(function(data){
 var dataConfig  = platform.config.data,
     dataAdapter = require("./fiware/dataAdapter");
 
-dataAdapter.setHost(dataConfig.host);
+dataAdapter.setConnection(dataConfig.host,dataConfig.port);
 
 //lagarto swap server 0MQ subscriber
 /*
@@ -61,7 +63,7 @@ sock.on('message', function(msg){
 
             if(data.direction === "inp" && typeof input !== "undefined"){    
                 dataAdapter.updateSensor(input.family,input.cloudID,data.value,function(response) {
-                    logger.debug("Response from cloud:\n" + JSON.stringify(response.body));
+                    logger.debug("Response from cloud:\n" + JSON.stringify(response));
                 });
             }
         }

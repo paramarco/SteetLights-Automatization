@@ -3,7 +3,8 @@
         "id"     : "fiware",
         "config" : {
             "data" : {
-                "host"         : "217.127.199.47:8080"
+                "host" : "217.127.199.47",
+                "port" : "8080"
             },
             "notifier" : {
                 "host"         : "217.127.199.47:8090",
@@ -19,13 +20,13 @@
             "cloudID" : "2",
             "family"  : "humedad"
         },
-        "250.13.1" : {
-            "cloudID" : "0",
-            "family"  : "consumo"
-        },
-        "250.14.0" : {
+        "250.13.0" : {
             "cloudID" : "3",
             "family"  : "luz"
+        },
+        "250.14.0" : {
+            "cloudID" : "0",
+            "family"  : "consumo"
         }
     },"outputs" : {
         "luminaria" : {

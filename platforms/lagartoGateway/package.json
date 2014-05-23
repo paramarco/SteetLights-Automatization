@@ -5,7 +5,6 @@
   "dependencies": {
     "socket.io-client":"*",  
     "log4js": "*",
-    "zmq"   : "2.7.0",
-    "requestify" : "*"
+    "zmq"   : "2.7.0"
   }
 }

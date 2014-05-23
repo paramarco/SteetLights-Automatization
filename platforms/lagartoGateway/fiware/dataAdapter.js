@@ -1,33 +1,46 @@
 "use strict";
-var requestify = require('requestify');
+var http = require('http');
 var dataAdapterHost;
+var dataAdapterPort;
 
-function setHost(host){
+function setConnection(host,port){
     dataAdapterHost = host;
+    dataAdapterPort = port;
 }
 
 function updateData(type,id,value,callback){
     
-    var url = 'http://'+dataAdapterHost+'/NGSI10/updateContext';
-    var data = {
+    var dataStringify = JSON.stringify({
         "contextElements":[
             {"type":"sensor", "id" : id, "attributes":[{"name" : type, "value" : value}]}
         ],
         "updateAction":"UPDATE"
-    };
-    console.log(JSON.stringify(data));
-
-    return requestify.request(url,{
-        method : 'POST',
-        body   : data,  
-        headers: {
-           'Content-type' : 'application/json; charset=utf-8',
-           'Accept'       : 'application/json;'
-        }
-    }).then(function(response) {
-        if(typeof callback === "function")
-            callback(response);
     });
+    
+    var options = {
+        host: dataAdapterHost,
+        port: dataAdapterPort,
+        path: '/NGSI10/updateContext',
+        method: 'POST',
+        headers: {
+           'Content-type'   : 'application/json; charset=utf-8',
+           'Accept'         : 'application/json;',
+           'Content-Length' : dataStringify.length
+        }
+    };
+    
+    var req = http.request(options, function(res) {
+          var responseString = '';
+          res.on('data', function(data) {
+            responseString += data;
+          });
+
+          res.on('end', function() {
+              callback(responseString);
+          });
+    });
+    req.write(dataStringify);
+    req.end();
 }
 
 function updateLuminosity(id,luminosityLevel,callback) {
@@ -38,6 +51,6 @@ function updateSensor(type,id,value,callback) {
     updateData(type,id,value,callback);
 }
 
-exports.setHost          = setHost;
+exports.setConnection    = setConnection;
 exports.updateSensor     = updateSensor;
 exports.updateLuminosity = updateLuminosity;
