@@ -5,6 +5,9 @@
   "dependencies": {
     "socket.io-client":"0.9.16",  
     "log4js": "*",
-    "zmq"   : "2.7.0"
+    "zmq"   : "2.7.0",
+    "bops":"0.1.1",  
+    "fibers": "1.0.1",
+    "wait.for":"0.6.4"
   }
 }

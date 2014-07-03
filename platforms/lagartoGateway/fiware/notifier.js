@@ -6,15 +6,15 @@ var onLampUpdateCallback = undefined;
  * @param {String} ip  ip:port 
  * @param {String} subscribeTo 
  */
-function connect(host,subscribeTo,onConnectCallback){
-    
-    var socket = io.connect(host);
+function connect(config,onConnectCallback){
+
+    var socket = io.connect(config.host);
     
     socket.on('connect', function(){
         if(typeof onConnectCallback === 'function')
             onConnectCallback();
         
-        socket.emit('subscribe',subscribeTo);
+        socket.emit('subscribe',"electricBoxUpdate-"+config.lampSubscriptionConfig.subscribeTo);
     });
 
     socket.on('lampUpdate', function (data) {   
