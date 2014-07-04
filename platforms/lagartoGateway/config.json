@@ -16,8 +16,11 @@
             },
             "sofia2" :{
                 "data" : {
-                    "host" : "217.127.199.47",
-                    "port" : "8080"
+                    "host"  : "sofia2.com",
+                    "port"  : "1880",
+                    "token" : "17ded638ca0e4088aa9eb453e747d4a3",
+                    "KP"    : "kpElectricalCabinet:kpElectricalCabinet",
+                    "SIB"   : "SIB_test_sensor"
                 },
                 "notifier" : {
                     "host"                   : "sofia2.com",

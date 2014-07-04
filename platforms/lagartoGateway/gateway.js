@@ -1,3 +1,5 @@
+"use strict";
+
 var log4js     = require('log4js'),
     logger     = log4js.getLogger(),
     http       = require('http');
@@ -10,10 +12,10 @@ var config     = require("./config"),
 
 //notifier 
 var notifierConfig  = platform.configurationParams[platformID].notifier,
-    notifierAdapter = require("./"+platformID+"/notifier");
+    notifierAdapter = require("./" + platformID + "/notifier");
 
 notifierAdapter.connect(notifierConfig,function(){
-    logger.info(platformID+" notifier connection ok");
+    logger.info(platformID + " notifier connection ok");
 });
 
 notifierAdapter.onLampUpdate(function(data){
@@ -21,25 +23,27 @@ notifierAdapter.onLampUpdate(function(data){
         logger.debug("lampUpdate\n"+JSON.stringify(data));
 
         var luminosityLevel = Math.round(data.luminosityLevel*255/100);
-        var pwmMoteID       = config.outputs.luminaria["id_"+data.id];
+        var pwmMoteID       = config.outputs.luminaria["id_" + data.id];
 
         if (typeof pwmMoteID  !== "undefined"){
-           http.get("http://127.0.0.1:8001/values/?id="+pwmMoteID+"&value="+luminosityLevel,function(res) {
+           http.get("http://127.0.0.1:8001/values/?id=" + pwmMoteID + "&value=" + luminosityLevel,function(res) {
                 res.on('data', function(response){
                     logger.debug("Response from lagarto swap server:\n" + response);
                 });          
             });
         }
     }catch(e){
-      logger.error(e);
+        logger.error(e);
     }
 });
 
 //dataAdapter
 var dataConfig  = platform.configurationParams[platformID].data,
-    dataAdapter = require("./"+platformID+"/dataAdapter");
+    dataAdapter = require("./" + platformID + "/dataAdapter");
 
-dataAdapter.setConnection(dataConfig);
+dataAdapter.connect(dataConfig, function(){
+    logger.info(platformID + " data server connection ok");
+});
 
 //lagarto swap server 0MQ subscriber
 /*

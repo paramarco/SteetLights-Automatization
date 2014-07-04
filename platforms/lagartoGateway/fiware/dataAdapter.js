@@ -3,16 +3,20 @@ var http = require('http');
 var dataAdapterHost;
 var dataAdapterPort;
 
-function setConnection(host,port){
-    dataAdapterHost = host;
-    dataAdapterPort = port;
+function connect(config, onConnectCallback){
+    
+    dataAdapterHost = config.host;
+    dataAdapterPort = config.port;
+    
+    if(typeof onConnectCallback === 'function')
+        onConnectCallback();
 }
 
 function updateData(type,id,value,callback){
     
     var dataStringify = JSON.stringify({
         "contextElements":[
-            {"type":"sensor", "id" : id, "attributes":[{"name" : type, "value" : value}]}
+            {"type": "sensor", "id" : id, "attributes":[{"name" : type, "value" : value}]}
         ],
         "updateAction":"UPDATE"
     });
@@ -51,6 +55,6 @@ function updateSensor(type,id,value,callback) {
     updateData(type,id,value,callback);
 }
 
-exports.setConnection    = setConnection;
+exports.connect          = connect;
 exports.updateSensor     = updateSensor;
 exports.updateLuminosity = updateLuminosity;

@@ -1,10 +1,9 @@
 "use strict";
 
-var kp                   = require('../kpMQTT'),
-	myKP                 = new kp.KpMQTT(),
-    ssapMessageGenerator = require("../SSAPMessageGenerator"),
-    wait                 = require("../node_modules/wait.for/waitfor");
+var kp                   = require('./kpMQTT'),
+    ssapMessageGenerator = require("./SSAPMessageGenerator");
 
+var myKP                 = new kp.KpMQTT();
 var onLampUpdateCallback = undefined;
 var sessionKey;
 
@@ -22,44 +21,43 @@ function indicationMessage(data){
  * @param {String} config configuration params 
  * @param {function} onConnectCallback  
  */
+
 function connect(config, onConnectCallback){
-   
+
     //Connect to SIB
     myKP.connect(config.host, config.port, 5,function(){
-		wait.launchFiber(function(){
+	
+        // JOIN Message generation
+		var ssapMessageJOIN = ssapMessageGenerator.generateJoinByTokenMessage(config.token,config.KP);	
+
+		//Send message to SIB
+		myKP.send(ssapMessageJOIN).then(function(joinResponse){
+		
+            var joinBody   = JSON.parse(joinResponse.body);
             
-			// JOIN Message generation
-			var ssapMessageJOIN = ssapMessageGenerator.generateJoinByTokenMessage(config.token,config.KP);	
+            if(!joinBody.ok) throw new Error('Error creating SSAP session with SIB');
+            
+            var sessionKey = joinResponse.sessionKey;
+            myKP.onNotificationMessage(indicationMessage);
+            
+            // SUBSCRIBE message generation
+            var SIB                  = config.lampSubscriptionConfig.SIB.trim();
+            var subscribeTo          = config.lampSubscriptionConfig.subscribeTo.trim();
+            var queryCondition       = (subscribeTo === "all" ? "" : " where luminaria.FK_idCuadro= '" + subscribeTo + "'");
+            var ssapMessageSUBSCRIBE = ssapMessageGenerator.generateSubscribeWithQueryTypeMessage("select * from " + SIB + queryCondition,SIB, 'SQLLIKE',0, sessionKey);
 
-			//Send message to SIB
-			var joinResponse = myKP.send(ssapMessageJOIN);	
+			return myKP.send(ssapMessageSUBSCRIBE);		
 
-			//Process JOIN message
-			var joinBody = myKP.json2Object(joinResponse.body);
-
-			if(!joinBody.ok)
-				throw new Error('Error creating SSAP session with SIB');
-
-            sessionKey = joinResponse.sessionKey;	
-
-			// SUBSCRIBE message generation
-            var SIB            = config.lampSubscriptionConfig.SIB.trim();     
-            var subscribeTo    = config.lampSubscriptionConfig.subscribeTo.trim();
-            var queryCondition = (subscribeTo === "all" ? "" : " where luminaria.FK_idCuadro= '"+subscribeTo+"'");
-
-
-			var ssapMessageSUBSCRIBE = ssapMessageGenerator.generateSubscribeWithQueryTypeMessage("select * from "+SIB+queryCondition,SIB, 'SQLLIKE',0, sessionKey);
-			var subscribeResponse    = myKP.send(ssapMessageSUBSCRIBE, indicationMessage);	
-			var subscribeBody        = JSON.parse(subscribeResponse.body);
+        }).done(function(subscribeResponse){
+			var subscribeBody = JSON.parse(subscribeResponse.body);
 			
             if(!subscribeBody.ok)
-				throw new Error('Error subscribing to SIB');			
-		
-		});
-		
+				throw new Error('Error subscribing to SIB');
+        });	
+        
         if(typeof onConnectCallback === 'function')
             onConnectCallback();
-    });
+	});
 };
    
 /**
