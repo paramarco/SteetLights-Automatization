@@ -1,10 +1,11 @@
-$( document ).ready(function() {
+$(document).ready(function() {
 
     var appContext = {
         fiwareServerConfig : fiwareInstalticConfig,
         sofia2ServerConfig : sofia2Config
     }
         
+    appContext.fiwareServerConfig = parseInt($("#fiwareServerConfig").val()) === 1 ? fiwareInstalticConfig : fiwareFilabConfig;
     
     function onDeleteAllClick(dataServerConfig, dataAdapter){
         
