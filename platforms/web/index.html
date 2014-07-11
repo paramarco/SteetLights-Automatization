@@ -10,6 +10,8 @@
 	    <link rel="stylesheet" href="css/index.css">
     </head>          
 	<body class="app" onload="Lungo.init({name: 'Simulador Street Light'});">	
+        
+        <!-- main view -->
         <section id="mainSimulador" data-transition="slide" >
             <header>
                 <h1 style='padding-left:10px;'>StreetLights</h1>        			              	
@@ -21,20 +23,20 @@
                   <div id="lista_comandos" class='listaComandos'>
                       <label>Servidor en :</label>
                       <label class="select">
-                          <select id="selectServidorFIware">
+                          <select id="fiwareServerConfig">
                               <option value="1">InstalTIC</option>
                               <option value="2">FI-ware Cloud</option>
                           </select>
                       </label>
                       <div class='clear'></div>
                       <div>
-                          <button id="boton_genera_escenario" class="button" data-title="Genera escenario" data-label="Lanzar simulación"></button>
-                          <button id="boton_genera_objetos" class="button" data-title="Genera objetos" data-label="Generar objetos"></button>
-                          <button id="boton_genera_calles" class="button" data-title="Genera calles" data-label="Generar calles y sensores"></button>
-                          <button id="Eliminar_Todo" class="button" data-title="Genera Calles" data-label="Eliminar todos los objetos"></button>
+                          <button id="runSimulationScenarioFiware" class="button" data-title="Genera escenario" data-label="Lanzar simulación"></button>
+                          <button id="generateObjectsFiware" class="button" data-title="Genera objetos" data-label="Generar objetos"></button>
+                          <button id="generateStreetsDataFiware" class="button" data-title="Genera calles" data-label="Generar calles y sensores"></button>
+                          <button id="deleteAllFiware" class="button" data-title="Genera Calles" data-label="Eliminar todos los objetos"></button>
                       </div>
                       <div class='clear'></div>
-                      <div id="botonIrMonitorFiware" class="monitorButton">Ir a la pantalla Monitorización y Control</div>
+                      <div id="showFiwareDataMap" class="monitorButton">Ir a la pantalla Monitorización y Control</div>
                   </div>
                   <div class='logo'>		      		
                       <img src="img/Sofia_120x96.png">		          
@@ -49,18 +51,18 @@
                       </label>
                       <div class='clear'></div>
                       <div>
-                          <button id="boton_genera_escenario_sofia" class="button" data-title="Genera escenario" data-label="Lanzar simulación"></button>
-                          <button id="boton_genera_objetos_sofia" class="button" data-title="Genera objetos" data-label="Generar objetos"></button>
-                          <button id="boton_genera_calles_sofia" class="button" data-title="Genera calles" data-label="Generar calles y sensores"></button>
-                          <button id="Eliminar_Todo_sofia" class="button" data-title="Genera Calles" data-label="Eliminar todos los objetos"></button>
+                          <button id="runSimulationScenarioSofia2" class="button" data-title="Genera escenario" data-label="Lanzar simulación"></button>
+                          <button id="generateObjectsSofia" class="button" data-title="Genera objetos" data-label="Generar objetos"></button>
+                          <button id="generateStreetsDataSofia2" class="button" data-title="Genera calles" data-label="Generar calles y sensores"></button>
+                          <button id="deleteAllSofia2" class="button" data-title="Genera Calles" data-label="Eliminar todos los objetos"></button>
                       </div>
                       <div class='clear'></div>
-                      <div id="botonIrMonitorSofia" class="monitorButton">Ir a la pantalla Monitorización y Control</div>
+                      <div id="showSofia2DataMap" class="monitorButton">Ir a la pantalla Monitorización y Control</div>
                   </div>   	  		      			 
             </article>		
         </section>
 
-        <section id="main_loading" >
+        <section id="generateObjectsView" >
             <header>
                 <nav class="right">
                       <a href="#" data-view-section="mainSimulador" data-router="section" data-icon="left-sign"></a>
@@ -68,47 +70,31 @@
                 <h1 class="title centered">Generar objectos</h1>    
             </header>
             <article id="main_loading" class="active list indented">
-                <ul class="list indented">
-                    <li class="dark">
-                        <strong id="now_file_uploading"> Inserte el n&uacute;mero de luminarias a generar,  <br> y el n&uacute;mero de objetos por paquete a enviar  ...</strong>			        
-                    </li>
+                <div class="list indented">
+                    <div class="dark">
+                        <p>Inserte el número de luminarias a generar y el número de objetos por paquete a enviar...</p>
+                    </div>
                     <div class="form">
                         <fieldset>
-                            <label>n&uacute;mero de luminarias</label>
+                            <label>Número de luminarias</label>
                             <input id="numero_de_luminarias" type="text" placeholder="inserta aqui el numero"> 				            
                         </fieldset>
                         <fieldset>
-                            <label>objetos por paquete</label>
+                            <label>Objetos por paquete</label>
                             <input id="numero_de_objetos_paquete" type="text" placeholder="inserta aqui el numero"> 				            
                         </fieldset>
                     </div>
-                </ul>
-                <ul class="list indented">
-                    <li class="dark centered">
-                        <button id="boton_genera_objetos_ahora" class="button" data-title="generar" data-label="generar"> </button>  	  			        
-                    </li>
-                </ul>						    
+                </div>
+                <div class="list indented">
+                    <div class="dark centered">
+                        <button id="generateObjects" class="button" data-title="generar" data-label="generar"></button>  	  			        
+                    </div>
+                </div>						    
             </article>					
         </section>
 
-        <section id="loading_now" >
-            <header>
-                <nav class="right">
-                      <a href="#" data-view-section="mainSimulador" data-router="section" data-icon="left-sign"></a>
-                </nav>      
-                <h1 class="title centered">Generar calles y sensores</h1>    
-            </header>
-            <article id="loading_now" class="active list indented">
-                <ul class="list indented">
-                    <li class="dark">
-                        <strong id="now_file_uploading"> cargando escenario  ...</strong>
-                    </li>
-                </ul>
-                <div data-loading=""> </div>		    
-            </article>					
-        </section>
-
-        <section id="ciclodeCarga">
+        <!-- run simulation view -->
+        <section id="SimulationScenarioView">
             <header>
                 <nav class="right">
                       <a href="#" data-view-section="mainSimulador" data-router="section" data-icon="left-sign"></a>
@@ -116,54 +102,57 @@
                 <h1 class="title centered">Lanzar simulación</h1>    
             </header>
             <article id="ciclodeCarga" class="active list indented">
-                <ul class="list indented">
-                    <li class="dark">
-                        <strong> Inserte el periodo de carga para lanzar  <br>la simulaci&oacute;n y los objetos por paquete</strong>			        
-                    </li>
+                <div class="list indented">
+                    <div class="dark">
+                        Inserte el periodo de carga para lanzar la simulación y el número de objectos a procesar
+                    </div>
                     <div class="form">
                         <fieldset>
                             <label>periodo en segundos</label>
-                            <input id="periodo_en_segundos" type="text" placeholder="inserta aqui el tiempo"> 				            
+                            <input id="simulationCycleTime" type="text" placeholder="inserta aqui el tiempo"> 				            
                         </fieldset>
                         <fieldset>
                             <label>objetos por paquete</label>
-                            <input id="numero_de_objetos_paquete_simulacion" type="text" placeholder="inserta aqui el numero"> 				            
+                            <input id="simulationNumObjects" type="text" placeholder="inserta aqui el numero"> 				            
                         </fieldset>
                     </div>
-                </ul>
-                <ul class="list indented">
-                    <li id="li_boton_lanza_simulacion" class="dark centered">
-                        <button id="boton_lanza_simulacion" class="button" data-title="lanzar" data-label="lanzar"> </button>			    	 	  			        
-                    </li>
-                    <li id="li_boton_para_simulacion" style="display:none;" class="dark centered">
-                        <strong> la simulaci&oacute;n  est&aacute; corriendo...</strong>
-                        <div data-loading=""> </div>
-                        <button id="boton_para_simulacion" class="button" data-title="parar" data-label="parar"> </button>			    	 	  			        
-                    </li>
-                </ul>					    
+                </div>
+                <div class='indented whiteBox'>
+                    <div id="runSimulationScenarioDiv" class="dark centered">
+                        <button id="runSimulationScenario" class="button" data-title="lanzar" data-label="lanzar"> </button>	    	 	  			        
+                    </div>
+                    <div id="stopSimulationScenarioDiv" style="display:none;" class="dark centered">
+                        <p>Ejecutando simulación...</p>
+                        <div data-loading=""></div>
+                        <button id="stopSimulation" class="button" data-title="parar" data-label="parar"></button>			    	 	  			                                     <div id="logger">
+                            <h3>Eventos recibidos:</h3>
+                            <div id="events"></div>
+                        </div>
+                    </div>
+                </div>					    
             </article>					
         </section>
 
+        <!-- map view -->
         <section id="display">			
             <header>	
                 <nav class="right">
-                      <a href="#" data-view-section="mainSimulador" data-router="section" data-icon="left-sign"></a>
+                    <a href="#" data-view-section="mainSimulador" data-router="section" data-icon="left-sign"></a>
                 </nav>      
                 <h1 class="title centered">Monitorización y control</h1>    	    
             </header> 
             <article id="widget" class="active list indented scroll">		   	
                   <div id="map-canvas" style="width: 100%; height: 100%"></div>
             </article>		
-        </section> 	
+        </section> 	        
+        
         
         <!-- Lungo - Dependencies -->
-        <script src="js/quo.js"></script>
-        <script src="js/lungo.js"></script>
+        <script src="js/lungo/quo.js"></script>
+        <script src="js/lungo/lungo.js"></script>
 
         <!-- JQuery - Dependencies -->
         <script src="js/jquery.min.js"></script>
-
-        <script src="js/index.js"></script>
 
         <!--Google APIS-->
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry"></script>
@@ -171,25 +160,26 @@
         <!--SOFIA APIS-->
         <script>
            //var pathToDwrServlet = 'http://scfront.cloudapp.net/sib/dwr';
-              var pathToDwrServlet = 'http://sofia2.com:8080/sib/dwr';
-              var sibServer             = pathToDwrServlet+'/';
+            "use strict"
+            var pathToDwrServlet = 'http://sofia2.com:8080/sib/dwr';
+            var sibServer        = pathToDwrServlet+'/';
         </script>      
         <script src='js/sofia2/engine.js'></script>
         <script src='js/sofia2/util.js'></script>
         <script src='js/sofia2/GatewayDWR.js'></script>
 
-        <script src="js/sofia2/kp-core.js"></script>
+        <script src="js/sofia2/sofia2-api-js_v2.7.0.js"></script>
         <script src="js/sofia2/XXTEA.js"></script>
         <script src="js/sofia2/base64.js"></script>
         <script>
-           // dwr.engine.setActiveReverseAjax(true); 
+            // dwr.engine.setActiveReverseAjax(true); 
             dwr.engine.setErrorHandler(function(message, ex){});
             dwr.engine.setTimeout(0);
         </script>
 
         <!--Street Lights includes-->
         <script src="js/lamps-Sensors-ElectricalCabinet.js"></script> 
-        <script src="js/simulador.js"></script>	
+        <script src="js/platformTestRunner.js"></script>	
 
         <!-- monitor -->
         <script src="js/socket.io.js"></script>	
@@ -199,7 +189,11 @@
         <script src="js/visor/sofia2Notifier.js"></script>
         <script src="js/visor/gMapsController.js"></script>	
         <script src="js/visor/infoWindowTemplates.js"></script>	        
-        <script src="js/visor/visor.js"></script>
+        <script src="js/visor/visor.js"></script>       
+        <script src="js/serverConfig.js"></script>
+        
+        <!-- main script -->
+        <script src="js/index.js"></script>
         
     </body>
 </html>

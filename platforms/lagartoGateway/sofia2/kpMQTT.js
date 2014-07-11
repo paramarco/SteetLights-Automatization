@@ -46,10 +46,10 @@ KpMQTT.prototype.createUUID = function () {
 KpMQTT.prototype.connect = function(host, port, keepalive, onConnectCallback) {
 	
     var opts = {};
-	opts.clientId  = this.createUUID();
-	opts.keepalive = keepalive || 5;
+    opts.clientId  = this.createUUID();
+    opts.keepalive = keepalive || 5;
 	
-	client = new mqttclient.createClient(port, host, opts);
+    client = new mqttclient.createClient(port, host, opts);
 	
     if(typeof onConnectCallback === 'function')
         client.on('connect',onConnectCallback);
@@ -102,9 +102,9 @@ KpMQTT.prototype.onNotificationMessage = function(callback) {
 
 KpMQTT.prototype.sendCipher = function(ssapMessage, cipherKey) {
 	
-    var init   = ssapMessage.indexOf('instance') + 'instance'.length;
-	var end    = ssapMessage.length;		
-	var kpName = ssapMessage.substring(init, end).split(':')[1];
+    var init    = ssapMessage.indexOf('instance') + 'instance'.length;
+	var end     = ssapMessage.length;		
+	var kpName  = ssapMessage.substring(init, end).split(':')[1];
     
 	kpName      = kpName.replace('\\"', '').trim();
 	ssapMessage = kpName.length + "#" + kpName + Base64.encode(XXTEA.encrypt(ssapMessage, cipherKey), false);

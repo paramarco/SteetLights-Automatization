@@ -88,6 +88,7 @@ html, body, #map-canvas {height: 100%;margin: 0px;padding: 0px;}
 .controls.active {color: #fff;background-color: #4d90fe;}
 .luminosityRange{width: auto !important; float: left;}
 .luminosityValue{float:left;margin:5px 0 0 10px;}
-
+.whiteBox{background:#fff; margin:0 15px;}
+#logger,#events{margin-top:15px;}
 
         

@@ -17,10 +17,10 @@
             "sofia2" :{
                 "data" : {
                     "host"  : "sofia2.com",
-                    "port"  : "1880",
+                    "port"  : "1883",
                     "token" : "17ded638ca0e4088aa9eb453e747d4a3",
                     "KP"    : "kpElectricalCabinet:kpElectricalCabinet",
-                    "SIB"   : "SIB_test_sensor"
+                    "SIB"   : "SIB_sensor"
                 },
                 "notifier" : {
                     "host"                   : "sofia2.com",
@@ -28,7 +28,7 @@
                     "token"                  : "17ded638ca0e4088aa9eb453e747d4a3",
                     "KP"                     : "kpElectricalCabinet:kpElectricalCabinet",
                     "lampSubscriptionConfig" : {
-                        "SIB"         : "SIB_test_luminaria",
+                        "SIB"         : "SIB_luminaria",
                         "subscribeTo" : "1"
                     }
                 }        

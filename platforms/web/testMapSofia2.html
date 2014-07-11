@@ -18,15 +18,16 @@
       
         <!--SOFIA APIS-->
         <script>
-             //var pathToDwrServlet = 'http://scfront.cloudapp.net/sib/dwr';
-              var pathToDwrServlet = 'http://sofia2.com:8080/sib/dwr';
-              var sibServer              = pathToDwrServlet+'/';
+            "use strict"
+            //var pathToDwrServlet = 'http://scfront.cloudapp.net/sib/dwr';
+            var pathToDwrServlet = 'http://sofia2.com:8080/sib/dwr';
+            var sibServer        = pathToDwrServlet+'/';
         </script>      
         <script src='js/sofia2/engine.js'></script>
         <script src='js/sofia2/util.js'></script>
         <script src='js/sofia2/GatewayDWR.js'></script>
 
-        <script src="js/sofia2/kp-core.js"></script>
+        <script src="js/sofia2/sofia2-api-js_v2.7.0.js"></script>
         <script src="js/sofia2/XXTEA.js"></script>
         <script src="js/sofia2/base64.js"></script>
         <script>
@@ -43,13 +44,16 @@
         <script src="js/visor/Sofia2DataAdapter.js"></script>
         <script src="js/visor/sofia2Notifier.js"></script>
         <script src="js/visor/visor.js"></script>
+        <script src="js/serverConfig.js"></script>
 
         <script>
-                "use strict"
-                $(document).ready(function() {           
-                      dwr.engine.setActiveReverseAjax(true);
-                      visor.run(sofia2DataAdapter,sofia2Notifier);
+            $(document).ready(function() { 
+                dwr.engine.setActiveReverseAjax(true);
+                sofia2DataAdapter.init(sofia2Config).then(function(){
+                    sofia2Notifier.init(sofia2Config);
+                    visor.run(sofia2DataAdapter,sofia2Notifier);              
                 });
+            });
         </script>
   </body>
 </html>

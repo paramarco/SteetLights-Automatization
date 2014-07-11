@@ -29,8 +29,12 @@ notifierAdapter.onLampUpdate(function(data){
            http.get("http://127.0.0.1:8001/values/?id=" + pwmMoteID + "&value=" + luminosityLevel,function(res) {
                 res.on('data', function(response){
                     logger.debug("Response from lagarto swap server:\n" + response);
-                });          
-            });
+                });        
+            })
+           .on('error',function(){
+                logger.error("No connection to Lagarto server");
+           })
+           .end();
         }
     }catch(e){
         logger.error(e);

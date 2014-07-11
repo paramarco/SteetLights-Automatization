@@ -24,13 +24,16 @@
 
         <script src="js/socket.io.js"></script>
         <script src="js/visor/fiwareNotifier.js"></script>
+        <script src="js/serverConfig.js"></script>
     
         <script>
-                "use strict"
-                $(document).ready(function() {        
-                    fiwareNotifier.connect("217.127.199.47:8090");
+            "use strict"
+            $(document).ready(function() {   
+                fiwareDataAdapter.init(fiwareInstalticConfig.dataServer).then(function(){
+                    fiwareNotifier.init(fiwareInstalticConfig.notifierServer);
                     visor.run(fiwareDataAdapter,fiwareNotifier);
-                });
+                });     
+            });
         </script>
   </body>
 </html>

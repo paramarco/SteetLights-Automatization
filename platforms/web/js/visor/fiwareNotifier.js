@@ -5,9 +5,10 @@ var fiwareNotifier= (function () {
     var host      = undefined;
     var socket    = undefined;
    
-    function connect(host){
+    function init(host){
         
-        if(socket != undefined) socket.disconnect(true) 
+        if(socket != undefined) 
+            socket.disconnect(true) 
 
         socket = io.connect(host, { 'force new connection': true });
 
@@ -40,8 +41,8 @@ var fiwareNotifier= (function () {
         return {
             type: "lamp",
             data:{
-                id : parseInt(data.id),
-                luminosityLevel : parseInt(data.attributes[0].value),
+                id                  : parseInt(data.id),
+                luminosityLevel     : parseInt(data.attributes[0].value),
                 electricalCabinetID : parseInt(data.attributes[1].value)
             }
         };
@@ -67,11 +68,10 @@ var fiwareNotifier= (function () {
     
     function subscribe(callback){
        listeners.push(callback);
- 
     }
     
     return {
-        connect           : connect,
+        init              : init,
         notifyToListeners : notifyToListeners,
         subscribe         : subscribe
     };

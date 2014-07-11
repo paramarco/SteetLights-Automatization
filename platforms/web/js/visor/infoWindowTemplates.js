@@ -22,8 +22,8 @@ var infoWindowLampTemplate = (function () {
         }
 
         return {
-            fillTemplate: fillTemplate,
-            addListenerToLuminosityRange: addListenerToLuminosityRange
+            fillTemplate                 : fillTemplate,
+            addListenerToLuminosityRange : addListenerToLuminosityRange
         };
  
     })();
@@ -44,7 +44,7 @@ var infoWindowLampTemplate = (function () {
         }
 
         return {
-            fillTemplate: fillTemplate
+            fillTemplate : fillTemplate
         };
  
     })();

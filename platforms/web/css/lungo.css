@@ -303,7 +303,7 @@ section.show .loading,section.active .loading,.notification .loading{-webkit-ani
 .notification .window.growl > strong{height:18px;top:84px;padding:0 .5em;overflow:hidden;font-size:11px}
 .notification .window.growl > small{display:none}
 .notification .window.growl > .loading{top:28px}
-.notification .window.success,.notification .window.error,.notification .window.confirm,.notification .window.html{width:280px;margin-top:100%}
+.notification .window.success,.notification .window.error,.notification .window.confirm,.notification .window.html{left: 50%;margin-left: -140px;width:280px;margin-top:100%}
 .notification .window.success,.notification .window.error,.notification .window.confirm{padding-top:1em;}
 .notification .window.success > .icon,.notification .window.error > .icon,.notification .window.confirm > .icon{font-size:5em;line-height:1em}
 .notification .window.success > small,.notification .window.error > small,.notification .window.confirm > small{font-size:.9em;padding-bottom:1em}

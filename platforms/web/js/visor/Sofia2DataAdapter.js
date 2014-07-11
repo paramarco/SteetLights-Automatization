@@ -1,191 +1,248 @@
 "use strict";
 var sofia2DataAdapter = (function () {
- 
-       var token = "3bb7264f5c1743b78dbaa5ba2e33ac35";
-       
-       var lampAccessData = { 
-             ontologia : "SIB_test_luminaria", 
-             KP : "KP_test_luminaria", 
-             instancia : "KP_test_luminaria:KP_test_luminaria01", 
-             token :"3bb7264f5c1743b78dbaa5ba2e33ac35"
-       };    
-            
-       var sensorAccessData = { 
-             ontologia : "SIB_test_sensor", 
-             KP : "KP_test_sensor", 
-             instancia : "KP_test_sensor:KP_test_Sensor02", 
-             token :"80fb6498a34e48caa6a1f68ca91dda7a"
-       };
+
+    var _opts;
+    
+    function init(opts){
+        var deferred = $.Deferred();
+        _opts        = opts;   
         
-       var cabinetAccessData = { 
-             ontologia : "SIB_test_cuadro", 
-             KP : "KP_test_cuadro", 
-             instancia : "KP_test_cuadro:KP_test_cuadro01", 
-             token :"6cb9fa1dcd404093ac38997eb1f3d620"
-       };
+        sofia2.joinToken(_opts.token, _opts.instancia, function(mensajeSSAP){ 
+            if(mensajeSSAP.direction !== "RESPONSE") deferred.reject(mensajeSSAP);
+            else deferred.resolve();
+        });
 
-        function setLampAccessData (data){
-              //validate arguments?
-              lampAccessData.ontologia = data.ontologia;
-              lampAccessData.KP        = data.KP;
-              lampAccessData.instancia = data.lampAccessData.instancia; 
-              lampAccessData.token     = data.token;
-        }
+        return deferred.promise();
+    }
+        
+    function formatLampsData(data){             
+        
+        var deferred = $.Deferred();
+        var results  = [];
+        var lamps    = data || [];
 
-       function processLampsData(data){             
-              var deferred = $.Deferred();
-              var results  = [];
-              var lamps    = data || [];
-
-              //process data
-                for(var i=0,n=lamps.length; i<n; i++) {                    
-                    var lampData  = lamps[i].luminaria;
-                    var cabinetID = parseInt(lampData.FK_idCuadro);
-                    var lampID    = parseInt(lampData.id);
-                    var position  = lampData.posicion.coordinates;
+        //process data
+        for(var i=0,n=lamps.length; i<n; i++) {
+            
+            var lampData  = lamps[i].luminaria;
+            var cabinetID = lampData.FK_idCuadro;
+            var lampID    = lampData.id;
+            var position  = lampData.posicion.coordinates;
                     
-                    if (!(cabinetID in results)) {
-                        results[cabinetID] = {};
-                    }
+            if (!(cabinetID in results)) {
+                results[cabinetID] = {};
+            }
 
-                    results[cabinetID][lampID] = {
-                        id                  : lampID,
-                        luminosityLevel     : lampData.nivelIntensidad,
-                        position            : position[0]+","+position[1],
-                        electricalCabinetID : cabinetID
-                    };
-                }
-
-              deferred.resolve(results);
-              return deferred.promise();
+            results[cabinetID][lampID] = {
+                id                  : lampID,
+                luminosityLevel     : lampData.nivelIntensidad,
+                position            : position.join(','),
+                electricalCabinetID : cabinetID
+            };
         }
+
+        deferred.resolve(results);
+        return deferred.promise();
+    }
        
-        function processSensorsData(data){
-              var deferred  = $.Deferred();
-              var results   = [];
-              var sensors   = data || [];
+    function formatSensorsData(data){
+        
+        var deferred  = $.Deferred();
+        var results   = [];
+        var sensors   = data || [];
 
-              //process data
-                for(var i=0,n=sensors.length; i<n; i++) {
+        //process data
+        for(var i=0,n=sensors.length; i<n; i++) {
                     
-                    var sensorData  = sensors[i].sensor;
-                    var sensorType  = sensorData.tipo;
-                    var sensorID    = parseInt(sensorData.id);
-                    var position    = sensorData.posicion.coordinates;
+            var sensorData  = sensors[i].sensor;
+            var sensorType  = sensorData.tipo;
+            var sensorID    = sensorData.id;
+            var position    = sensorData.posicion.coordinates;
                        
-                    if (!(sensorType in results)) {
-                        results[sensorType] = {};
-                    }
+            if (!(sensorType in results)) {
+                results[sensorType] = {};
+            }
 
-                    results[sensorType][sensorID] = {
-                        id       : sensorID,
-                        type     : sensorType,
-                        unit     : sensorData.unidad,
-                        value    : sensorData.valor,
-                        position : position[0]+","+position[1]
-                    };
-                }
-
-              deferred.resolve(results);
-              return deferred.promise();
+            results[sensorType][sensorID] = {
+                id       : sensorID,
+                type     : sensorType,
+                unit     : sensorData.unidad,
+                value    : sensorData.valor,
+                position : position.join(',')
+            };
         }
 
-        function loadLamps() {  
-           var deferred  = $.Deferred(); 
-            
-           joinToken(lampAccessData.token,lampAccessData.instancia, function(mensajeSSAP){   
-                  
-                var query = '{select * from '+lampAccessData.ontologia+' where luminaria.id > -1 order by luminaria.id asc}'; 
-            
-                queryWithQueryType(query, 
-                    lampAccessData.ontologia, 
-                    "SQLLIKE",
-                    null,						
-                    function(mensajeSSAP){
-                        //check mensajeSSAP.ok === true?
-                        processLampsData(mensajeSSAP.body.data).done(function(data){
-                            deferred.resolve(data);
-                        });
-                });
-                leave();
-            });
-            
-           return deferred.promise();
-        }
+        deferred.resolve(results);
+        return deferred.promise();
+    }
     
-        function updateLuminosityLamp(id,luminosityLevel) {     
-            var deferred  = $.Deferred(); 
+    function loadData(query, keySelector){        
 
-            joinToken(lampAccessData.token, lampAccessData.instancia, function(mensajeSSAP){             
-               var query = "update "+lampAccessData.ontologia+" set luminaria.nivelIntensidad="+luminosityLevel+" where luminaria.id = "+id; 
-
-               updateWithQueryType(null, query, lampAccessData.ontologia, "SQLLIKE", function(mensajeSSAP){
-                    deferred.resolve();
-               });     
-               leave(); 
-            });
-            
-           return deferred.promise();
-        }
-    
-        function loadSensors() {
-           var deferred  = $.Deferred(); 
-            
-           joinToken(sensorAccessData.token,sensorAccessData.instancia, function(mensajeSSAP){   
-                var query = '{select * from '+sensorAccessData.ontologia+' order by sensor.id asc }'; 
-            
-                queryWithQueryType(query, 
-                    lampAccessData.ontologia, 
-                    "SQLLIKE",
-                    null,           
-                    function(mensajeSSAP){
-                        //check mensajeSSAP.ok === true?
-                        processSensorsData(mensajeSSAP.body.data).done(function(data){
-                            deferred.resolve(data);
-                        });
-                });
-                leave();
-            });
-            
-           return deferred.promise();
-        }
-       
-        function deleteLamp(id) {
-            var query = "delete from "+lampAccessData.ontologia+" where luminaria.id = "+id; 
-            return deleteEntity(lampAccessData, query);    
-        }
+        var deferred       = $.Deferred(); 
+        var acumData       = [];
         
-        function deleteAllLamps() {
-            var query = "delete * from "+lampAccessData.ontologia;
-            return deleteEntity(lampAccessData, query);
-        }
-       
-        function deleteAllSensors() {
-            var query = "delete * from "+sensorAccessData.ontologia;
-            return deleteEntity(sensorAccessData, query);
-        }
-       
-        function deleteEntity(accesData,query){
+        var loadDataFromID = function (query, fromID, acumData){
+            
             var deferred  = $.Deferred(); 
             
-            joinToken(accesData.token, accesData.instancia, function(mensajeSSAP){
-               removeWithQueryType(null, query, accesData.ontologia, "SQLLIKE", function(mensajeSSAP){
-                    deferred.resolve(mensajeSSAP);
-               });     
-               leave(); 
+            sofia2.queryWithQueryType( query.replace("@id",fromID), _opts.sensorOntology, "SQLLIKE", null, function(mensajeSSAP){
+                if(mensajeSSAP.direction === "ERROR") deferred.reject(mensajeSSAP);
+                else deferred.resolve(mensajeSSAP.body.data);
             });
-                    
-           return deferred.promise(); 
-        }
+            
+            return deferred.promise();
+        };        
 
-        return {
-            setLampAccessData    : setLampAccessData,
-            loadLamps            : loadLamps,
-            updateLuminosityLamp : updateLuminosityLamp,
-            deleteLamp           : deleteLamp,
-            deleteAllLamps       : deleteAllLamps,
-            deleteAllSensors     : deleteAllSensors,
-            loadSensors          : loadSensors
-        };
- 
-    })();
+        (function loop(query, fromID, keySelector) {
+            return loadDataFromID(query, fromID).then(function(data){              
+                if (data.length > 0 ){
+                    acumData = acumData.concat(data);
+                    return loop(query, keySelector(data[data.length-1]), keySelector);
+                }
+            });
+        })(query, -1, keySelector).then(function(){
+               deferred.resolve(acumData);
+        });
+        
+        return deferred.promise();
+    }
+        
+    function loadLamps() {  
+        var query       = '{select * from ' + _opts.lampOntology + ' where luminaria.id > @id order by luminaria.id asc}'; 
+        var keySelector = function (data){return data.luminaria.id;};
+        return loadData(query, keySelector).then(formatLampsData);
+    }
+        
+    function loadSensors() {        
+        var query       = '{select * from ' + _opts.sensorOntology + ' where sensor.id > @id order by sensor.id asc}'; 
+        var keySelector = function (data){return data.sensor.id;};
+        return loadData(query, keySelector).then(formatSensorsData);
+    }
+    
+    function updateLuminosityLamp(id,luminosityLevel) {     
+        
+        var deferred  = $.Deferred(); 
+        var query     = "update " + _opts.lampOntology + " set luminaria.nivelIntensidad=" + luminosityLevel + " where luminaria.id = " + id; 
+            
+        sofia2.updateWithQueryType(null, query, _opts.lampOntology, "SQLLIKE", function(mensajeSSAP){
+            if(mensajeSSAP.direction === "ERROR") deferred.reject(mensajeSSAP);
+            else deferred.resolve();
+        });     
+
+        return deferred.promise();
+    }
+    
+    function deleteLamp(id) {
+        var ontology = _opts.lampOntology;
+        var query    = "delete from " + ontology + " where luminaria.id = "+id; 
+        return deleteEntity(ontology, query);    
+    }
+        
+    function deleteAllLamps() {
+        var ontology = _opts.lampOntology;
+        var query    = "delete from " + ontology;
+        return deleteEntity(ontology, query);
+    }
+       
+    function deleteAllSensors() {
+        var ontology = _opts.sensorOntology;
+        var query    = "delete from " + ontology;
+        return deleteEntity(ontology, query);
+    }
+       
+    function deleteEntity(ontology, query){
+        
+        var deferred  = $.Deferred(); 
+
+        sofia2.removeWithQueryType("{"+query+"}", ontology, "SQLLIKE", function(mensajeSSAP){
+            if(mensajeSSAP.direction === "ERROR") deferred.reject(mensajeSSAP);
+            else deferred.resolve();
+        });     
+            
+       return deferred.promise(); 
+    }
+
+    function addItem(data, ontology){
+    
+        var deferred = $.Deferred(); 
+
+        sofia2.insert(JSON.stringify(data), ontology, function(mensajeSSAP){
+            if(mensajeSSAP.direction === "ERROR") deferred.reject(mensajeSSAP);
+            else deferred.resolve();
+        });
+
+        return deferred.promise(); 
+    }
+    
+    function addLamp(data){
+
+        var coords        = data.position.split(',');
+        var formattedData = {
+            "luminaria" : {											
+                "id"                : data.id,
+                "nivelIntensidad"   : data.luminosityLevel,
+				"posicion" : {	
+				    "type"        : "Point",
+					"coordinates" :	[parseFloat(coords[0]), parseFloat(coords[1])]
+                },
+                "FK_idCuadro" : data.electricalCabinetID  
+            }
+        };	 
+        
+        return addItem(formattedData, _opts.lampOntology);
+    }
+    
+
+    function addSensor(data){
+        
+        var coords        = data.position.split(',');
+        var formattedData = {
+            "sensor" : {											
+                "id"                : data.id,
+                "tipo"	            : data.type,
+				"unidad"            : data.unit,
+				"valor"             : data.value,
+				"versionProtocolo"  : data.protocolVersion,
+				"posicion" : {	
+				    "type"        : "Point",
+					"coordinates" :	[parseFloat(coords[0]), parseFloat(coords[1])]
+                }
+            }
+        };	 
+        
+        return addItem(formattedData, _opts.sensorOntology);
+    }
+    
+    function countItems(query, ontology) {
+    
+        var deferred  = $.Deferred(); 
+        
+        sofia2.queryWithQueryType(query ,ontology , "SQLLIKE", null, function(mensajeSSAP){
+            if(mensajeSSAP.direction === "ERROR") deferred.reject(0);
+            else deferred.resolve(parseInt(mensajeSSAP.body.data));
+        });
+        
+        return deferred.promise(); 
+    }
+    
+    function countLamps() {  
+        return countItems('{select count(*) from ' + _opts.lampOntology + '}', _opts.lampOntology);
+    }
+       
+    function countSensors() {  
+        return countItems('{select count(*) from ' + _opts.sensorOntology + '}', _opts.sensorOntology);
+    }
+    
+    return {
+        init                 : init,
+        loadLamps            : loadLamps,        
+        addLamp              : addLamp,    
+        countLamps           : countLamps,       
+        updateLuminosityLamp : updateLuminosityLamp,
+        deleteAllLamps       : deleteAllLamps,
+        loadSensors          : loadSensors,    
+        addSensor            : addSensor,
+        countSensors         : countSensors,    
+        deleteAllSensors     : deleteAllSensors
+    };
+})();

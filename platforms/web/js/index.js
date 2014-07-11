@@ -1,201 +1,170 @@
 $( document ).ready(function() {
-        
-        $("#selectServidorFIware").change(function(){	
-                app.plataformaObjetivo = "fiware";
-                switch(parseInt($("#selectServidorFIware").val())){
-                        case 1:
-                            app.ipFIware          = app.ipFIwareInstalTIC;
-                            app.ipFIwareNotifier  = app.ipFIwareNotifierInstalTIC;
-                            break;
-                        case 2:
-                             app.ipFIware         = app.ipFIwareFIlab;
-                             app.ipFIwareNotifier = app.ipFIwareNotifierFIlab;
-                             break;
-                      default: ;
-                }
-                
-                fiwareDataAdapter.setHost(app.ipFIware);
-                fiwareNotifier.connect(app.ipFIwareNotifier);
-                    
-                console.log( "DEBUG : RECONFIGURACION DE IPS FIWARE :" +  app.ipFIware + " notificador " + app.ipFIwareNotifier );
-        });
-        
 
-        $("#selectServidorSOFIA").change(function(){   
-                app.plataformaObjetivo = "sofia";
-                switch(parseInt($("#selectServidorSOFIA").val())){
-                        case 1:
-                                 pathToDwrServlet = app.ipSOFIAinCloud;
-                                 sibServer        = pathToDwrServlet + '/';
-                                 
-                                 app.luminaria.ontologia = "SIB_test_luminaria";
-                                 app.luminaria.KP        = "KP_test_luminaria";
-                                 app.luminaria.instancia = "KP_test_luminaria:KP_test_luminaria01";
-                                 app.luminaria.token     = "3bb7264f5c1743b78dbaa5ba2e33ac35";
-                                 
-                                 app.cuadro.ontologia    = "SIB_test_cuadro";
-                                 app.cuadro.KP           = "KP_test_cuadro";
-                                 app.cuadro.instancia    = "KP_test_cuadro:KP_test_cuadro01";
-                                 app.cuadro.token        = "6cb9fa1dcd404093ac38997eb1f3d620";
-                                 
-                                 app.sensor.ontologia    = "SIB_test_sensor";
-                                 app.sensor.KP           = "KP_test_sensor";
-                                 app.sensor.instancia    = "KP_test_sensor:KP_test_Sensor02";
-                                 app.sensor.token        = "80fb6498a34e48caa6a1f68ca91dda7a";
-                                 break;
-                        case 2:
-                                 pathToDwrServlet = app.ipSOFIAInstalTIC; 
-                                 sibServer        = pathToDwrServlet + '/';
-                                 
-                                 app.luminaria.ontologia = "SIB_test_luminaria";
-                                 app.luminaria.KP        = "KP_test_luminaria";
-                                 app.luminaria.instancia = "KP_test_luminaria:KP_test_luminaria01";
-                                 app.luminaria.token     = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-                                 
-                                 app.cuadro.ontologia  = "SIB_test_cuadro";
-                                 app.cuadro.KP         = "KP_test_cuadro";
-                                 app.cuadro.instancia  = "KP_test_cuadro:KP_test_cuadro01";
-                                 app.cuadro.token      = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-                                 
-                                 app.sensor.ontologia  = "SIB_test_sensor";
-                                 app.sensor.KP         = "KP_test_sensor";
-                                 app.sensor.instancia  = "KP_test_sensor:KP_test_Sensor02";
-                                 app.sensor.token      = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-                                 break;
-                        default: ;
-                }
-
-                //fiwareNotifier.setLuminariaSettings(app.luminaria);
-                fiwareDataAdapter.setLampAccessData(app.luminaria);
-                
-                //fiwareNotifier.setCuadroSettings(app.cuadro);
-                //fiwareDataAdapter.setCuadroSettings(app.cuadro);
-                
-                //fiwareNotifier.setLuminariaSettings(app.sensor);
-                //fiwareDataAdapter.setLuminariaSettings(app.sensor);
-
-                console.log( "DEBUG : RECONFIGURACION DE IPS SOFIA: servidor: " + sibServer +" " +  JSON.stringify(app.luminaria) + JSON.stringify(app.cuadro) + JSON.stringify(app.sensor) );
-        });
-
-
-        $("#boton_genera_objetos").click(function(){	
-            Lungo.Router.section("main_loading");
-            app.plataformaObjetivo = "fiware";	
-        });
+    var appContext = {
+        fiwareServerConfig : fiwareInstalticConfig,
+        sofia2ServerConfig : sofia2Config
+    }
         
-        $("#boton_genera_escenario").click(function(){
-            Lungo.Router.section("ciclodeCarga");
-            app.plataformaObjetivo = "fiware";
-        });
+    
+    function onDeleteAllClick(dataServerConfig, dataAdapter){
         
-        $("#boton_genera_calles").click(function(){
-            Lungo.Router.section("loading_now");
-            app.plataformaObjetivo = "fiware";
-            setTimeout(function() {  genera_Calles(); }, 3000);
-        });
+        Lungo.Notification.show("refresh","Realizando operación");
         
-        $("#Eliminar_Todo").click(function(){
-            Lungo.Router.section("loading_now");
-            app.plataformaObjetivo = "fiware";
-            setTimeout(function() { Eliminar_Todo(); }, 3000);
+        dataAdapter.init(dataServerConfig)
+        .then(function(){
+            return platformTestRunner.deleteAllObjects(dataAdapter);
+        })            
+        .fail(function(error){ 
+            Lungo.Notification.error("Error","Error al procesar la operación","remove-sign",3);
+        })
+        .done(function(){
+            Lungo.Notification.hide();
         });
+    }
+    
+    function onShowMapClick(dataServerConfig, notifierServerConfig, dataAdapter, notifierAdapter){
+        Lungo.Router.section("display");         
+        dataAdapter.init(dataServerConfig).then(function(){
+            notifierAdapter.init(notifierServerConfig);
+            visor.run(dataAdapter,notifierAdapter);
+        });  
+    }    
         
-        $("#boton_lanza_simulacion").click(function(){	
-            if (isNaN(document.getElementById('periodo_en_segundos').value ) || 
-                document.getElementById('periodo_en_segundos').value == ""	|| 
-                isNaN(document.getElementById('numero_de_objetos_paquete_simulacion').value ) || 
-                document.getElementById('numero_de_objetos_paquete_simulacion').value == ""	){
-                alert("Inserte n˙mero por favor!");
+    function onGenerateStreetDataClick(dataServerConfig, dataAdapter){
+        
+        Lungo.Notification.success("Realizando operación","Generando escenario","refresh");
+        
+        dataAdapter.init(dataServerConfig)
+        .then(function(){
+            return platformTestRunner.generateStreetsData(dataAdapter, lampsSensorsElectricalCabinetData);
+        })
+        .fail(function(error){ 
+            Lungo.Notification.error("Error","Error al procesar la operación","remove-sign",3);
+        })
+        .done(function(){
+            Lungo.Notification.hide();
+        });
+    }     
+    
+    function onGenerateSimulationScenarioClick(dataServerConfig, dataAdapter){
+        
+        Lungo.Router.section("SimulationScenarioView");
+        
+        $("#runSimulationScenario").click(function(){	
+            
+            var cycleTime = document.getElementById('simulationCycleTime').value;
+            var maxLamps  = document.getElementById('simulationNumObjects').value;
+
+            if (!/^[1-9]+[0-9]*/.test(cycleTime)  || !/^[1-9]+[0-9]*/.test(maxLamps)){
+                Lungo.Notification.error("Error","Los campos han de ser númericos y mayores que 0","remove-sign",5);
             }
             else{
-                $("#li_boton_lanza_simulacion").hide("slow");
-                $("#li_boton_para_simulacion").show("slow");
-                setTimeout(function() { lanzaSimulacion(); }, 3000);
-            }	
-        });				    						
-    
-        $("#boton_para_simulacion").click(function(){	clearInterval(app.manejadorCiclo);
-            $("#li_boton_lanza_simulacion").show("slow");
-            $("#li_boton_para_simulacion").hide("slow");
-        });					    						
-
-        $("#boton_genera_objetos_ahora").click(function(){
-            var valorInsertado = document.getElementById('numero_de_luminarias').value;
-            var numero_de_objetos_paquete = document.getElementById('numero_de_objetos_paquete').value;		    
+        
+                var opts    = { "cycleTime" : parseInt(cycleTime), "maxLamps" : parseInt(maxLamps) };
+                var showLog = function(message){ $("#events").append("<p>"+JSON.stringify(message)+"</p>");}; 
+                
+                $("#events").text("");
+                $("#runSimulationScenarioDiv").hide("slow");
+                $("#stopSimulationScenarioDiv").show("slow");
             
-            if (valorInsertado != "" && valorInsertado != null && valorInsertado > 0 &&
-                numero_de_objetos_paquete != "" && numero_de_objetos_paquete != null && numero_de_objetos_paquete > 0 &&
-                !isNaN(valorInsertado) && !isNaN(numero_de_objetos_paquete)	){
-
-                    Lungo.Router.section("loading_now");
-                    setTimeout(function() {	genera_objetos(valorInsertado,numero_de_objetos_paquete);}, 3000);
-            } else {
-                    alert("Inserte un numero por favor!");
-            }
-        });											
-
-        $("#boton_genera_objetos_sofia").click(function(){	
-            Lungo.Router.section("main_loading");
-            app.plataformaObjetivo = "sofia";		     
-        });
+                dataAdapter.init(dataServerConfig)
+                .then(function(){
+                    try{ platformTestRunner.runSimulation(opts,dataAdapter,showLog);}
+                    catch(e){ Lungo.Notification.error("Error","Error al procesar la operación","remove-sign",3);}
+                })
+                .fail(function(){
+                    Lungo.Notification.error("Error","Error al procesar la operación","remove-sign",3);
+                });
+            }           
+        });  
+        
+        $("#stopSimulation").click(function(){	
+            platformTestRunner.stopSimulation();
+            $("#runSimulationScenarioDiv").toggle("slow");
+            $("#stopSimulationScenarioDiv").toggle("slow");
+        });	
+    }
+  
+    function onGenerateObjectsClick(dataServerConfig, dataAdapter){
+        
+        Lungo.Router.section("generateObjectsView");
+        
+        $("#generateObjects").click(function(){	
+       
+//            var numLamps = document.getElementById('genObjectsCycleTime').value;
+//            var batch    = document.getElementById('numero_de_objetos_paquete_simulacion').value;
+//
+//            if (!/^[1-9]+[0-9]*/.test(cycleTime)  || !/^[1-9]+[0-9]*/.test(maxLamps)){
+//                Lungo.Notification.error("Error","Los campos han de ser númericos y mayores que 0","remove-sign",5);
+//            }
+//            else{
+//        
+//                var opts = { "cycleTime" : parseInt(cycleTime), "maxLamps" : parseInt(maxLamps) };
+//                          
+//                $("#runSimulationScenarioDiv").toggle("slow");
+//                $("#stopSimulationScenarioDiv").toggle("slow");
+//            
+//                dataAdapter.init(dataServerConfig)
+//                .then(function(){
+//                    try{ platformTestRunner.generateObjects(opts,dataAdapter);}
+//                    catch(e){ Lungo.Notification.error("Error","Error al procesar la operación","remove-sign",3);}
+//                })
+//                .fail(function(){
+//                    Lungo.Notification.error("Error","Error al procesar la operación","remove-sign",3);
+//                });
+//            } 
+        
+        });  
+    }
     
-        $("#boton_genera_escenario_sofia").click(function(){	
-            Lungo.Router.section("ciclodeCarga");
-            app.plataformaObjetivo = "sofia";					    									
-        });
-        
-        $("#boton_genera_calles_sofia").click(function(){
-            Lungo.Router.section("loading_now");
-            app.plataformaObjetivo = "sofia";
-            setTimeout(function() { genera_Calles(); }, 3000);
-        });
-        
-        $("#Eliminar_Todo_sofia").click(function(){
-            Lungo.Router.section("loading_now");
-            app.plataformaObjetivo = "sofia";
-            setTimeout(function() { Eliminar_Todo(); }, 3000);
-        });
-        																																
+    //fiware action buttons
+    $("#fiwareServerConfig").change(function(){	
+        appContext.fiwareServerConfig = parseInt($("#fiwareServerConfig").val()) === 1 ? fiwareInstalticConfig : fiwareFilabConfig;
+    });        
 
-        $("#botonIrMonitorFiware").click(function(){	
-            Lungo.Router.section("display");    
-            visor.run(fiwareDataAdapter,fiwareNotifier);         
-        });
+    $("#runSimulationScenarioFiware").click(function(){	
+        onGenerateSimulationScenarioClick(appContext.fiwareServerConfig.dataServer, fiwareDataAdapter);        
+    });	
+    
+    $("#generateObjectsFiware").click(function(){	
+        onGenerateObjectsClick(appContext.fiwareServerConfig.dataServer, fiwareDataAdapter); 
+    });
+    
+    $("#generateStreetsDataFiware").click(function(){
+        onGenerateStreetDataClick(appContext.fiwareServerConfig.dataServer, fiwareDataAdapter);
+    });      
 
-        $("#botonIrMonitorSofia").click(function(){	
-            Lungo.Router.section("display");      
-            dwr.engine.setActiveReverseAjax(true);
-            visor.run(sofia2DataAdapter,sofia2Notifier);
-        });
-        
-        fiwareNotifier.connect(app.ipFIwareNotifier);
+    $("#deleteAllFiware").click(function(){        
+        onDeleteAllClick(appContext.fiwareServerConfig.dataServer, fiwareDataAdapter);
+    });			    						
+  
+    $("#showFiwareDataMap").click(function(){	
+        var serverConfig = appContext.fiwareServerConfig;
+        onShowMapClick(serverConfig.dataServer, serverConfig.notifierServer, fiwareDataAdapter, fiwareNotifier);       
+    });
+    
+    
+    //sofia2 action buttons	
+    $("#runSimulationScenarioSofia2").click(function(){	
+        onGenerateSimulationScenarioClick(appContext.sofia2ServerConfig, sofia2DataAdapter);        
+    });	
+    
+    $("#generateObjectsSofia").click(function(){	
+        onGenerateObjectsClick(appContext.sofia2ServerConfig, sofia2DataAdapter); 
+    });
+    
+    $("#generateStreetsDataSofia2").click(function(){
+        onGenerateStreetDataClick(appContext.sofia2ServerConfig, sofia2DataAdapter);
+    });      
+
+    $("#deleteAllSofia2").click(function(){        
+        onDeleteAllClick(appContext.sofia2ServerConfig, sofia2DataAdapter);
+    });			    						
+  
+    $("#showSofia2DataMap").click(function(){	
+        var serverConfig = appContext.sofia2ServerConfig;
+        dwr.engine.setActiveReverseAjax(true); 
+        onShowMapClick(serverConfig, serverConfig, sofia2DataAdapter, sofia2Notifier);    
+    });
+   
 });
-
-var app = {
-    // app atributtes    
-    plataformaObjetivo: undefined,
-    manejadorCiclo: undefined,
-
-    //IPs de arranque
-    ipFIware : "217.127.199.47:8080",
-    ipFIwareNotifier :  "217.127.199.47:8090",
-    
-    ipSOFIA : 'http://scfront.cloudapp.net/sib/dwr',   
-    
-    //IP segun modo cloud o en InstalTIC
-    
-    ipFIwareInstalTIC : "217.127.199.47:8080",
-    ipFIwareNotifierInstalTIC :  "217.127.199.47:8090",
-    
-    ipFIwareFIlab : "130.206.83.60:8080",
-    ipFIwareNotifierFIlab:  "130.206.83.60:8090",
-    
-    ipSOFIAinCloud : 'http://scfront.cloudapp.net/sib/dwr',
-    ipSOFIAInstalTIC : 'http://217.127.199.47:9090/sib/dwr',
-    
-    //Ontologias,KP,Tokens e instancias
-    luminaria : { ontologia : "SIB_test_luminaria", KP : "KP_test_luminaria", instancia : "KP_test_luminaria:KP_test_luminaria01", token :"3bb7264f5c1743b78dbaa5ba2e33ac35" },
-    sensor : { ontologia : "SIB_test_sensor", KP : "KP_test_sensor", instancia : "KP_test_sensor:KP_test_Sensor02", token :"80fb6498a34e48caa6a1f68ca91dda7a" },
-    cuadro : { ontologia : "SIB_test_cuadro", KP : "KP_test_cuadro", instancia : "KP_test_cuadro:KP_test_cuadro01", token :"6cb9fa1dcd404093ac38997eb1f3d620" }    
-    
-};

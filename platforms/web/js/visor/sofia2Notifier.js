@@ -2,102 +2,87 @@
 //sofia2 shoddy piece of work
 
 function indicationForSubscription(ssapMessageJson) {
-    
+
     var updates = [];
-    var SSAPMessage = parsearMensajeSSAP(validarSSAP(ssapMessageJson));   
-    
-    if (SSAPMessage !== null){
-         if(SSAPMessage.messageType === "INDICATION"){
-             var data = SSAPMessage.body.data;
-             
-             for(var i=0, n=data.length; i<n; i++){  
-               var updatedData = data[i];
-              
-               if(typeof updatedData !== "undefined" && typeof updatedData.luminaria !== "undefined"){                
+    var SSAPMessage = sofia2.parsearMensajeSSAP(sofia2.validarSSAP(ssapMessageJson));   
+
+    if (SSAPMessage !== null && SSAPMessage.messageType === "INDICATION"){
+            
+        var data = SSAPMessage.body.data;
+
+        for(var i=0, n=data.length; i<n; i++){  
+                
+            var notifications = data[i];
+        
+            //not allways as an array 
+            if(!(notifications instanceof Array))
+                notifications = [notifications];
+            //notifications = (notifications instanceof Array) ? notifications : [notifications];
+            
+            for(var j=0, k=notifications.length; j<k; j++){
+                
+                var notificationData = notifications[j];
+                
+                //format data
+                if(typeof notificationData.luminaria !== "undefined"){      
+                    var luminaria = notificationData.luminaria;
                     updates.push({
                         type: "lamp",
                         data:{
-                            id : parseInt(updatedData.luminaria.id),
-                            luminosityLevel : updatedData.luminaria.nivelIntensidad,
-                            electricalCabinetID : parseInt(updatedData.luminaria.FK_idCuadro)
+                            id                  : parseInt(luminaria.id),
+                            luminosityLevel     : luminaria.nivelIntensidad,
+                            electricalCabinetID : parseInt(luminaria.FK_idCuadro)
                         }
                     });
-               }
-             }
-             sofia2Notifier.notifyToListeners(updates);
-         }      
-    }      
+                }
+                else if(typeof notificationData.sensor !== "undefined"){     
+                    var sensor = notificationData.sensor;
+                    updates.push({
+                        type: "sensor",
+                        data:{
+                            id    : parseInt(sensor.id),
+                            type  : sensor.tipo,
+                            unit  : sensor.unidad,
+                            value : sensor.valor
+                        }
+                    });
+                }   
+            }
+        }
+
+        sofia2Notifier.notifyToListeners(updates);
+    }           
 }
+
 
 function subscriptionWellLaunchedResponse(subscriptionId, subscriptionQuery){
 
 }
- 
+
 var sofia2Notifier = (function () {
-    
+
     var listeners = [];
-    
-    var lampAccessData = { 
-           ontologia : "SIB_test_luminaria", 
-           KP        : "KP_test_luminaria", 
-           instancia : "KP_test_luminaria:KP_test_luminaria01", 
-           token     : "3bb7264f5c1743b78dbaa5ba2e33ac35"
-    };    
 
-    var sensorAccessData = { 
-          ontologia  : "SIB_test_sensor", 
-          KP         : "KP_test_sensor", 
-          instancia  : "KP_test_sensor:KP_test_Sensor02", 
-          token      : "80fb6498a34e48caa6a1f68ca91dda7a"
-    };
-       
-    joinToken(lampAccessData.token,lampAccessData.instancia, function(mensajeSSAP){
-        subscribeWithQueryType("{select * from "+lampAccessData.ontologia+"}", lampAccessData.ontologia, "SQLLIKE",500);
-    });
-
-    joinToken(sensorAccessData.token,sensorAccessData.instancia, function(mensajeSSAP){
-        subscribeWithQueryType("{select * from "+sensorAccessData.ontologia+"}", sensorAccessData.ontologia, "SQLLIKE",500);
-    });   
-        
-    function setLampAccessData (data){
-
-           leave();
-
-           lampAccessData.ontologia = data.ontologia;
-           lampAccessData.KP        = data.KP;
-           lampAccessData.instancia = data.lampAccessData.instancia; 
-           lampAccessData.token     = data.token;
-
-            joinToken(lampAccessData.token,lampAccessData.instancia, function(mensajeSSAP){
-                subscribeWithQueryType("{select * from "+lampAccessData.ontologia+"}", lampAccessData.ontologia, "SQLLIKE",500);
-            });
-    }
-    
-    function processLampUpdate(data){
-        return {
-            type: "lamp",
-            data:{
-                id                  : parseInt(data.id),
-                luminosityLevel     : parseInt(data.nivelIntensidad),
-                electricalCabinetID : parseInt(data.FK_idCuadro)
-            }
-        };
+    function init(config){   
+        sofia2.joinToken(config.token, config.instancia, function(mensajeSSAP){
+            sofia2.subscribeWithQueryType("{select * from " + config.lampOntology + "}", config.lampOntology, "SQLLIKE",500);
+            sofia2.subscribeWithQueryType("{select * from " + config.sensorOntology + "}", config.sensorOntology, "SQLLIKE",500);
+        });       
     }
     
     function notifyToListeners(message){
-       for(var i=0,n=listeners.length;i<n;i++){
+        for(var i=0,n=listeners.length;i<n;i++)
             listeners[i](message);
-       } 
     }   
-    
+
     function subscribe(callback){
-       listeners.push(callback);
- 
+        listeners.push(callback); 
     }
 
     return {
+        init              : init,
         notifyToListeners : notifyToListeners,
         subscribe         : subscribe
     };
- 
+
 })();
